@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,7 @@ dir  path=usr/X11/include
 link path=usr/X11/include/GL target=../../include/GL
 link path=usr/X11/include/X11 target=../../include/X11
 dir  path=usr/include/GL
+file path=usr/include/GL/glcorearb.h
 file path=usr/include/GL/glxint.h
 file path=usr/include/GL/glxmd.h
 file path=usr/include/GL/glxproto.h
@@ -106,6 +107,7 @@ file path=usr/include/X11/extensions/dpmsconst.h
 file path=usr/include/X11/extensions/dpmsproto.h
 file path=usr/include/X11/extensions/dri2proto.h
 file path=usr/include/X11/extensions/dri2tokens.h
+file path=usr/include/X11/extensions/dri3proto.h
 file path=usr/include/X11/extensions/evieproto.h
 file path=usr/include/X11/extensions/fbpm.h
 file path=usr/include/X11/extensions/fbpmstr.h
@@ -120,6 +122,8 @@ file path=usr/include/X11/extensions/mitmiscproto.h
 file path=usr/include/X11/extensions/multibufconst.h
 file path=usr/include/X11/extensions/multibufproto.h
 file path=usr/include/X11/extensions/panoramiXproto.h
+file path=usr/include/X11/extensions/presentproto.h
+file path=usr/include/X11/extensions/presenttokens.h
 file path=usr/include/X11/extensions/randr.h
 file path=usr/include/X11/extensions/randrproto.h
 file path=usr/include/X11/extensions/recordconst.h
@@ -181,6 +185,8 @@ dir  path=usr/share/doc/damageproto
 file path=usr/share/doc/damageproto/damageproto.txt
 dir  path=usr/share/doc/dri2proto
 file path=usr/share/doc/dri2proto/dri2proto.txt
+dir  path=usr/share/doc/dri3proto
+file path=usr/share/doc/dri3proto/dri3proto.txt
 dir  path=usr/share/doc/fixesproto
 file path=usr/share/doc/fixesproto/fixesproto.txt
 dir  path=usr/share/doc/fontsproto
@@ -224,6 +230,8 @@ file path=usr/share/doc/kbproto/ch14.xml
 file path=usr/share/doc/kbproto/ch15.xml
 file path=usr/share/doc/kbproto/ch16.xml
 file path=usr/share/doc/kbproto/xkbproto.xml
+dir  path=usr/share/doc/presentproto
+file path=usr/share/doc/presentproto/presentproto.txt
 dir  path=usr/share/doc/randrproto
 file path=usr/share/doc/randrproto/randrproto.txt
 dir  path=usr/share/doc/recordproto
@@ -266,12 +274,14 @@ file path=usr/share/pkgconfig/compositeproto.pc
 file path=usr/share/pkgconfig/damageproto.pc
 file path=usr/share/pkgconfig/dmxproto.pc
 file path=usr/share/pkgconfig/dri2proto.pc
+file path=usr/share/pkgconfig/dri3proto.pc
 file path=usr/share/pkgconfig/evieproto.pc
 file path=usr/share/pkgconfig/fixesproto.pc
 file path=usr/share/pkgconfig/fontsproto.pc
 file path=usr/share/pkgconfig/glproto.pc
 file path=usr/share/pkgconfig/inputproto.pc
 file path=usr/share/pkgconfig/kbproto.pc
+file path=usr/share/pkgconfig/presentproto.pc
 file path=usr/share/pkgconfig/printproto.pc
 file path=usr/share/pkgconfig/randrproto.pc
 file path=usr/share/pkgconfig/recordproto.pc

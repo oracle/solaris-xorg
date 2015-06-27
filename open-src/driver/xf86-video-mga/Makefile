@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.3
+MODULE_VERSION=1.6.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a53b5ce166e31c181aaa4c3816d8babb
-TARBALL_SHA1  = 6ac9f61ece9d9449f914137b3eef685b2eebf66c
-TARBALL_SHA256= 7704b1ea35098769787a9c93e903b827be97a99facfb1696aa5236a58ff1c7d7
+TARBALL_MD5   = cd3db8370caa3e607614ea4e74d4c350
+TARBALL_SHA1  = 2f8cecdb6fe3f0addb47a3a50928ff0705a31352
+TARBALL_SHA256= 48c6690b6751c76f53de64f8dbeaa9d6c62dbcfe890c768fd87167951247d44f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \

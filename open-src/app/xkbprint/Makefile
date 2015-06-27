@@ -2,7 +2,7 @@
 #
 # xkbprint - utility to print XKB keyboard layouts to PostScript printers/files
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,18 +35,23 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the xkbprint utility to print XKB keyboard layouts
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 526b5ba87cccd05aa700fa628bcfda3e
-TARBALL_SHA1 = 4e7c91a137f0746202b3a74bbaf49c849484aa30
+TARBALL_MD5  = 3c25b40de530112c08bf7d229c5c6a28 
+TARBALL_SHA1 = c0c1e71a32f7d8bfc40539e7f315ca7e02d99205
+TARBALL_SHA256 = 0b3faab8fefad03dfb7e866f634cf859822801de6b5fc6cf5e0a62857ed93e12
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Compatibility links from /usr/X11/bin to /usr/bin

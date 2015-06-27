@@ -2,7 +2,7 @@
 #
 # xf86-video-cirrus 1.x Makefile
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,7 @@ TARBALL_SHA1  = 722800029e816f453031a851bf4a816c796d7bde
 TARBALL_SHA256= 3361e1a65d9b84c464752fd612bdf6087622c6dd204121715366a170e5c3ccd7
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = mapfiles.patch
+SOURCE_PATCHES = mapfiles.patch solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

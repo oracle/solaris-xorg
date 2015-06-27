@@ -2,7 +2,7 @@
 #
 # mkfontscale - legacy X11 core font metadata creation tool
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,13 +35,17 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the mkfontscale legacy X11 scalable font metadata creation tool
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 03de3f15db678e277f5ef9c013aca1ad
-TARBALL_SHA1  = ad1887ca253b9234ab6a6989de53d3127e302c6c
-TARBALL_SHA256= 244017992477ced2397a44fd0ddcfb0f1d9899128613f5c4db81471163b0b731
+TARBALL_MD5   = 9bdd6ebfa62b1bbd474906ac86a40fd8
+TARBALL_SHA1  = da32fe297732355eea71d4a94ed003be93d1eae7
+TARBALL_SHA256= 8c6d5228af885477b9aec60ca6f172578e7d2de42234357af62fb00439453f20
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

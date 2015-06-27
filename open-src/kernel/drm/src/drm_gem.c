@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -68,8 +68,10 @@
 #define DRM_FILE_PAGE_OFFSET_START ((0xFFFFFFFFUL >> PAGE_SHIFT) + 1)
 #define DRM_FILE_PAGE_OFFSET_SIZE ((0xFFFFFFFFUL >> PAGE_SHIFT) * 16)
 
+int drm_use_mem_pool = 0;
 /* memory pool is used for all platforms now */
-#define	HAS_MEM_POOL(gen)	(gen > 30)
+#define	HAS_MEM_POOL(gen)	((gen > 30) && (drm_use_mem_pool))
+
 /**
  * Initialize the GEM device fields
  */
@@ -243,8 +245,8 @@ alloc_again:
 		else
 			mode = GFXP_MEMORY_WRITECOMBINED;
 		ret = drm_gem_object_alloc_internal_mempool(obj, size, mode);
-		if (ret)
-			return (-1);
+                if (ret) 
+                        return (-1);
 	} else {
 		ret = drm_gem_object_alloc_internal_normal(dev, obj, size, 0);
 		if (ret)

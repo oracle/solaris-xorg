@@ -2,7 +2,7 @@
 #
 # xf86-video-mach64 Makefile
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,16 @@
 MODULE_NAME=xf86-video-mach64
 
 # Version number (used in path names)
-MODULE_VERSION=6.9.4
+MODULE_VERSION=6.9.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = d645197cbf238ac0427c3904eafdce2f
-TARBALL_SHA1  = 59ef55e9962d6ff2d9f4583d95fdffc37cbcde86
-TARBALL_SHA256= 97f108b8d7c0a8426bef9562683323ab6369956f18b0e220ee0d1a66b740855e
+TARBALL_MD5   = 1013ccc86052d0e82c4d504e0c4e896e
+TARBALL_SHA1  = 0ba2d51752a62808286937cf3c6a95794fa5cb29
+TARBALL_SHA256= 3e98985b6e044189efd42342862208f472881c25debf22230a1d54a96d71b41f
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 6205248.patch,-p1
+SOURCE_PATCHES = 6205248.patch,-p1 \
+		 solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man

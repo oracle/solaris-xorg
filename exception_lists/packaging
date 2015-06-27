@@ -83,3 +83,10 @@ usr/lib/xorg/sparcv9/libdrm_radeon.so.1	     	sparc
 
 # Deliver it once the driver provides the correct plumbing for use on solaris
 usr/bin/intel_gpu_abrt				i386
+
+# No need to deliver modesetting driver for now
+usr/lib/xorg/modules/drivers/modesetting_drv.so
+usr/share/man/man7/modesetting.7
+ 
+# No need to deliver any udev stuff
+usr/lib/udev                                  i386

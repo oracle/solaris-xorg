@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ file path=usr/lib/libXxf86vm.so.1
 file path=usr/lib/pkgconfig/xxf86vm.pc
 dir  path=usr/share/man/man3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VM.3xxf86vm
+file path=usr/share/man/man3xxf86vm/XF86VidModeAddModeLine.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeDeleteModeLine.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeGetAllModeLines.3xxf86vm
 file path=usr/share/man/man3xxf86vm/XF86VidModeGetDotClocks.3xxf86vm

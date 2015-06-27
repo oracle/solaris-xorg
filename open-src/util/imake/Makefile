@@ -32,12 +32,12 @@ MODULE_NAME=imake
 MODULE_DESC = the imake makefile generation tool
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = d5058b1317a85bedc1dc40c7e85c8d26
-TARBALL_SHA1  = a54c025d7ac9894b6bc919d13454c6adb12ae140
-TARBALL_SHA256= fa8983fdb0a72ba8482d1d2683967fb45c29edd7149b25f619f97ea5a599069d
+TARBALL_MD5   = 4042a4139a4636f78e2b8a144fdd1fcd
+TARBALL_SHA1  = 52e236776133f217d438622034b8603d201a6ec5
+TARBALL_SHA256= 690c2c4ac1fad2470a5ea73156cf930b8040dc821a0da4e322014a42c045f37e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -2,7 +2,7 @@
 #
 # libxtrans - shared source code for TCP/pipe/socket transport
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ MODULE_PKGCLASS=Development/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.7
+MODULE_VERSION=1.3.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 84c66908cf003ad8c272b0eecbdbaee3
-TARBALL_SHA1  = b6ed421edf577816f6e641e1846dc0bff337676c
-TARBALL_SHA256= 7f811191ba70a34a9994d165ea11a239e52c527f039b6e7f5011588f075fe1a6
+TARBALL_MD5   = c5ba432dd1514d858053ffe9f4737dd8
+TARBALL_SHA1  = 2d3ae1839d841f568bc481c6116af7d2a9f9ba59
+TARBALL_SHA256= adbd3b36932ce4c062cd10f57d78a156ba98d618bdb6f50664da327502bc8301
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = inetv6.patch,-p1 \

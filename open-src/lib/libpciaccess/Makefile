@@ -2,7 +2,7 @@
 #
 # libpciaccess - generic PCI access software library & scanpci utility
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,16 +28,15 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.13.2
+MODULE_VERSION=0.13.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = b7c0d3afce14eedca57312a3141ec13a
-TARBALL_SHA1  = 63df515a4c5d5a339a7c1f9e4baa6543efa3c7da
-TARBALL_SHA256= abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19
+TARBALL_MD5   = 1f65be5ffc55641c1846c2f41d180d00
+TARBALL_SHA1  = 74e16b6d9a1d9d28279754010d2c4c4636b72e35
+TARBALL_SHA256= 6cd76ccae4e06eee47d3ead84a118740e9406e2a9b7adc9b08e92c69ce89c2e3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = scanpci.man.patch 
-SOURCE_PATCHES += fd-leak.patch,-p1
 
 # Library name
 LIBNAME=libpciaccess

@@ -2,7 +2,7 @@
 #
 # showfont - utility to display data about a font from an X font server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,12 +35,17 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the showfont font server data display utility
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f7be42f846bb9cd951b5cbeb6aa85dde
-TARBALL_SHA1 = d4aaaf32fba38af3f46813118f316689ca3d86f8
+TARBALL_MD5  = 5e7664f99f284834ac7979a9177d3c56
+TARBALL_SHA1 = 203f4e655333723af7b2c47a85dfba8258f22ebc
+TARBALL_SHA256 = e9735c1c530b8a52edfab7415cc0fd7f8d2889095114f4cb689a27476461ac89
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

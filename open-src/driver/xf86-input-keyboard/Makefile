@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-keyboard
 
 # Version number (used in path names)
-MODULE_VERSION=1.8.0
+MODULE_VERSION=1.8.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ce936e219682bacf5a4a9c4ab940edb8
-TARBALL_SHA1  = 7728d733ef16d664a201868ecae5db3705cf8ef1
-TARBALL_SHA256= 41c51c4e0a87aad6a1c4973c68a8de23b61162d0223f4ab36c627c307830cb5b
+TARBALL_MD5   = 96ccc43d389b970afbd3893875dfd678
+TARBALL_SHA1  = c23cbba8b665c09cbc12ada36bc3cbf4ac4eff9f
+TARBALL_SHA256= 1ac8ff39bf9da7d2fc7fd6c24515726e8138340c0518ab8c606e008cf93ca211
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

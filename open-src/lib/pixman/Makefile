@@ -2,7 +2,7 @@
 #
 # Pixman: The pixel-manipulation library for X and Cairo.
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +28,12 @@
 MODULE_NAME=pixman
 
 # Version number (used in path names)
-MODULE_VERSION=0.29.2
+MODULE_VERSION=0.32.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 6e64a6d73559973ef6a9f125b5161ad3
-TARBALL_SHA1 = c1367c28cfb6a1c79c39b5df2d1a05351f57c702
+TARBALL_MD5  = 8a9e8f14743a39cf303803f369c1f344
+TARBALL_SHA1 = 5b730399e1e212e5acaa69a4f1a2c7be1af1cdc4
+TARBALL_SHA256 = 201fc0d7d6bc0017496f2bd27b3ca14224aea0df6b624c5ee2dc0307a4ff14a4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

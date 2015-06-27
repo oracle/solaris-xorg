@@ -2,7 +2,7 @@
 #
 # xcalc 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGCLASS=Applications/Accessories
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8a5597cb97db0dfcfef9dc7a6238d204
-TARBALL_SHA1 = af06858e39db247bfc8802b46d4aedfd7053b388
+TARBALL_MD5  = 397584a68bfe6b02adff16e67f8fe5dd
+TARBALL_SHA1 = 4f9e14b9ff91e3976b702bdad92f639df80cf406
+TARBALL_SHA256 = 2f73c7160c09dc32586ea07daa408ac897c0a16eaa98cad9f9e4ee98cd9057d8
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

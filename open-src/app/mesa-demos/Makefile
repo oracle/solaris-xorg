@@ -30,18 +30,18 @@ UPSTREAM	= The Mesa 3-D Graphics Library
 UPSTREAM_URL	= http://mesa3d.org/
 UPSTREAM_SET	= yes
 MODULE_DESC	= the Mesa 3-D Graphics demo applications
-ORACLE_TPNO	= 9926
+ORACLE_TPNO	= 22939
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/demo/mesa-demos
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=8.1.0
+MODULE_VERSION=8.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 9df33ba69a26bbfbc7c8148602e59542
-TARBALL_SHA1 = c970ebd5aaae561b5fb499985bef004e11b72501
+TARBALL_MD5  = 72613a2c8c013716db02e3ff59d29061
+TARBALL_SHA1 = e1a66ac63eebba4f950f95d830f34a6005167116
 
 # Download site for source
 SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/demos/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)

@@ -185,14 +185,13 @@ ASTAllocScreen(DriverPtr drv, GDevPtr pDev)
 
 
 pointer
-ASTMapVidMem(ScrnInfoPtr pScrn, unsigned int flags, PCITAG pciTag, 
+ASTMapVidMem(ScrnInfoPtr pScrn, unsigned int flags, CARD32 pciTag, 
 			unsigned long base, unsigned long size)
 {
     int BUS_BASE = 0;
     pointer memBase;
     int fdd;
     int mapflags = MAP_SHARED;
-    int prot;
     memType realBase, alignOff;
     unsigned long realSize;
     int pageSize;
@@ -210,13 +209,7 @@ ASTMapVidMem(ScrnInfoPtr pScrn, unsigned int flags, PCITAG pciTag,
                 base, realBase, alignOff);
 #endif /* DEBUG */
 
-    if (flags & VIDMEM_READONLY) {
-        prot = PROT_READ;
-    } else {
-        prot = PROT_READ | PROT_WRITE;
-    }
-
-    memBase = mmap((caddr_t)0, realSize + alignOff, prot, mapflags, fdd,
+    memBase = mmap((caddr_t)0, realSize + alignOff, PROT_READ | PROT_WRITE, mapflags, fdd,
                 (off_t)(off_t)realBase + BUS_BASE);
 
     if (memBase == MAP_FAILED) {

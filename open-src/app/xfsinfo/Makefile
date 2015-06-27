@@ -2,7 +2,7 @@
 #
 # xfsinfo - Utility to display information about an X font server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,12 +35,17 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the xfsinfo X font server query utility
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 76149e6c6d77c5c7252b8fb5b24bcac5
-TARBALL_SHA1 = f382a7e3fcd9908496454d10c73709bf543d0c7b
+TARBALL_MD5  = 64fc7318602b4b2751e2bd7c33bf061c
+TARBALL_SHA1 = 7513e16ba5c8fef31aeaff4a42bf131859e75ee0
+TARBALL_SHA256 = d38f4b6db4038f52ba1a09123ef497993194288454c0c13d16debe246f120d8f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

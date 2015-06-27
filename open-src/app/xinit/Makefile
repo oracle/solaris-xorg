@@ -2,7 +2,7 @@
 #
 # xinit - starts a X server & session without a display manager
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xinit
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.3
+MODULE_VERSION=1.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3b8da0e6237aee9828cc809c647510a7
-TARBALL_SHA1  = c3c01c8c6012317f995669894d9e7b2838b61e58
-TARBALL_SHA256= 74b2878de6e3d5b5948f1562a77e7f53b4e10621e505ddb278050c7f3cae00af
+TARBALL_MD5   = 4e928452dfaf73851413a2d8b8c76388
+TARBALL_SHA1  = de3469080d73ced1f7d7a1803e813bc6ea352072
+TARBALL_SHA256= 75d88d7397a07e01db253163b7c7a00b249b3d30e99489f2734cac9a0c7902b3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += 7023672.patch,-p1

@@ -2,7 +2,7 @@
 #
 # Xlib-based client library for common X11 protocol extensions
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXext
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.2
+MODULE_VERSION=1.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4376101e51bb2c6c44d9ab14344e85ad
-TARBALL_SHA1  = 49b6f026b0555d020014dbc24b49afc2986a30e0
-TARBALL_SHA256= f829075bc646cdc085fa25d98d5885d83b1759ceb355933127c257e8e50432e0
+TARBALL_MD5   = 52df7c4c1f0badd9f82ab124fb32eb97
+TARBALL_SHA1  = 43abab84101159563e68d9923353cc0b3af44f07
+TARBALL_SHA256= b518d4d332231f313371fdefac59e3776f4f0823bcb23cf7c7305bfb57b16e35
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += shm.patch,-p1
@@ -45,7 +45,7 @@ LIBNAME=Xext
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1990, 2013
+ORACLE_COPYRIGHT_YEARS = 1990, 2014
 
 # ARC cases that covered this module
 # PSARC 1999/188 FBPM (Frame Buffer Power Management) Extension

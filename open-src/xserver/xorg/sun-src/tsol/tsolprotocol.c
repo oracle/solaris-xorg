@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -456,7 +456,7 @@ ResetStripeWindow(ClientPtr client)
 	int         j;
 
 	if (tpwin) {
-	    rc = dixLookupResourceByType((pointer *) &panres,
+	    rc = dixLookupResourceByType((void *) &panres,
 					 tpwin->drawable.id, XRT_WINDOW,
 					 client, DixReadAccess);
 	    if (rc != Success)
@@ -1029,7 +1029,7 @@ TsolDoGetImage(
     if (tsol_check_policy(tsolinfo, tsolres, flags, MAJOROP_CODE) == Success)
     {
 	return DoGetImage(client, format, drawable, x, y,
-		width, height, planemask, im_return);
+		width, height, planemask);
     }
 
     if (pDraw->type == DRAWABLE_WINDOW)
@@ -1220,7 +1220,7 @@ TsolDoGetImage(
 				         nlines,
 				         format,
 				         planemask,
-				         (pointer) pBuf);
+				         (void *) pBuf);
 #ifdef TSOL
         if (not_root_window)
         {
@@ -1278,7 +1278,7 @@ TsolDoGetImage(
 				                 nlines,
 				                 format,
 				                 plane,
-				                 (pointer)pBuf);
+				                 (void *)pBuf);
 #ifdef TSOL
                 if (not_root_window)
                 {

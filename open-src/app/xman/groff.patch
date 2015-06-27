@@ -1,40 +1,36 @@
-Update #ifdefs for Solaris to use correct groff options to get readable 
+Update #ifdefs for Solaris to use correct groff options to get readable
 output instead of raw PostScript output for man pages, and put the rest
 of the groff utilities (tbl, pic, etc.) ahead of the SVR4 ones in $PATH.
 
-diff --git a/main.c b/main.c
-index f75796d..ff364e2 100644
---- a/main.c
-+++ b/main.c
-@@ -152,6 +152,18 @@ main(int argc, char **argv)
+--- a/main.c	Thu Mar 19 08:16:44 2015
++++ b/main.c	Thu Mar 19 08:17:07 2015
+@@ -152,6 +152,18 @@
      saved_argv = (char **) XtMalloc(argc * sizeof(char *));
      bcopy(argv, saved_argv, argc * sizeof(char *));
  
 +#ifdef sun /* force use of groff tools vs. SVR4 nroff tools */
 +    {
-+	const char *orig_path = getenv("PATH");
-+	char *new_path;
++       const char *orig_path = getenv("PATH");
++       char *new_path;
 +
-+	if (asprintf(&new_path, "PATH=/usr/gnu/bin:%s",
-+		     orig_path ? orig_path : "/usr/bin") != -1) {
-+	    putenv(new_path);
-+	}
++       if (asprintf(&new_path, "PATH=/usr/gnu/bin:%s",
++                    orig_path ? orig_path : "/usr/bin") != -1) {
++           putenv(new_path);
++       }
 +    }
 +#endif
-+    
++
      XtSetLanguageProc(NULL, (XtLanguageProc) NULL, NULL);
  
      initial_widget = XtAppInitialize(&app_con, "Xman", xman_options,
-diff --git a/vendor.h b/vendor.h
-index 548ded6..2ece09b 100644
---- a/vendor.h
-+++ b/vendor.h
-@@ -159,7 +159,7 @@ from the X Consortium.
+--- a/vendor.h	Thu Mar 19 08:17:24 2015
++++ b/vendor.h	Thu Mar 19 08:18:44 2015
+@@ -159,7 +159,7 @@
  # define REFER		"refer"
  # if defined(CSRG_BASED)
  #  define FORMAT	"nroff -mandoc"
--# elif defined(linux)
-+# elif defined(linux) || defined(sun)
+-# elif defined(linux) || defined(__CYGWIN__)
++# elif defined(linux) || defined(__CYGWIN__) || defined(sun)
  #  define FORMAT	"GROFF_NO_SGR= groff -Tlatin1 -mandoc"
  # elif defined(__DARWIN__)
  #  define FORMAT	"nroff -man"

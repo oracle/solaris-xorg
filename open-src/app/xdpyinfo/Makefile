@@ -2,7 +2,7 @@
 #
 # xdpyinfo - utility to print information about X11 display, server, extensions
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,12 @@ MODULE_PKGNAME=x11/diagnostic/x11-info-clients
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.1
+MODULE_VERSION=1.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = cacc0733f16e4f2a97a5c430fcc4420e
-TARBALL_SHA1  = 8b208d16754bb1ad8daa958e6e57ead363fb82ea
-TARBALL_SHA256= aef9285069a517ed870e5d8a02d13f7d8a953d7f7220146da563e04c7f128b94
+TARBALL_MD5   = 8809037bd48599af55dad81c508b6b39
+TARBALL_SHA1  = 0922fc31f8fc82ac20e326a6c9eb33ed7d57ad87
+TARBALL_SHA256= 30238ed915619e06ceb41721e5f747d67320555cc38d459e954839c189ccaf51
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

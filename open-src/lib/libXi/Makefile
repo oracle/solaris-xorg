@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.2
+MODULE_VERSION=1.7.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f4df3532b1af1dcc905d804f55b30b4a
-TARBALL_SHA1  = 53c90cd52e40065e04886f046383c1e5c507e0c4
-TARBALL_SHA256= df24781dc63645e2b561cd0b20bd8a0e7aff02e426a8d2a7641159004d4cb20e
+TARBALL_MD5   = 9c4a69c34b19ec1e4212e849549544cb
+TARBALL_SHA1  = d206af66ca9472784a6f05e719121e4d21a1adb1
+TARBALL_SHA256= 2cffc2686618dc1803725636cd92b36342c512dc60a7a35cba34bf7192a42244
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1

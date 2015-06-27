@@ -2,7 +2,7 @@
 #
 # xhost - utility for mananging X server access control lists
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xhost utility for mananging X server access control lists
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f1669af1fe0554e876f03319c678e79d
-TARBALL_SHA1  = 6224c8bcd909bf205c7e92dbdc349356890c4428
-TARBALL_SHA256= a6f5b922df0a7be5d3ba43f525fa8e69c539c738418f013a0b7adaa423a89dc2
+TARBALL_MD5   = f5d490738b148cb7f2fe760f40f92516
+TARBALL_SHA1  = 8abfb0554e14a074f0dbfdda4919880e088545cb
+TARBALL_SHA256= 93e619ee15471f576cfb30c663e18f5bc70aca577a63d2c2c03f006a7837c29a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += xhost.patch,-p1

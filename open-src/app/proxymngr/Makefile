@@ -40,11 +40,12 @@ MODULE_PKGCLASS=Applications/Internet
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b0dad55abda277f919f6213751badb04
-TARBALL_SHA1 = 50f517d017663faf45a99e46a032647060791ba0
+TARBALL_MD5  = 5f6e15cad2609c7bfdc0efb81a02b6ba 
+TARBALL_SHA1 = 78984a9e3ccbec423e4103d51dd88df9ef23f63c
+TARBALL_SHA256 = 4f9809fa5690e772b182cb514a37d6af7207b4567f8cda0609e9800776917f50
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

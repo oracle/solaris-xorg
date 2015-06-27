@@ -2,7 +2,7 @@
 #
 # x11perf - X11 server performance test program
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=x11perf
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.4
+MODULE_VERSION=1.6.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 5c3c7431a38775caaea6051312a49bc9
-TARBALL_SHA1 = d820e95ee6698e7036d4823f5ac5669b79acea86
-TARBALL_SHA256 = 24ee8857a2bf414b360addabf1c27ef797f7f504ee9bc409c151760bfbe53184
+TARBALL_MD5  = f0b24e4d8beb622a419e8431e1c03cd7
+TARBALL_SHA1 = de4960357e077fddd3d3a33f72f579981efc7fa4
+TARBALL_SHA256 = e87098dec1947572d70c62697a7b70bde1ab5668237d4660080eade6bc096751
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = man.patch
 
 # Package metadata
 MODULE_DESC = the x11perf performance test program for X11 servers
@@ -49,6 +49,8 @@ MODULE_PKGNAME_SET=yes
 # ARC cases that covered this module
 # PSARC/2008/095 x11perf 
 MODULE_ARC_CASES = PSARC/2008/095
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

@@ -2,7 +2,7 @@
 #
 # xman - manual page browser
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xman
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.1.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 77d6489d46ed4a0729f3bdc9a0bfc50f
-TARBALL_SHA1  = 9d83b14869ffadfda3407a2ab3b5fee13f667366
-TARBALL_SHA256= 405211b606a7fa420029897f099dc107791bb4c29bc88481c6efac9c4590bb1a
+TARBALL_MD5   = f9ac24d44ccdd6978d3a2c57e8746a8a
+TARBALL_SHA1  = b64516dab2b1c407b28ce3822a98b93178e29f02
+TARBALL_SHA256= b3fa9d2e3f3745c529eb0b6ee4f0e00d936457d11e5221b2efad06ff7c84df29
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 6708109.patch,-p1

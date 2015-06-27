@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,11 +27,12 @@
 MODULE_NAME=randrproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.0
+MODULE_VERSION=1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = ce4d0b05675968e4c83e003cc809660d
-TARBALL_SHA1 = 65d2fc4440adf1557cde2b36901a3de21ab189c1
+TARBALL_MD5  = 51ff4d45dbe8e1098740d384971805ee
+TARBALL_SHA1 = 7cd1daf5c56336079303d675b5a6788c90204016 
+TARBALL_SHA256 = 543dcb2ebb0622d8a506dcef6470c6dd066f3e3f866552a5060b91ab6129e1dc
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

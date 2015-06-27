@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@ MODULE_NAME=libdrm
 UPSTREAM	= Direct Rendering Infrastructure project
 UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
-ORACLE_TPNO	= 9900
+ORACLE_TPNO	= 22887
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.43
+MODULE_VERSION=2.4.60
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 7de4afd3756726d11f1bf75bd91ba716
-TARBALL_SHA1 = 80e810e0476a0c479a84b74f22aa1bc228484ce6
-TARBALL_SHA256 = 7fb8cd89df06e236a66a1a6a9f6d058271c1b1ec92631e08c66dc9e12abd4975
+TARBALL_MD5  = 13e35a7a1cf38b4c9c0fa0f8c9be6b93
+TARBALL_SHA1 = 4e041a5ff22b2b9132b216eb0574638bf252b7a9
+TARBALL_SHA256 = 99575fc6c8e31f59193f5320fd4db7a5478e2641b5266147caab9aa875b59889
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -51,12 +51,6 @@ GIT_URL_SET=yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-drm-port.patch,-p1
 SOURCE_PATCHES += atomic.patch
-
-# Can't build tests with parfait yet, due to parfait-ld error:
-# llvm-ld: error: Cannot link file '../../libkms/libkms.so.1.bc: 
-#    Linking globals named 'drmSetServerInfo': symbol multiply defined!
-$(WITH_PARFAIT) SOURCE_PATCHES += no-tests.patch,-p1
-$(WITH_PARFAIT) AUTORECONF = yes
 
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)

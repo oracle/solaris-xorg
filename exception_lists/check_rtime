@@ -54,6 +54,10 @@ NOSYMSORT	usr/lib/MACH(mesa)/libdricore.*\.so\.1.*
 NOSYMSORT	usr/lib/MACH(mesa)/libGL\.so\.1.*
 NOSYMSORT	usr/lib/MACH(mesa)/libGLU\.so\.1.*
 NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/i965_dri\.so
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/i915_dri\.so
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/r200_dri\.so
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/radeon_dri\.so
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/swrast_dri\.so
 
 # Loadable modules without dependencies on other modules may have no direct
 # bindings

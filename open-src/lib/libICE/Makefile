@@ -2,7 +2,7 @@
 #
 # libICE - Inter-Client Exchange library
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,15 +32,15 @@ MODULE_NAME=libICE
 MODULE_DESC = the X11 Inter-Client Exchange library (libICE)
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 471b5ca9f5562ac0d6eac7a0bf650738
-TARBALL_SHA1  = ddb14df8bbc43df7322978f5f9f802936e2a7324
-TARBALL_SHA256= 24a991284d02ff0c789bc8d11ad2e4dffe144cb70f24e28f9ce3e8b1ee08b71e
+TARBALL_MD5   = addfb1e897ca8079531669c7c7711726
+TARBALL_SHA1  = 3c3a857a117ce48a1947a16860056e77cd494fdf
+TARBALL_SHA256= 8f7032f2c1c64352b5423f6b48a8ebdc339cc63064af34d66a6c9aa79759e202
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES =  define.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=ICE

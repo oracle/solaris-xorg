@@ -2,7 +2,7 @@
 #
 # xgc - X11 core drawing primitives graphics demo & test program
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xgc graphics demo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8ac1c5d687d6f0a333965b340afab8fd
-TARBALL_SHA1 = 1406624f697988df232b9434794af02841488900
+TARBALL_MD5  = 025a3717040232ad49b1dd027884f182
+TARBALL_SHA1 = 642f9a286bac77ccb20ee42d03920028f6f5894b
+TARBALL_SHA256 = 14828d9bda358ad57efc0206bc416ee33ba542091edb186485cca5389adc2f5e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

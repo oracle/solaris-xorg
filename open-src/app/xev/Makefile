@@ -2,7 +2,7 @@
 #
 # xev - X11 event dumping tool
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,12 @@ MODULE_PKGNAME=x11/diagnostic/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.1
+MODULE_VERSION=1.2.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5b0a0b6f589441d546da21739fa75634
-TARBALL_SHA1  = 7ae6233ccfd8f500d547093291cc2de4f2b8fbaa
-TARBALL_SHA256= 11f17fab097f17d9efc51ea9d0e3140bea3904eb3c486afa7c8c3eedab496243
+TARBALL_MD5   = 249bdde90f01c0d861af52dc8fec379e
+TARBALL_SHA1  = e737bc46c58b9bb10f0af9883dce203bbed708aa
+TARBALL_SHA256= d94ae62a6c1af56c2961d71f5782076ac4116f0fa4e401420ac7e0db33dc314f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -47,6 +47,8 @@ SOURCE_PATCHES =
 # Original integration predates ARC
 # PSARC/2011/033 X11R7.6 application updates
 MODULE_ARC_CASES = PSARC/2011/033
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/xev.man

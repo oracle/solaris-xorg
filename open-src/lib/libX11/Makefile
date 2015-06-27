@@ -27,17 +27,15 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.6.2
+MODULE_VERSION = 1.6.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = c35d6ad95b06635a524579e88622fdb5
-TARBALL_SHA1  = 0dd74854e6f6bb8a322e88ba3e89f87c3dcf9e08
-TARBALL_SHA256= 2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16
+TARBALL_MD5   = 2e36b73f8a42143142dda8129f02e4e0
+TARBALL_SHA1  = 6f2aadf8346ee00b7419bd338461c6986e274733
+TARBALL_SHA256= cf31a7c39f2f52e8ebd0db95640384e63451f9b014eed2bb7f5de03e8adc8111
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	man-tbl-markup.patch,-p1 \
-	lintlib.patch,-p1 \
 	1234757.patch,-p1 \
 	4010755.patch,-p1 \
 	4614834.patch,-p1 \

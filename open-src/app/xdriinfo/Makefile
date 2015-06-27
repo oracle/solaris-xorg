@@ -2,7 +2,7 @@
 #
 # xdriinfo - Utility to query configuration information of DRI drivers
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xdriinfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 3d3cad4d754e10e325438193433d59fd
-TARBALL_SHA1 = 723482b3fc627d7cc6124fec43dd1c21d102daaa
+TARBALL_MD5  = fceddaeb08e32e027d12a71490665866 
+TARBALL_SHA1 = 0c2c0a369c3a63f28622ddefd84e964c14625f25
+TARBALL_SHA256 = 4cba3766ef89557422062287248adeb933999071bad6f3ef9c0a478a3c680119
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = compile-on-sparc.patch
@@ -48,9 +49,11 @@ MODULE_PKGNAME_SET=yes
 # ARC cases that covered this module
 # PSARC/2008/292  xdriinfo
 MODULE_ARC_CASES = PSARC/2008/292
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=*.man
+SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
 
 # Needed for libGL to find libdrm at build time

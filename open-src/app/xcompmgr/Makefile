@@ -2,7 +2,7 @@
 #
 # xcompmgr - simple Composite Manager
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xcompmgr
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.6
+MODULE_VERSION=1.1.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = d45afaf2a153e8a5dd93a92955060c9a
-TARBALL_SHA1  = a9cf78ea32bac51ff584115381f195566b164fe3
-TARBALL_SHA256= c98949d36793b30ed1ed47495c87a05fa245ac0fc2857d2abc54979124687c02
+TARBALL_MD5   = 38f5720aaa02432d724a31a2d1ae0139
+TARBALL_SHA1  = 5590d1bdd2669f083e4c2bb25edd89cce8abbd58
+TARBALL_SHA256= c8049b1a2531313be7469ba9b198d334f0b91cc01efc2b20b9afcb117e4d6892
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=desktop/window-manager/$(MODULE_NAME)
@@ -46,7 +46,7 @@ MODULE_DESC = the xcompmgr X compositing manager
 MODULE_ARC_CASES = LSARC/2009/597
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=xcompmgr.1
+SUNTOUCHED_MANPAGES=man/xcompmgr.man
 MODULE_STABILITY=Volatile
 
 include ../Makefile.inc

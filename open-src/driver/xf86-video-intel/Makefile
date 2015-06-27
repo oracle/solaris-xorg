@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=xf86-video-intel
 
 # Version number (used in path names)
-MODULE_VERSION=2.21.5
+MODULE_VERSION=2.99.917
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 0dac21775fc67149d1a8b61988b1386b
-TARBALL_SHA1 = 41aaf6ada255b4094cb6b6cab8f990079d676e29
+TARBALL_MD5  = fa196a66e52c0c624fe5d350af7a5e7b
+TARBALL_SHA1 = 9af9ded7a29026c211e5eb50a547e3e33976301d
+TARBALL_SHA256 = 00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf9667c9
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES= \
-	build-dri.patch \
-	batch.patch libraries.patch
+SOURCE_PATCHES=solaris-port.patch sna.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -54,7 +53,7 @@ BUILD_TARGETS = build-in-subdir $(MODTYPE_ADD_BUILD_TARGETS)
 BUILD_TARGETS_32 = build_legacy_xvmc
 BUILD_TARGETS += $(BUILD_TARGETS_$(BUILD_TYPE))
 BUILD_TARGETS_SET=yes
-subdir_32 = $(BUILD_DIR)/src/xvmc
+subdir_32 = $(BUILD_DIR)/xvmc
 subdir_64 = $(BUILD_DIR)
 subdir = $(subdir_$(BUILD_TYPE))
 install_subdir_cmd = install
@@ -68,10 +67,14 @@ INSTALL_TARGETS_SET=yes
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
+MODULE_CFLAGS = -DHAVE_DRI1
+
 # Extra flags to pass to configure script
 # --libdir is needed to set path for XvMC libraries
-MODULE_CONFIG_OPTS=--enable-dri --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)' \
-		   --disable-sna --enable-uxa
+MODULE_CONFIG_OPTS=--enable-dri2 --enable-dri3 \
+	  	   --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)' \
+		   --enable-sna --enable-uxa --with-default-accel=uxa \
+		   --disable-udev
 
 # echo is set to workaround configure/libtool strangeness in 2.15.0 that
 # causes ../../libtool: line 791: X--mode=install: command not found errors
@@ -88,7 +91,10 @@ MODULE_BUILD_ENV += XORG_EXTERNS_FLAG='$(XORG_EXTERNS_FLAG)'
 MODULE_LD_OPTIONS = \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+	-L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
+	-ldrm -ldrm_intel
+
+MODULE_LDFLAGS += -R $(MODULE_PREFIX)/lib$(X11_SERVERLIBS_SUBDIR)$(ARCHLIBSUBDIR)
 
 # Need to regenerate configure & Makefile.in's after patching
 # configure.ac & Makefile.am's in libraries.patch & build-dri.patch

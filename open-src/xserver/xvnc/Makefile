@@ -65,10 +65,10 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver114.patch,'-p0 -d unix'
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver117.patch,'-p0 -d unix'
 SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
 SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
-SOURCE_PATCHES += tigervnc11-xorg114.patch,'-p0 -d unix'
+SOURCE_PATCHES += tigervnc11-xorg117.patch,'-p0 -d unix'
 SOURCE_PATCHES += xorg-1.12.1.patch,-p1
 SOURCE_PATCHES += no-nasm.patch,-p1
 SOURCE_PATCHES += applet-html.patch
@@ -83,6 +83,7 @@ SOURCE_PATCHES += 17950657.patch,-p1
 SOURCE_PATCHES += studio12.4-patch,-p1
 SOURCE_PATCHES += CVE-2014-8240.patch,-p1
 SOURCE_PATCHES += gnutls-disable-sslv3.patch,-p1
+SOURCE_PATCHES += vnc-Makefile.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -195,7 +196,8 @@ XVNC_CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) $(XSERVER_CONFIG_OPTS)
 # get them in the normal Xorg build instead
 XVNC_CONFIG_OPTS += --disable-builddocs --disable-xfree86-utils
 XVNC_CONFIG_OPTS += --disable-xorg --disable-xnest --disable-xvfb --disable-dmx
-XVNC_CONFIG_OPTS += --disable-xwin --disable-xephyr --disable-kdrive
+XVNC_CONFIG_OPTS += --disable-xwin --disable-xephyr --disable-kdrive 
+XVNC_CONFIG_OPTS += --disable-dri3 --disable-present
 # Disable building Xorg hardware device support that Xvnc can't use
 XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga 
 # The X server unit tests currently depend on the Xorg ddx being built

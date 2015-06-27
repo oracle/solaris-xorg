@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -298,7 +298,7 @@ HasWinSelection(TsolInfoPtr tsolinfo)
 }
 
 void
-TsolCheckDrawableAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+TsolCheckDrawableAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 {
 	XaceResourceAccessRec *rec = calldata;
 	ClientPtr client = rec->client;
@@ -497,7 +497,7 @@ TsolCheckDrawableAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldat
 }
 
 void
-TsolCheckXIDAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+TsolCheckXIDAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 {
 	XaceResourceAccessRec *rec = calldata;
 	ClientPtr client = rec->client;
@@ -596,7 +596,7 @@ TsolCheckXIDAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 }
 
 void
-TsolCheckServerAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+TsolCheckServerAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 {
 	XaceServerAccessRec *rec = calldata;
 	ClientPtr client = rec->client;
@@ -683,7 +683,7 @@ TsolCheckServerAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 }
 
 void
-TsolCheckClientAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+TsolCheckClientAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 {
 	XaceClientAccessRec *rec = calldata;
 	ClientPtr client = rec->client;
@@ -744,7 +744,7 @@ TsolCheckClientAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
 }
 
 void
-TsolCheckDeviceAccess(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+TsolCheckDeviceAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 {
 	XaceDeviceAccessRec *rec = (XaceDeviceAccessRec *) calldata;
 	ClientPtr client = rec->client;

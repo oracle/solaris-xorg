@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,12 +39,12 @@ UPSTREAM_PROJECT = xorg
 UPSTREAM_SET     = yes
 
 # Version number (used in path names)
-MODULE_VERSION = 1.3.0
+MODULE_VERSION = 1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ddfc8a89d597651408369d940d03d06b
-TARBALL_SHA1  = a015f4c5a35d98af72835797293697e0eb9cd506
-TARBALL_SHA256= dfa9e55625a4e0250f32fabab1fd5c8ffcd2d1ff2720d6fcf0f74bc8a5929195
+TARBALL_MD5   = 23756dab809f9ec5011bb27fb2c3c7d6
+TARBALL_SHA1  = 0b16add3637c64b0bbaf1dd223b71b0421100c20
+TARBALL_SHA256= aa7ebdb0715106dd255082f2310dbaa2cd7e225957c2a77d719720c7cc92b921
 
 # Set encoding directory path used during build in fontutil.pc
 FIX_PC_FILES = fontutil.pc.in

@@ -2,7 +2,7 @@
 #
 # xfindproxy - Utility to locate X11 proxy services
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,13 +39,17 @@ MODULE_PKGCLASS_SET=yes
 # Package metadata
 MODULE_DESC = the xfindproxy X11 proxy service locator utility
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.3
+MODULE_VERSION=1.0.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 88bf1e959865a3c5f31ea8efc9fe9e37
-TARBALL_SHA1  = ac068e0fcca5775685052d0c1915eedbf0c01c78
-TARBALL_SHA256= a6ecfbbb869c4bee84401914954e431444ee9469866ec58c0c17bbbed456c112
+TARBALL_MD5   = e20e8ea211ce90b38db30745f4645f4d
+TARBALL_SHA1  = 9fb43a73ff805bfe2d4b7d49831dd1cf26d6f3f0
+TARBALL_SHA256= 5626bda27c7faa5cbe289a17f8552538fff08a96d542b85efdda1804ccf8a01f
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

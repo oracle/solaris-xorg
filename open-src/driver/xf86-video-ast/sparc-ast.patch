@@ -561,3 +561,62 @@
  
      infoPtr->MaxWidth  = MAX_HWC_WIDTH;
      infoPtr->MaxHeight = MAX_HWC_HEIGHT;
+--- a/src/ast.h	Mon May  4 13:05:47 2015
++++ b/src/ast.h	Mon May  4 13:05:57 2015
+@@ -379,7 +379,7 @@
+ 
+ extern struct pci_device *ASTGetPciInfo(ASTRecPtr);
+ extern ScrnInfoPtr        ASTAllocScreen(DriverPtr, GDevPtr);
+-extern pointer           ASTMapVidMem(ScrnInfoPtr, unsigned int, PCITAG,
++extern pointer           ASTMapVidMem(ScrnInfoPtr, unsigned int, CARD32,
+                                                unsigned long, unsigned long);
+ extern void              ASTUnmapVidMem(ScrnInfoPtr, pointer, unsigned long);
+ extern void              ASTNotifyModeChanged(ScrnInfoPtr);
+--- a/src/ast_tool.c	Mon May  4 13:11:28 2015
++++ b/src/ast_tool.c	Mon May  4 13:11:35 2015
+@@ -51,7 +51,7 @@
+ #include "ast.h"
+ 
+ #if defined(__sparc__)
+-extern pointer ASTMapVidMem(ScrnInfoPtr, unsigned int, PCITAG,
++extern pointer ASTMapVidMem(ScrnInfoPtr, unsigned int, CARD32,
+                                  unsigned long, unsigned long);
+ extern void    ASTUnmapVidMem(ScrnInfoPtr, pointer, unsigned long);
+ #endif /* __sparc__ */
+--- a/src/ast_tool.c	Mon May  4 15:07:15 2015
++++ b/src/ast_tool.c	Mon May  4 15:09:41 2015
+@@ -63,11 +63,11 @@
+ 
+ #if !defined(XSERVER_LIBPCIACCESS) || defined(__sparc__)
+ #if !defined(__sparc__)
+-   pAST->FBVirtualAddr = xf86MapPciMem(pScrn->scrnIndex, VIDMEM_FRAMEBUFFER,
++   pAST->FBVirtualAddr = xf86MapPciMem(pScrn->scrnIndex, 0x01,
+ 				 pAST->PciTag,
+ 				 pAST->FBPhysAddr, pAST->FbMapSize);
+ #else
+-   pAST->FBVirtualAddr = ASTMapVidMem(pScrn, VIDMEM_FRAMEBUFFER, NULL,
++   pAST->FBVirtualAddr = ASTMapVidMem(pScrn, 0x01, NULL,
+                                 pAST->FBPhysAddr, pAST->FbMapSize);
+ #endif /* sparc */
+ #else
+@@ -120,9 +120,9 @@
+    int mmioFlags;
+ 
+ #if !defined(__alpha__)
+-   mmioFlags = VIDMEM_MMIO | VIDMEM_READSIDEEFFECT;
++   mmioFlags = 0x02 | 0x08;
+ #else
+-   mmioFlags = VIDMEM_MMIO | VIDMEM_READSIDEEFFECT | VIDMEM_SPARSE;
++  mmioFlags = 0x02 | 0x08 | 0x10;
+ #endif
+ 
+ #if !defined(__sparc__)
+@@ -132,7 +132,7 @@
+ 
+ #else
+    pAST->MMIOVirtualAddr = ASTMapVidMem(pScrn,
+-                        VIDMEM_MMIO | VIDMEM_READSIDEEFFECT, NULL,
++                        0x02 | 0x08, NULL,
+                         pAST->MMIOPhysAddr, pAST->MMIOMapSize);
+ #endif
+ #else

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,6 +37,7 @@ $(i386_ONLY)file path=usr/include/libdrm/intel_debug.h
 file path=usr/include/libdrm/mach64_drm.h
 file path=usr/include/libdrm/mga_drm.h
 file path=usr/include/libdrm/nouveau_drm.h
+file path=usr/include/libdrm/qxl_drm.h
 file path=usr/include/libdrm/r128_drm.h
 file path=usr/include/libdrm/r600_pci_ids.h
 file path=usr/include/libdrm/radeon_bo.h
@@ -49,6 +50,7 @@ file path=usr/include/libdrm/radeon_drm.h
 file path=usr/include/libdrm/radeon_surface.h
 file path=usr/include/libdrm/savage_drm.h
 file path=usr/include/libdrm/sis_drm.h
+file path=usr/include/libdrm/tegra_drm.h
 file path=usr/include/libdrm/via_drm.h
 file path=usr/include/libdrm/vmwgfx_drm.h
 dir  path=usr/include/libkms

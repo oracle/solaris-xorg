@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -81,8 +81,6 @@ link path=usr/lib/X11/locale/$(ARCH64)/common/xlcUTF8Load.so \
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlcUTF8Load.so.2
 link path=usr/lib/X11/locale/$(ARCH64)/common/xlibi18n.so target=xlibi18n.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xlibi18n.so.2
-link path=usr/lib/X11/locale/$(ARCH64)/common/xlocale.so target=xlocale.so.2
-file path=usr/lib/X11/locale/$(ARCH64)/common/xlocale.so.2
 link path=usr/lib/X11/locale/$(ARCH64)/common/xomGeneric.so \
     target=xomGeneric.so.2
 file path=usr/lib/X11/locale/$(ARCH64)/common/xomGeneric.so.2
@@ -97,8 +95,6 @@ link path=usr/lib/X11/locale/common/xlcUTF8Load.so target=xlcUTF8Load.so.2
 file path=usr/lib/X11/locale/common/xlcUTF8Load.so.2
 link path=usr/lib/X11/locale/common/xlibi18n.so target=xlibi18n.so.2
 file path=usr/lib/X11/locale/common/xlibi18n.so.2
-link path=usr/lib/X11/locale/common/xlocale.so target=xlocale.so.2
-file path=usr/lib/X11/locale/common/xlocale.so.2
 link path=usr/lib/X11/locale/common/xomGeneric.so target=xomGeneric.so.2
 file path=usr/lib/X11/locale/common/xomGeneric.so.2
 link path=usr/lib/libX.so target=libX11.so.4
@@ -129,6 +125,10 @@ file path=usr/share/X11/locale/armscii-8/Compose
 file path=usr/share/X11/locale/armscii-8/XI18N_OBJS
 file path=usr/share/X11/locale/armscii-8/XLC_LOCALE
 file path=usr/share/X11/locale/compose.dir
+dir  path=usr/share/X11/locale/cs_CZ.UTF-8
+file path=usr/share/X11/locale/cs_CZ.UTF-8/Compose
+file path=usr/share/X11/locale/cs_CZ.UTF-8/XI18N_OBJS
+file path=usr/share/X11/locale/cs_CZ.UTF-8/XLC_LOCALE
 dir  path=usr/share/X11/locale/el_GR.UTF-8
 file path=usr/share/X11/locale/el_GR.UTF-8/Compose
 file path=usr/share/X11/locale/el_GR.UTF-8/XI18N_OBJS
@@ -421,6 +421,7 @@ dir  path=usr/share/doc/libX11/i18n/compose
 file path=usr/share/doc/libX11/i18n/compose/C.xml
 file path=usr/share/doc/libX11/i18n/compose/am_ET.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/armscii-8.xml
+file path=usr/share/doc/libX11/i18n/compose/cs_CZ.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/el_GR.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/en_US.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/fi_FI.UTF-8.xml

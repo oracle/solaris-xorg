@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -155,10 +155,10 @@ static CALLBACK(TsolSelectionCallback);
 
 extern int tsol_check_policy(TsolInfoPtr tsolinfo, TsolResPtr tsolres,
 	xpolicy_t flags, int reqcode);
-extern void TsolCheckDrawableAccess(CallbackListPtr *pcbl, pointer nulldata,
-	pointer calldata);
-extern void TsolCheckXIDAccess(CallbackListPtr *pcbl, pointer nulldata,
-	pointer calldata);
+extern void TsolCheckDrawableAccess(CallbackListPtr *pcbl, void *nulldata,
+	void *calldata);
+extern void TsolCheckXIDAccess(CallbackListPtr *pcbl, void *nulldata,
+	void *calldata);
 extern Bool client_has_privilege(TsolInfoPtr tsolinfo, priv_set_t *priv);
 
 extern priv_set_t *pset_win_mac_write;
@@ -1380,7 +1380,7 @@ ProcMakeTPWindow(ClientPtr client)
         PanoramiXRes     *panres = NULL;
         int         j;
 
-	rc = dixLookupResourceByType((pointer *) &panres, stuff->id,
+	rc = dixLookupResourceByType((void *) &panres, stuff->id,
 				     XRT_WINDOW, client, DixWriteAccess);
 	if (rc != Success)
 	    return rc;
@@ -1747,7 +1747,7 @@ bad1:
 }
 
 static Bool
-TsolCheckNetName (unsigned char *addr, short len, pointer closure)
+TsolCheckNetName (unsigned char *addr, short len, void *closure)
 {
     return (len == (short) strlen ((char *) closure) &&
             strncmp ((char *) addr, (char *) closure, len) == 0);
@@ -1831,7 +1831,7 @@ TsolCheckAuthorization(unsigned int name_length, char *name,
 					return ((XID)-1);
 				}
 				if (ForEachHostInFamily (FamilyNetname, TsolCheckNetName,
-						(pointer) netname)) {
+						(void *) netname)) {
 					return ((XID)(tsolinfo->uid));
 				} else {
 					return (CheckAuthorization(name_length, name, data_length,

@@ -2,7 +2,7 @@
 #
 # libXxf86vm - Xlib-based client library for XFree86-VidMode extension protocol
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXxf86vm
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.1.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e46f6ee4f4567349a3189044fe1bb712
-TARBALL_SHA1  = 5a307415da68e0b71abcf0cb9b5005f16a41ede8
-TARBALL_SHA256= da5e86c32ee2069b9e6d820e4c2e4242d4877cb155a2b2fbf2675a1480ec37b8
+TARBALL_MD5   = 298b8fff82df17304dfdb5fe4066fe3a
+TARBALL_SHA1  = 78ef18ca2be157131899e01c62679e247409a13f
+TARBALL_SHA256= afee27f93c5f31c0ad582852c0fb36d50e4de7cd585fcf655e278a633d85cd57
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES =

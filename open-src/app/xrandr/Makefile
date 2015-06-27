@@ -2,7 +2,7 @@
 #
 # xrandr - utility to configure screen sizes and layout via XRANDR extension
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xrandr
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.1
+MODULE_VERSION=1.4.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 52c3de0297bf45be6a189dc2e0515638
-TARBALL_SHA1  = 48d59ff6403c116daaf2c73185a57141ed4089fc
-TARBALL_SHA256= 67b554ab975652778bef587f86dab7fec8cb95dfd21c11d98a203dac5c241e50
+TARBALL_MD5   = 441fdb98d2abc6051108b7075d948fc7
+TARBALL_SHA1  = 30fde46b9ed9f3fa8a9c05837723306299f62a37
+TARBALL_SHA256= 7154ac3486b86923692f2d6cdb2991a2ee72bc32af2c4379a6f1c068f204be1b
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=x11/x11-server-utilities

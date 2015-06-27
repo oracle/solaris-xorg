@@ -2,7 +2,7 @@
 #
 # xlsatoms - utility to list atoms defined on a given X server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,13 +35,17 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the xlsatoms utility to list atoms defined on a given X server
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 9d0e16d116d1c89e6b668c1b2672eb57
-TARBALL_SHA1  = 271880bf9dcd37b85b08e5f4a43e6015747b45e1
-TARBALL_SHA256= 3b8bd98c1ca9789178db80bca75556b0c76e5092403014995d5ddaa3117536f9
+TARBALL_MD5   = 5dcb6e6c4b28c8d7aeb45257f5a72a7d
+TARBALL_SHA1  = 0946410a2cd02b0dee7809fd75be090fb3961e9c
+TARBALL_SHA256= 47e5dc7c3dbda6db2cf8c00cedac1722835c1550aa21cfdbc9ba83906694dea4
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

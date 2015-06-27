@@ -2,7 +2,7 @@
 #
 # libFS - client library to connect to xfs font servers
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libFS
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e3c77ca27942ebc5eb2ca99f29363515
-TARBALL_SHA1  = 3a94bc42775f4aa2eac14a51e0043299d7cd31b6
-TARBALL_SHA256= 22eb3005dd8053aef7ff82758da5dd59ca9738410bcf847e675780e3a1f96107
+TARBALL_MD5   = a8a0dbd2299b2568d8c919883f5c8501
+TARBALL_SHA1  = 5e490557674ebef057c3909e2608d7799393b88e
+TARBALL_SHA256= 9007fcfbd37bfa6ede4000ec4b5c2dc6dc0f52789358361b43f68e9ae4d6aed7
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-abi.patch,-p1

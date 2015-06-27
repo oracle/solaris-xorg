@@ -2,7 +2,7 @@
 #
 # fslsfonts utility to list fonts available from an xfs font server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,13 +33,17 @@ MODULE_PKGNAME=x11/xfs/xfs-utilities
 MODULE_PKGNAME_SET=yes
 MODULE_DESC = the fslsfonts utility to list fonts from an xfs font server
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3e2d206f500a9615ec65dbb6b1e4b487
-TARBALL_SHA1  = 67c6f49fa0eb94221d0663d212e8d35275a44696
-TARBALL_SHA256= a38072eebfd195478ea673ebef33c8df0f6f571c5fe19d85248fe9b532d6921c
+TARBALL_MD5   = 6eb6bbd0a9a733e8ad0d497383bc0232
+TARBALL_SHA1  = 0a0d37c65a8cdd3aff22d633b5ed164e864929d4
+TARBALL_SHA256= f1ed55093356b78daec2678d22f52d42ec11fe88575562d734396962e626d7f6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

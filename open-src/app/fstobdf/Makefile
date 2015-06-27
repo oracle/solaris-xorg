@@ -2,7 +2,7 @@
 #
 # fstobdf utility to retrieve bdf fonts from an xfs font server
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,16 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the fstobdf utility to retrieve bdf fonts from an xfs font server
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
+
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
 
 # Checksums for upstream tarball
-TARBALL_MD5   = c536ac53e51df0a28e764a7cf7ef4924
-TARBALL_SHA1  = 7c316ab446f6efa0862570bc137e1c103311ace2
-TARBALL_SHA256= 9c44ef069174ec501fa848fe0dfa41c06c2367df84721e94b3bca670608f15a8
+TARBALL_MD5   = 0fde522c0d2b44ba3eb535183fdd536a
+TARBALL_SHA1  = aeafc2cd82092168d0bc4b94c5a27d7e070598fd
+TARBALL_SHA256= 66cf550326c993e7043f260a8ec4a533a3bf9d8f0e7397a6fe9cca803732e92e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

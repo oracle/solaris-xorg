@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,6 @@ file path=usr/include/X11/Xtrans/Xtrans.h
 file path=usr/include/X11/Xtrans/Xtransint.h
 file path=usr/include/X11/Xtrans/Xtranslcl.c
 file path=usr/include/X11/Xtrans/Xtranssock.c
-file path=usr/include/X11/Xtrans/Xtranstli.c
 file path=usr/include/X11/Xtrans/Xtransutil.c
 file path=usr/include/X11/Xtrans/transport.c
 file path=usr/share/aclocal/xtrans.m4

@@ -92,7 +92,7 @@ index 2ead556..9de9dfc 100644
 +    dev->config_info = xstrdup(config_info);
 +
 +unwind:
-+    xfree(config_info);
++    free(config_info);
 +    input_option_free_list(&input_options);
 +}
 +#endif

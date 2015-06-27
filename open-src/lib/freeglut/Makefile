@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# FreeGLUT 2.6.0 Makefile
+# FreeGLUT 2.8.1 Makefile
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,20 +28,23 @@
 MODULE_NAME=freeglut
 
 # Version number (used in path names)
-MODULE_VERSION=2.6.0
+MODULE_VERSION=2.8.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 39f0f2de89f399529d2b981188082218
-TARBALL_SHA1 = 68306c4486c13d005a4e4d54035e0c0b1bdc220b
+TARBALL_MD5  = 918ffbddcffbac83c218bc52355b6d5a
+TARBALL_SHA1 = 7330b622481e2226c0c9f6d2e72febe96b03f9c4
+TARBALL_SHA256 = dde46626a62a1cd9cf48a11951cdd592e7067c345cffe193a149dfd47aef999a
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = LSARC/2010/016
+# PSARC/2015/247 FreeGLUT 2.8.1
+MODULE_ARC_CASES += PSARC/2015/247
 
 # Package metadata
 UPSTREAM = The FreeGLUT Project
 UPSTREAM_URL = http://freeglut.sourceforge.net/
 UPSTREAM_SET = yes
-ORACLE_TPNO = 4509
+ORACLE_TPNO = 22885
 
 # Download site for source
 SOURCE_URL = $(SF_DOWNLOADS_URL)/freeglut/freeglut/$(SOURCE_TARBALL_NAME)

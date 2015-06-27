@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,15 +27,15 @@
 MODULE_NAME=fontsproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.1.2
+MODULE_VERSION=2.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = c5f4f1fb4ba7766eedbc9489e81f3be2
-TARBALL_SHA1  = 538f0880faa6981cb1a348ced93dc715c42840f7
-TARBALL_SHA256= 869c97e5a536a8f3c9bc8b9923780ff1f062094bab935e26f96df3d6f1aa68a9
+TARBALL_MD5   = 36934d00b00555eaacde9f091f392f97
+TARBALL_SHA1  = 28c108bd6438c332122c10871c1fc6415591755f
+TARBALL_SHA256= 259046b0dd9130825c4a4c479ba3591d6d0f17a33f54e294b56478729a6e5ab8
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES=	symbol.patch,-p1
 
 # Package metadata
 MODULE_DESC = headers & documentation for font support in the X Window System

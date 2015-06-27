@@ -33,16 +33,15 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.1.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f548e389ff68424947b87785df6a321b
-TARBALL_SHA1  = dc4fa8b804e7cb4cfbadbef3708c3b97076ddb65
-TARBALL_SHA256= 0e2accc6272fcc2321aef7370f4ccf0df0fe259b2e942938264e2aaedee6c4c3
+TARBALL_MD5   = e238c89dabc566e1835e1ecb61b605b9
+TARBALL_SHA1  = a27a476f7f39ae30a16dfa25ca07c12378cff7f0
+TARBALL_SHA256= 551177657835e0902b5eee7b19713035beaa1581bbd3c6506baa553e751e017c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	17818156.patch,-p0
+SOURCE_PATCHES = 
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/sessreg.man

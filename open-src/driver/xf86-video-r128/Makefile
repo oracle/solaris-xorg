@@ -2,7 +2,7 @@
 #
 # xf86-video-r128 Makefile
 #
-# Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=xf86-video-r128
 
 # Version number (used in path names)
-MODULE_VERSION=6.8.4
+MODULE_VERSION=6.10.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4c4cf0031dda485830b082cde53976c7
-TARBALL_SHA1  = 39d2b3667a5796e9333a41abaf1197cc0f0590ff
-TARBALL_SHA256= 6fbfbba2589c1daf45f048009d6521bb687adbdf2f695eb961b316ce68935cd7
+TARBALL_MD5   = e24c8e50e545adcbe12edb031dab4948
+TARBALL_SHA1  = 159aee7d19b3a3f282e7b830e192fe84892c4006
+TARBALL_SHA256= 80d531a07168230a408b88809a5440cfd48f9098666d12702d0012148a0d353d
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = bstore.patch
+SOURCE_PATCHES = solaris-port.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -51,7 +51,7 @@ MODULE_CONFIG_OPTS=--disable-dri
 MODULE_LD_OPTIONS= \
 	-L$(PROTODIR)$(X11_SERVERMODS_DIR) \
 	-R$(X11_SERVERMODS_DIR) \
-	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lfbdevhw -lvgahw
+	-lint10 -lpciaccess -lfb -lpixman-1 -lvbe -lfbdevhw -lvgahw -lexa
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_docs

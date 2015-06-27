@@ -33,12 +33,16 @@ MODULE_PKGNAME=x11/keyboard/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.2.4
+MODULE_VERSION=1.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = a0fc1ac3fc4fe479ade09674347c5aa0
-TARBALL_SHA1  = 695d2f2824884d9e54aa1419282ae167fdea163b
-TARBALL_SHA256= 91d0c9ab445d21dfe1892dbae5ae5264f39bae68223dd092ffc547c9450b5a2d
+TARBALL_MD5   = 0012a8e3092cddf7f87b250f96bb38c5
+TARBALL_SHA1  = 113c93679c9245141b5899240f59fcc8227d8dc1
+TARBALL_SHA256= cfac973778fabf5216121ad60b7af8ab74ce7513af0f9260cf8c5309e1622b2a
+
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

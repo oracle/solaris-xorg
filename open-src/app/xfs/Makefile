@@ -29,12 +29,12 @@
 MODULE_NAME=xfs
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.3
+MODULE_VERSION=1.1.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 38a5cb2d9103b91b4497310393a88d6d
-TARBALL_SHA1  = 68b9c6032f4ac91334a9ad07b0c58a89841e83b1
-TARBALL_SHA256= 7bf44a32ad04dbbcf3b5eef2cbfe879459378b312cb795e0d2d25e665f7196b7
+TARBALL_MD5   = 12adb259ee5e3df9633783e21b7a7a82
+TARBALL_SHA1  = 5b8c653476a09e65d93eb7e40da99794366699f5
+TARBALL_SHA256= a40b75e674c091464f85739292b6bf24e2d153f4a2ac456d3ea6b8a64e269ffa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += smf-manpage.patch
@@ -60,6 +60,8 @@ ORACLE_COPYRIGHT_YEARS = 1994, 2010
 MODULE_ARC_CASES = PSARC/2004/752
 # LSARC/2008/009 X11R7 font server and utilities
 MODULE_ARC_CASES += LSARC/2008/009
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \

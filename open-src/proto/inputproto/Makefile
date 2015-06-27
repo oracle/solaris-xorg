@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,12 +27,12 @@
 MODULE_NAME=inputproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.3
+MODULE_VERSION=2.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 94db391e60044e140c9854203d080654
-TARBALL_SHA1  = 4eacc1883593d3f0040e410be3afc8483c7d2409
-TARBALL_SHA256= 7d26b193f6699f8e9c1e28bf026844b7ecea33dd644402523471be109152c32f
+TARBALL_MD5   = 6caebead4b779ba031727f66a7ffa358
+TARBALL_SHA1  = 126b6ad57b5432e154485f900920765eae8fda45
+TARBALL_SHA256= 5a47ee62053a6acef3a83f506312494be1461068d0b9269d818839703b95c1d1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES= 

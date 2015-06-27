@@ -2,7 +2,7 @@
 #
 # twm - Tab Window Manager for the X Window System
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,12 +34,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the Tab Window Manager (twm)
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4b28317d4a9f7ca61bef8462e132bd4c
-TARBALL_SHA1  = b568e6242c5a2b9a05d0a198b96f3d43cf792931
-TARBALL_SHA256= 7660352353d632127ff50390991706aa660b28a4ada816c2582ac02720722e44
+TARBALL_MD5   = 59a6f076cdacb5f6945dac809bcf4906
+TARBALL_SHA1  = 09e8a8f0d1072e11eb0d6e354d75a555b9952755
+TARBALL_SHA256= c575167ac33edf3bd1592f1bedfe0559debb128ed5fb4873c1278e3be166310a
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

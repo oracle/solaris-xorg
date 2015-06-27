@@ -2,7 +2,7 @@
 #
 # xgamma - monitor gamma correction setting application
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xgamma
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = c06067f572bc4a5298f324f27340da95
-TARBALL_SHA1  = 9cd3272fd24f51b75223cf9c59949ded6df04800
-TARBALL_SHA256= e322a2fea80d559c09d6bc285ebe1a9e454dbeae2a07116cb7d2207db9d2c310
+TARBALL_MD5   = 90b4305157c2b966d5180e2ee61262be
+TARBALL_SHA1  = af1484d0d70bc71dc9d3b7b95645881b7165c41b
+TARBALL_SHA256= 0ef1c35b5c18b1b22317f455c8df13c0a471a8efad63c89c98ae3ce8c2b222d3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -49,6 +49,8 @@ MODULE_DESC = the xgamma monitor gamma correction setting application
 # ARC cases that covered this module
 # PSARC/2005/189 X client support for XFree86 extensions
 MODULE_ARC_CASES = PSARC/2005/189
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/xgamma.man

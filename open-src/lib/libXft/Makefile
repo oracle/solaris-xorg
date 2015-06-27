@@ -29,15 +29,15 @@
 MODULE_NAME=libXft
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.1
+MODULE_VERSION=2.3.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 78d64dece560c9e8699199f3faa521c0
-TARBALL_SHA1  = c7ec1361e3d4f095910f8c58988ab42e32f314d9
-TARBALL_SHA256= 7fce32b92dcb7b2869bed567af2abc7bbad0d5d6fcf471b8a3e137964a31bbbd
+TARBALL_MD5   = 331b3a2a3a1a78b5b44cfbd43f86fcfe
+TARBALL_SHA1  = e025d790a7b6c4d283a78d8df06615cb10278e2d
+TARBALL_SHA256= f5a3c824761df351ca91827ac221090943ef28b248573486050de89f4bfcdc4c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = freetype-2.5.patch,-p1
+SOURCE_PATCHES = 
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xft

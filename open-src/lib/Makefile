@@ -143,7 +143,9 @@ OS_SUBDIRS_common = \
 	mesa \
 	libglu \
 	freeglut \
-	pixman
+	pixman \
+	libxshmfence \
+	libXpresent
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 

@@ -2,7 +2,7 @@
 #
 # xcursorgen - prepares X11 cursor sets for use with libXcursor
 #
-# Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,12 +37,12 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 09f56978a62854534deacc8aa8ff3031
-TARBALL_SHA1  = 1d0ca82422d328522b06b218f86b5901a7d5521b
-TARBALL_SHA256= bc7171a0fa212da866fca2301241630e2009aea8c4ddb75f21b51a31c2e4c581
+TARBALL_MD5   = b58a87e6cd7145c70346adad551dba48
+TARBALL_SHA1  = e6d5cc03ce1829cc7eea39526ca7b8688aac468b
+TARBALL_SHA256= 31c8910f54eb175a8a74a60e7662697467e21a8bf948220a6048a93924b3f66c
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

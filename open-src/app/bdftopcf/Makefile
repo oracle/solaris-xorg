@@ -2,7 +2,7 @@
 #
 # bdftopcf - Utility to convert X font from BDF to PCF
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,11 +34,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the bdftopcf font conversion utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 96a648a332160a7482885800f7a506fa
-TARBALL_SHA1 = 6010f4748d30007ebfeaa8cb053ec3c2e9bbda34
+TARBALL_MD5  = 53a48e1fdfec29ab2e89f86d4b7ca902
+TARBALL_SHA1 = 93fca9876367b0950b57680237a7dfc1a520ffac
+TARBALL_SHA256 = 38f447be0c61f94c473f128cf519dd0cff63b5d7775240a2e895a183a61e2026
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

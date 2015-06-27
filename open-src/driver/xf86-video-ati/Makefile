@@ -2,7 +2,7 @@
 #
 # xf86-video-ati Makefile
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,19 +29,15 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=6.14.6
+MODULE_VERSION=7.3.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3e945273edd3b8beb96bd40f7929d450
-TARBALL_SHA1  = b30383c7e5487c1df403a3af19fce8626d617a8d
-TARBALL_SHA256= aa5286b3e4f0187d7df14785c06dd800255d9405205dbf061da5d77df86bec36
+TARBALL_MD5   = f36383c590d56a9304e5cab4813a6653
+TARBALL_SHA1  = 946bcfcb892088a9ffecc00856a1c8e6bd47a088
+TARBALL_SHA256= 107c072c4919a996e04f47afdb53d5946a3ad574f270b8c560ef8b3a032046fe
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = \
-	mapfiles.patch,-p1 \
-	solaris-dri-drv-port.patch \
-	disable-xaa.patch \
-	bstore.patch
+SOURCE_PATCHES = solaris-port.patch disable-kms.patch
 
 # Need to regenerate Makefile.in after patching Makefile.am in mapfiles.patch
 AUTORECONF=yes
@@ -55,7 +51,7 @@ MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
 # Extra flags to pass to configure script
-MODULE_CONFIG_OPTS=--disable-kms
+MODULE_CONFIG_OPTS=--disable-kms --disable-glamor
 
 # Paths to find libraries/modules to link with
 radeon_drv_la_LDFLAGS_add = \
@@ -67,12 +63,11 @@ radeon_drv_la_LDFLAGS_add = \
 	-R$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)
 MODULE_BUILD_ENV = radeon_drv_la_LDFLAGS_add='$(radeon_drv_la_LDFLAGS_add)'
 
-# Mapfiles for symbols from other modules
-MODULE_LD_OPTIONS= \
-	-M $(PWD)/mapfile-bt829_drv-external \
-	-M $(PWD)/mapfile-fi1236_drv-external \
-	-M $(PWD)/mapfile-msp3430_drv-external \
-	-M $(PWD)/mapfile-tda9885_drv-external \
-	-M $(PWD)/mapfile-uda1380_drv-external
+# Library paths at build time
+MODULE_LD_OPTIONS = \
+        -L$(PROTODIR)$(X11_SERVERMODS_DIR) \
+        -L$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR) \
+        -L$(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR) \
+        -lexa -lpixman-1 -lfb -lshadow
 
 include ../Makefile.inc

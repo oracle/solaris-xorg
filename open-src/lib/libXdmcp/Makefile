@@ -2,7 +2,7 @@
 #
 # X Display Manager Control Protocol (XDMCP) library (client & server sides)
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=libXdmcp
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.1
+MODULE_VERSION=1.1.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = b94af6cef211cf3ee256f7e81f70fcd9
-TARBALL_SHA1  = 3b63e8fc1600c51d9897d017da190fc6c16245b6
-TARBALL_SHA256= 9ace6d4230f9dce4ed090692f82f613253ada8f887b23b3d8ff3dd4e3a7c118e
+TARBALL_MD5   = 18aa5c1279b01f9d18e3299969665b2e
+TARBALL_SHA1  = 3c09eabb0617c275b5ab09fae021d279a4832cac
+TARBALL_SHA256= 81fe09867918fff258296e1e1e159f0dc639cb30d201c53519f25ab73af4e4e2
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = header.patch,-p1
 
 # Library name
 LIBNAME=Xdmcp

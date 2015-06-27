@@ -2,7 +2,7 @@
 #
 # xmodmap - X11 keyboard/mouse mapping configuration utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,13 +35,17 @@ MODULE_PKGNAME_SET=yes
 # Package metadata
 MODULE_DESC = the xmodmap X11 keyboard/mouse mapping configuration utility
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5511da3361eea4eaa21427652c559e1c
-TARBALL_SHA1  = 44ebb0a1047fc9391422108007c30c64cc0782bc
-TARBALL_SHA256= efe2e3c89858a2db3bdcf969f55f55d0af4f5007789198344de0595249a99fc3
+TARBALL_MD5   = 723f02d3a5f98450554556205f0a9497
+TARBALL_SHA1  = fe735c8bbba68d7eb50f82d4e092fdcadf161314
+TARBALL_SHA256= b7b0e5cc5f10d0fb6d2d6ea4f00c77e8ac0e847cc5a73be94cd86139ac4ac478
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

@@ -161,6 +161,11 @@ SYMBOL_SCOPE {
 		DPMSStandbyTime                          { FLAGS = EXTERN };
 		DPMSSupported                            { FLAGS = EXTERN };
 		DPMSSuspendTime                          { FLAGS = EXTERN };
+		DRI2SwapInterval               		 { FLAGS = EXTERN };
+		DRI2WaitSwap                       	 { FLAGS = EXTERN };
+		DRI2SwapBuffers                   	 { FLAGS = EXTERN };
+		DRI2HasSwapControl               	 { FLAGS = EXTERN };
+		DRI2CreateDrawable2            		 { FLAGS = EXTERN };
 		DamageCreate                             { FLAGS = EXTERN };
 		DamageDamageRegion                       { FLAGS = EXTERN };
 		DamageDestroy                            { FLAGS = EXTERN };
@@ -215,6 +220,7 @@ SYMBOL_SCOPE {
 		EnableLocalHost                          { FLAGS = EXTERN };
 		EnableMapUnmapEvents                     { FLAGS = EXTERN };
 		ErrorF                                   { FLAGS = EXTERN };
+		ErrorFSigSafe				 { FLAGS = EXTERN };
 		EstablishNewConnections                  { FLAGS = EXTERN };
 		EventCallback                            { FLAGS = EXTERN };
 		EventSelectForWindow                     { FLAGS = EXTERN };
@@ -374,6 +380,7 @@ SYMBOL_SCOPE {
 		ListFonts                                { FLAGS = EXTERN };
 		ListenToAllClients                       { FLAGS = EXTERN };
 		LoadExtension                            { FLAGS = EXTERN };
+		LoadExtensionList                        { FLAGS = EXTERN };
 		LoadSubModule                            { FLAGS = EXTERN };
 		LoaderErrorMsg                           { FLAGS = EXTERN };
 		LoaderFreeDirList                        { FLAGS = EXTERN };
@@ -391,6 +398,7 @@ SYMBOL_SCOPE {
 		LogInit                                  { FLAGS = EXTERN };
 		LogMessage                               { FLAGS = EXTERN };
 		LogMessageVerb                           { FLAGS = EXTERN };
+		LogMessageVerbSigSafe            	 { FLAGS = EXTERN };
 		LogPrintMarkers                          { FLAGS = EXTERN };
 		LogSetParameter                          { FLAGS = EXTERN };
 		LogVHdrMessageVerb                       { FLAGS = EXTERN };
@@ -1230,6 +1238,7 @@ SYMBOL_SCOPE {
 		doListFontsWithInfo                      { FLAGS = EXTERN };
 		doPolyText                               { FLAGS = EXTERN };
 		enableBackingStore                       { FLAGS = EXTERN };
+		enableIndirectGLX                        { FLAGS = EXTERN };
 		fbSlotClaimed                            { FLAGS = EXTERN };
 		find_old_font                            { FLAGS = EXTERN };
 		generate_modkeymap                       { FLAGS = EXTERN };
@@ -1250,6 +1259,7 @@ SYMBOL_SCOPE {
 		inw                                      { FLAGS = EXTERN };
 		isItTimeToYield                          { FLAGS = EXTERN };
 		lastDeviceEventTime                      { FLAGS = EXTERN };
+		lastGLContext	                         { FLAGS = EXTERN };
 		lastResourceType                         { FLAGS = EXTERN };
 		maxBigRequestSize                        { FLAGS = EXTERN };
 		miAppendSpans                            { FLAGS = EXTERN };
@@ -1436,6 +1446,9 @@ SYMBOL_SCOPE {
 		pSecHook                                 { FLAGS = EXTERN };
 		party_like_its_1989                      { FLAGS = EXTERN };
 		pciSlotClaimed                           { FLAGS = EXTERN };
+		present_register_complete_notify         { FLAGS = EXTERN };
+		present_event_notify		         { FLAGS = EXTERN };
+		present_screen_init         	 	 { FLAGS = EXTERN };
 		promGetBool                              { FLAGS = EXTERN };
 		promGetChild                             { FLAGS = EXTERN };
 		promGetProperty                          { FLAGS = EXTERN };
@@ -1813,6 +1826,7 @@ SYMBOL_SCOPE {
 		xf86ProcessArgument                      { FLAGS = EXTERN };
 		xf86ProcessCommonOptions                 { FLAGS = EXTERN };
 		xf86ProcessOptions                       { FLAGS = EXTERN };
+		xf86ProviderSetup                        { FLAGS = EXTERN };
 		xf86PruneDriverModes                     { FLAGS = EXTERN };
 		xf86PruneDuplicateModes                  { FLAGS = EXTERN };
 		xf86PruneInvalidModes                    { FLAGS = EXTERN };

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -40,5 +40,5 @@
 #include <X11/extensions/Xtsolproto.h>
 
 /* tsolextension.c */
-extern void TsolExtensionInit(void);
+_X_EXPORT extern void TsolExtensionInit(void);
 #endif /* _XORG_TSOL_EXTENSION_H */

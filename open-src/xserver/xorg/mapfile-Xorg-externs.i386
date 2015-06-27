@@ -461,7 +461,7 @@ SYMBOL_SCOPE {
 		LegalNewID                               { FLAGS = EXTERN };
 		ListFonts                                { FLAGS = EXTERN };
 		ListenToAllClients                       { FLAGS = EXTERN };
-		LoadExtension                            { FLAGS = EXTERN };
+		LoadExtensionList                        { FLAGS = EXTERN };
 		LoadSubModule                            { FLAGS = EXTERN };
 		LoaderErrorMsg                           { FLAGS = EXTERN };
 		LoaderFreeDirList                        { FLAGS = EXTERN };
@@ -1390,6 +1390,7 @@ SYMBOL_SCOPE {
 		drmInstallSIGIOHandler                   { FLAGS = EXTERN };
 		drmRemoveSIGIOHandler                    { FLAGS = EXTERN };
 		enableBackingStore                       { FLAGS = EXTERN };
+		enableIndirectGLX			 { FLAGS = EXTERN };
 		fbSlotClaimed                            { FLAGS = EXTERN };
 		find_old_font                            { FLAGS = EXTERN };
 		generate_modkeymap                       { FLAGS = EXTERN };
@@ -1422,6 +1423,7 @@ SYMBOL_SCOPE {
 		inw                                      { FLAGS = EXTERN };
 		isItTimeToYield                          { FLAGS = EXTERN };
 		lastDeviceEventTime                      { FLAGS = EXTERN };
+		lastGLContext	                         { FLAGS = EXTERN };
 		lastResourceType                         { FLAGS = EXTERN };
 		maxBigRequestSize                        { FLAGS = EXTERN };
 		miAppendSpans                            { FLAGS = EXTERN };
@@ -1604,6 +1606,9 @@ SYMBOL_SCOPE {
 		pSecHook                                 { FLAGS = EXTERN };
 		party_like_its_1989                      { FLAGS = EXTERN };
 		pciSlotClaimed                           { FLAGS = EXTERN };
+		present_register_complete_notify         { FLAGS = EXTERN };
+		present_event_notify			 { FLAGS = EXTERN };
+		present_screen_init			 { FLAGS = EXTERN };
 		remove_fs_handlers                       { FLAGS = EXTERN };
 		rootCursor                               { FLAGS = EXTERN };
 		rrPrivKeyRec                             { FLAGS = EXTERN };
@@ -1817,7 +1822,6 @@ SYMBOL_SCOPE {
 		xf86GetVisualName                        { FLAGS = EXTERN };
 		xf86GetWeight                            { FLAGS = EXTERN };
 		xf86HandleColormaps                      { FLAGS = EXTERN };
-		xf86HandlePMEvents                       { FLAGS = EXTERN };
 		xf86I2CBusInit                           { FLAGS = EXTERN };
 		xf86I2CDevInit                           { FLAGS = EXTERN };
 		xf86I2CFindBus                           { FLAGS = EXTERN };

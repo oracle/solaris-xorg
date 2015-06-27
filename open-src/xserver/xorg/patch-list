@@ -1,4 +1,3 @@
-stop-using-il.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
@@ -23,19 +22,14 @@ vt.patch,-p1
 6912996.patch,-p1
 record-regset.patch,-p1
 workaround-7154410.patch,-p1
-113-port.patch,-p1
 cli-nolock.patch,-p1
 16418361.patch,-p1
 sparc-config-improv.patch,-p1
-remove-sbus-probe.patch,-p1
 17385060.patch,-p1
 add-input-dev-in-multi-session.patch,-p1
-create-multi-session-built-in-config.patch,-p1
-17465391.patch,-p1
+sparc-multisession.patch,-p1
 glx-mesa.patch,-p1
-multi-session-with-isolateDevice.patch,-p1
-security-2014-12-09.patch,-p1
 20395984.patch,-p1
-CVE-2015-0255.patch,-p1
-CVE-2015-3418.patch,-p1
 autoconf-269.patch,-p1
+117-port.patch,-p1
+

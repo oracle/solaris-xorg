@@ -2,7 +2,7 @@
 #
 # xcmsdb - Device Color Characterization utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xcmsdb Device Color Characterization utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.4
+MODULE_VERSION=1.0.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5812be48cbbec1068e7b718eec801766
-TARBALL_SHA1  = a633f76af38ea40b33d55c3ac820fd19f17f9428
-TARBALL_SHA256= e460b9bee74200fac42294ae3762308b8c6024186d317f70a36acf41c338ba0e
+TARBALL_MD5   = 9956d751ea3ae4538c3ebd07f70736a0
+TARBALL_SHA1  = b1d09b1a9a4324fa86c85340ae47cc34743423a9
+TARBALL_SHA256= e5585361bb8b6a05bb814a8d0e444ee93e0f00180881d3070aff4571e97f67c6
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -53,6 +53,8 @@ MODULE_STABILITY=Committed
 # ARC cases that covered this module
 # PSARC/1992/173 - Update MIT-based Clients to X11R5 Level
 MODULE_ARC_CASES = PSARC/1992/173
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xcmsdb

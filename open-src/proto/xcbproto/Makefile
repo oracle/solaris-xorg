@@ -2,7 +2,7 @@
 #
 # xcbproto Makefile
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,12 @@ MODULE_PKGCLASS=System/X11
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.8
+MODULE_VERSION=1.11
 
 # Checksums for upstream tarball
-TARBALL_MD5  = a5de3432cc6e43cc6a27f241dbb991b1
-TARBALL_SHA1 = a8e71b9a09066870ff12049f45e8bccaaf83fc31
+TARBALL_MD5  = 6bf2797445dc6d43e9e4707c082eff9c
+TARBALL_SHA1 = 608bd60663e223464d38acec0183ddb827776401
+TARBALL_SHA256 = b4aceee6502a0ce45fc39b33c541a2df4715d00b72e660ebe8c5bb444771e32e
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -51,7 +52,8 @@ UPSTREAM_PROJECT_SET = yes
 MODULE_DESC = X Window System protocol descriptions used by xcb
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += xia.patch,-p1
+SOURCE_PATCHES += xia.patch,-p1 \
+		  py-compile.patch,-p1
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

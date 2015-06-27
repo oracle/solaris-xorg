@@ -2,7 +2,7 @@
 #
 # xcb - Lighter weight X11 client libraries
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,12 +28,12 @@
 MODULE_NAME=libxcb
 
 # Version number (used in path names)
-MODULE_VERSION=1.9.1
+MODULE_VERSION=1.11
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ed632cb0dc31b6fbd7ea5c0f931cf5a4
-TARBALL_SHA1  = bf786bb7b9089102b73753135e061c87dc8e8685
-TARBALL_SHA256= d44a5ff4eb0b9569e6f7183b51fdaf6f58da90e7d6bfc36b612d7263f83e362f
+TARBALL_MD5   = 5a873ebd383d1a60612dd6ec6b42c781
+TARBALL_SHA1  = 8343b417d7eeb2a2c6b6c4a87a03a4fd0fc65c46
+TARBALL_SHA256= 03635d70045b9ede90778e67516135828a57de87ac508f987024f43c03620ff7
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -45,7 +45,7 @@ UPSTREAM_PROJECT_SET = yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
-SOURCE_PATCHES += 16702043.patch
+SOURCE_PATCHES += manpage.patch
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes
@@ -54,7 +54,7 @@ AUTORECONF=yes
 LIBNAME=xcb
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES= src/man/xcb-examples.3 src/man/xcb-requests.3
+SUNTOUCHED_MANPAGES= man/xcb-examples.man man/xcb-requests.man
 MODULE_STABILITY=Volatile
 MODULE_MTLEVEL=Safe
 MODULE_MTLEVEL_SET=yes
@@ -66,7 +66,7 @@ LD_LIBRARY_PATH=$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = $(MODTYPE_CONFIG_OPTS) \
 		     --disable-libtool-lock \
-		     --enable-build-docs=no \
+		     --enable-devel-docs=no \
 		     --enable-composite \
 		     --enable-damage \
 		     --enable-dpms \
@@ -112,8 +112,8 @@ install_solaris_exts: $(INSTALL_DEPS)
 	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(BUILD_DIR)/src/man/*.3xcb
 	mkdir -p $(MANDIR)
-	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-examples.3 \
+	ginstall -m 0444 $(SOURCE_DIR)/man/xcb-examples.man \
 		$(MANDIR)/xcb-examples.3xcb
-	ginstall -m 0444 $(SOURCE_DIR)/src/man/xcb-requests.3 \
+	ginstall -m 0444 $(SOURCE_DIR)/man/xcb-requests.man \
 		$(MANDIR)/xcb-requests.3xcb
 	ginstall -m 0444 $(BUILD_DIR)/src/man/*.3xcb $(MANDIR)/

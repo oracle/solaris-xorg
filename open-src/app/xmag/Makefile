@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,11 +30,12 @@ MODULE_NAME=xmag
 MODULE_DESC = the xmag screen magnification utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 280b81cb09d1903aa868a058d90128ad
-TARBALL_SHA1 = a5055999e61bd03d7741e534a776d9e1388a8cc8
+TARBALL_MD5  = 8aaa41374935d697ee55d7dc9de70781
+TARBALL_SHA1 = 77c4b23765a1a30afde46a6e57afd77f20d58185
+TARBALL_SHA256 = 87a2bc23b251e2d8f8370d3283a4d6c8dac98a30cb5749a04336cdb55c14e161 
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

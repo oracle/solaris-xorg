@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,12 +30,12 @@ MODULE_NAME=xorg-docs
 MODULE_DESC = X.Org documentation for the X Window System
 
 # Version number (used in path names)
-MODULE_VERSION=1.7
+MODULE_VERSION=1.7.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f9405a1692671d843725b90166370e00
-TARBALL_SHA1  = 565df5219a9d72d81a84f7e75294752ba2ea0cc8
-TARBALL_SHA256= b9b1918bd365e9eb29c325e76bb8c4d774d37be707e433fb0af94da35683375f
+TARBALL_MD5   = ce5a04d87b330b9091576b3410dc26d3
+TARBALL_SHA1  = 19be186705145ca7231ca646b61208c9eba48ca7
+TARBALL_SHA256= 24b8677c3462c10465cf50d40576d76682acd5835526093a575865b2aa242c4b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-manpages.patch,-p1

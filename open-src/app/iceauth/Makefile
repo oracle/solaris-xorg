@@ -2,7 +2,7 @@
 #
 # iceauth - Utility to manage ICE connection authentication data
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,15 +33,19 @@ MODULE_PKGNAME=x11/library/libice
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
+
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2527344acc60741a709f4858564c5ae6
-TARBALL_SHA1  = ee56608a52eec81682b8ca204a1afa4ec15bf01f
-TARBALL_SHA256= bd990837353b439e6f45d478a87b8dbfa3f67d72d903e7a9ed4eb8de52f2e2f4
+TARBALL_MD5   = 25dab02f8e40d5b71ce29a07dc901b8c
+TARBALL_SHA1  = 83d67e47167de52192c679a0f0a41f4ba51a5b94
+TARBALL_SHA256= 1216af2dee99b318fcf8bf9a259915273bcb37a7f1e7859af4f15d0ebf6f3f0a
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =
+SOURCE_PATCHES = man.patch
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/iceauth.man

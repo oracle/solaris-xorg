@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -54,7 +54,7 @@
 
 #ifndef CALLBACK
 # define CALLBACK(name) void \
-name(CallbackListPtr *pcbl, pointer nulldata, pointer calldata)
+name(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 #endif
 
 /* tsolutils.c */
@@ -98,7 +98,7 @@ extern int (*TsolSavedSwappedProcVector[PROCVECTORSIZE])(ClientPtr /*client*/);
 /* tsolprotocol.c */
 extern void UpdateTsolNode(Atom thisAtom, ClientPtr client);
 extern int TsolChangeWindowProperty(ClientPtr, WindowPtr, Atom, Atom, int, int,
-	unsigned long, pointer, Bool);
+	unsigned long, void *, Bool);
 extern int TsolDeleteProperty(ClientPtr, WindowPtr, Atom);
 extern int TsolInitWindow(ClientPtr, WindowPtr);
 extern int TsolInitPixmap(ClientPtr, PixmapPtr);

@@ -30,21 +30,22 @@ MODULE_NAME=xf86-video-openchrome
 UPSTREAM        = The OpenChrome project
 UPSTREAM_URL    = http://www.openchrome.org/
 UPSTREAM_SET    = yes
-ORACLE_TPNO	= 18004
+ORACLE_TPNO	= 18321
 ORACLE_TPNO_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.2
+MODULE_VERSION=0.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 172509a5a7ab5c89ff09501d733cf5f6
-TARBALL_SHA1 = e5be9a8200410b3e3e66349bab4c8acd1ead4402
+TARBALL_MD5  = f21abcdf87f73b5b547491281e894c87
+TARBALL_SHA1 = 1f7b23d4ed53417eda5c6730486b36812f469295
+TARBALL_SHA256 = e49e2f1e5dac86408e5a74b87038cc4082d2c3fba4e0579823161991432412ed
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = manpage-sections.patch,-p1
-SOURCE_PATCHES += CVE-2013-1994.patch,-p1
 SOURCE_PATCHES += ldflags.patch,-p1
 SOURCE_PATCHES += disable-xvmc.patch,-p1
+SOURCE_PATCHES += via_regs.patch,-p1
 
 # Extra rules to run when unpacking upstream source
 CLEAN_LINEFEED_TARGET = $(SOURCE_DIR)/.source.clean.done
@@ -88,6 +89,6 @@ $(SOURCE_ADD_TARGET): $(CLEAN_LINEFEED_TARGET)
 $(PATCHED_TARGET): $(CLEAN_LINEFEED_TARGET)
 
 $(CLEAN_LINEFEED_TARGET): $(SOURCE_INIT_TARGET)
-	find $(SOURCE_DIR) -type f -name '*.[ch]' | \
+	find $(BUILD_DIR) -type f -name '*.[ch]' | \
 		xargs $(PERL) -i -p -e 's{\r\n}{\n}g'
 	touch $(CLEAN_LINEFEED_TARGET)

@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Protocol modules
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,7 @@ OS_SUBDIRS_common = 		\
 	damageproto 		\
 	dmxproto 		\
 	dri2proto		\
+	dri3proto		\
 	evieproto 		\
 	fixesproto 		\
 	fontsproto 		\
@@ -38,6 +39,7 @@ OS_SUBDIRS_common = 		\
 	inputproto 		\
 	kbproto 		\
 	pmproto 		\
+	presentproto 		\
 	printproto 		\
 	randrproto 		\
 	recordproto 		\

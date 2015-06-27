@@ -2,7 +2,7 @@
 #
 # rgb - X11 color name mapping list data and utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,11 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the X11 rgb color name mapping list data and utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = bcd820d967eaa51bd25b86c0ee682d4e
-TARBALL_SHA1 = c3e62229ca6ee8f4ca96d6f4997fe3e4381f3cc7
+TARBALL_MD5  = eab5bbd7642e5c784429307ec210d198
+TARBALL_SHA1 = 542fade81a74f8a6beaea8cb517bdf1033fc6b71
+TARBALL_SHA256 = bbca7c6aa59939b9f6a0fb9fff15dfd62176420ffd4ae30c8d92a6a125fbe6b0
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

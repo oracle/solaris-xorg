@@ -2,7 +2,7 @@
 #
 # bitmap (XBM format) editor application
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,12 +38,12 @@ MODULE_PKGCLASS=Applications/Graphics and Imaging
 MODULE_PKGCLASS_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 9c18cc1048146e29d68bfa9d0348b11d
-TARBALL_SHA1  = 18c4762b8c94b519ee2ca6c3171cc2f85e6b2421
-TARBALL_SHA256= 7ea2823a930ddfe3bfc0c7fbb16a5b463222edf05284c5cdc40a6d3c5c3988af
+TARBALL_MD5   = 453cc80f9f557208b1e651b743a2b3bb
+TARBALL_SHA1  = 84fc49daa5411677d05a134ee2f7e76301fa89d8
+TARBALL_SHA256= 806cdeb80f5466ba9121e8cc6c6af82d3e4b32ef1a57bc5a76c15887640ec35d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

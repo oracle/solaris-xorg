@@ -2,7 +2,7 @@
 #
 # smproxy 1.x Makefile
 #
-# Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,12 +32,17 @@ MODULE_NAME=smproxy
 MODULE_PKGNAME=x11/session/smproxy
 MODULE_PKGNAME_SET=yes
 
+# ARC cases that covered this module
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES = PSARC/2015/221
+
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = edce41bd7562dcdfb813e05dbeede8ac
-TARBALL_SHA1 = 59e19def9a351896cb3101cb580ae424e9e48a3e
+TARBALL_MD5  = 3a93d9f0859de5d8b65a68a125d48f6a 
+TARBALL_SHA1 = bbb374ad7e184af7bcada70b90df81f82b9b71ad
+TARBALL_SHA256 = 6cf19155a2752237f36dbf8bc4184465ea190d2652f887faccb4e2a6ebf77266
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

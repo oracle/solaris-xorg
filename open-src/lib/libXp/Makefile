@@ -2,7 +2,7 @@
 #
 # Xp 1.x Makefile
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXp
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.2
+MODULE_VERSION=1.0.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = bb038577c7f4e42a1b675fa6451bc4aa
-TARBALL_SHA1  = bac586283c089536e526529de21b13778a428c07
-TARBALL_SHA256= 952fe5b5e90abd2cf04739aef3a9b63a253cd9309ed066a82bab7ca9112fd0b5
+TARBALL_MD5   = df9e6bf0d988de6694f08693b8002079
+TARBALL_SHA1  = 9e10371ca8961b50c2d69150a88fc031455699d1
+TARBALL_SHA256= 7f360c9905849c3587d48efc0f0ecbc852c19f61a52b18530d6b005cb9148c57
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch 6724993.patch

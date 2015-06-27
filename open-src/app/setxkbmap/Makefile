@@ -2,7 +2,7 @@
 #
 # setxkbmap - utility for setting XKB layout & keymap options
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the setxkbmap keyboard configuration utility
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 1001771344608e120e943a396317c33a
-TARBALL_SHA1  = d10885d6215b06789961c67557df46406f99c2b7
-TARBALL_SHA256= 3d305c9d1f38224169b2e501ef0665cc3ab52d4dbc2b9a60c9dbb047f77ddec6
+TARBALL_MD5   = 2c47a1b8e268df73963c4eb2316b1a89 
+TARBALL_SHA1  = 560a02cf6f7db1f79739a4f2bd4f8050c7eb6f43
+TARBALL_SHA256= a9ddb3963f263ba13f0ea105d8c45a531832140530217cc559587bb94f02d3e1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
@@ -51,6 +51,8 @@ SOURCE_PATCHES =
 MODULE_ARC_CASES = PSARC/2008/162
 # PSARC/2011/033 X11R7.6 application updates
 MODULE_ARC_CASES += PSARC/2011/033
+# PSARC/2015/221 X11 application updates
+MODULE_ARC_CASES += PSARC/2015/221
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/setxkbmap.man

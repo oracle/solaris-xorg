@@ -2,7 +2,7 @@
 #
 # xscope - X11 protocol monitor/analyzer utility
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xscope
 
 # Version number (used in path names)
-MODULE_VERSION=1.4
+MODULE_VERSION=1.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4fb4086e29af1b5b6d07d4d1ccbda5ca
-TARBALL_SHA1  = 20a727f8925626d03112c67d88bb57cd343309f1
-TARBALL_SHA256= eb4adf06f274bdd5d87b30367cd137b485b650b5dc6dc5ae1104bd8afaf22b1f
+TARBALL_MD5   = ad80eb4ec8d807eb542c4e790c90e848
+TARBALL_SHA1  = d1da41796e72ec41b7763ce0370182e7a33cdbfd
+TARBALL_SHA256= 33807fbd51822435b23c28e7e78116e552826a6ca4d85632f098ad0ddf1ff423
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
