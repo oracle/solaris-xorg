@@ -59,6 +59,8 @@ MODULE_ARC_CASES += PSARC/2015/035
 UPSTREAM	= fontconfig
 UPSTREAM_URL	= http://fontconfig.org/
 UPSTREAM_SET	= yes
+GIT_URL		= $(FDO_GIT_URL)/fontconfig
+GIT_URL_SET	= yes
 ORACLE_TPNO	= 12113
 
 # Version number (used in path names)

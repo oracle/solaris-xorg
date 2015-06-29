@@ -40,6 +40,8 @@ MODULE_PKGCLASS_SET=yes
 UPSTREAM		= Synergy
 UPSTREAM_URL		= http://synergy-foss.org/
 UPSTREAM_SET		= yes
+GIT_URL			= https://github.com/synergy/synergy.git
+GIT_URL_SET		= yes
 
 MODULE_LICENSE		= GPLv2
 MODULE_LICENSE_SET	= yes

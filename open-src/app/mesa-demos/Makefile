@@ -46,6 +46,8 @@ TARBALL_SHA1 = e1a66ac63eebba4f950f95d830f34a6005167116
 # Download site for source
 SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/demos/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
+GIT_URL=$(FDO_GIT_URL)/mesa/demos
+GIT_URL_SET=yes
 
 # Binaries built in tree
 DEMOS_DIR=$(BUILD_DIR)/src/xdemos

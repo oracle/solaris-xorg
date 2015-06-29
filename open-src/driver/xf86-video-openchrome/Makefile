@@ -33,6 +33,12 @@ UPSTREAM_SET    = yes
 ORACLE_TPNO	= 18321
 ORACLE_TPNO_SET	= yes
 
+# Download site for source
+SOURCE_URL	= $(SOURCE_URL_xorg)
+SOURCE_URL_SET	= yes
+GIT_URL		= $(FDO_GIT_URL)/openchrome/xf86-video-openchrome
+GIT_URL_SET	= yes
+
 # Version number (used in path names)
 MODULE_VERSION=0.3.3
 

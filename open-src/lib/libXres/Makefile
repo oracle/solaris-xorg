@@ -2,7 +2,7 @@
 #
 # libXres - Xlib-based client library for Xinerama extension protocol
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,7 +54,9 @@ SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3xres
 
-
+# Package metadata
+GIT_URL     = $(XORG_GIT_URL)/lib/libXRes
+GIT_URL_SET = yes
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xres.pc.in

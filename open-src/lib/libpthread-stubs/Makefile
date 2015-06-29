@@ -2,7 +2,7 @@
 #
 # libpthread-stubs Makefile
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,6 +30,8 @@ MODULE_NAME=libpthread-stubs
 # Package metadata
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
+GIT_URL = $(FDO_GIT_URL)/xcb/pthread-stubs
+GIT_URL_SET = yes
 
 # Version number (used in path names)
 MODULE_VERSION=0.3

@@ -720,6 +720,7 @@ UPSTREAM_NONE_SET	= yes
 UPSTREAM_xorg		= X.Org Foundation
 UPSTREAM_URL_xorg	= http://www.x.org/
 SOURCE_URL_xorg		= $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
+GIT_URL_xorg		= $(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME:font-%=%)
 # TPNO's for X.Org software & font batches
 ORACLE_TPNO_xorg	= 22895
 ORACLE_TPNO_xorg_fonts	= 11716
@@ -727,15 +728,16 @@ ORACLE_TPNO_xorg_fonts	= 11716
 UPSTREAM_xcb		= The XCB Project
 UPSTREAM_URL_xcb	= http://xcb.freedesktop.org/
 SOURCE_URL_xcb		= http://xcb.freedesktop.org/dist/$(SOURCE_TARBALL_NAME)
+GIT_URL_xcb		= $(FDO_GIT_URL)/xcb/$(MODULE_NAME:xcb-%=%)
 ORACLE_TPNO_xcb		= 18006
 
 UPSTREAM_PROJECT_DEFAULT	= $(UPSTREAM_PROJECT_SET:yes=$(POUND_SIGN))
-$(UPSTREAM_PROJECT_DEFAULT)	UPSTREAM_PROJECT = xorg
 
 UPSTREAM_DEFAULT	= $(UPSTREAM_SET:yes=$(POUND_SIGN))
 $(UPSTREAM_DEFAULT) UPSTREAM = $(UPSTREAM_$(SOURCE_TARBALL_NAME))
 $(UPSTREAM_DEFAULT) UPSTREAM_SET_YET = $(UPSTREAM_$(SOURCE_TARBALL_NAME)_SET)
 $(UPSTREAM_DEFAULT) UPSTREAM_NOTFOUND = $(UPSTREAM_SET_YET:yes=$(POUND_SIGN))
+$(UPSTREAM_DEFAULT) $(UPSTREAM_NOTFOUND) $(UPSTREAM_PROJECT_DEFAULT) UPSTREAM_PROJECT = xorg
 $(UPSTREAM_NOTFOUND) $(SOURCE_URL_DEFAULT) UPSTREAM = $(UPSTREAM_$(UPSTREAM_PROJECT))
 $(UPSTREAM_NOTFOUND) $(SOURCE_URL_DEFAULT) UPSTREAM_URL = $(UPSTREAM_URL_$(UPSTREAM_PROJECT))
 ORACLE_TPNO_DEFAULT	= $(ORACLE_TPNO_SET:yes=$(POUND_SIGN))
@@ -760,6 +762,10 @@ METADATA_TARGETS += $(ATTRDATA_FILE)
 	    $(START_CMD_ECHO) ; \
 	    print 'set name=info.upstream value="$(UPSTREAM)"' >> $@ ; \
 	    print 'set name=info.upstream-url value="$(UPSTREAM_URL)"' >> $@ ; \
+	fi
+	@if [[ ! -z "$(GIT_URL)" ]] ; then \
+	    $(START_CMD_ECHO) ; \
+	    print 'set name=info.repository-url value="$(GIT_URL)"' >> $@ ; \
 	fi
 	@if [[ ! -z "$(MODULE_ARC_CASES)" ]] ; then \
 	    $(START_CMD_ECHO) ; \

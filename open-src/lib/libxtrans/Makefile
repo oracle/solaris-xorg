@@ -31,6 +31,10 @@
 # Package name used in tarballs
 MODULE_NAME=xtrans
 
+# Package metadata
+GIT_URL     = $(XORG_GIT_URL)/lib/libxtrans
+GIT_URL_SET = yes
+
 # Package classification (override default)
 MODULE_PKGCLASS=Development/X11
 MODULE_PKGCLASS_SET=yes

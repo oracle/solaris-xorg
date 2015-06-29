@@ -30,6 +30,10 @@ MODULE_NAME=util-macros
 MODULE_PKGNAME=developer/build/autoconf/xorg-macros
 MODULE_PKGNAME_SET=yes
 
+# Package metadata
+GIT_URL     = $(XORG_GIT_URL)/util/macros
+GIT_URL_SET = yes
+
 # Version number (used in path names)
 MODULE_VERSION=1.19.0
 

@@ -106,7 +106,7 @@ $(SOURCE_URL_DEFAULT)		SOURCE_URL=$(SOURCE_URL_$(UPSTREAM_PROJECT))
 
 # Set default git repo location if not set in module makefile
 GIT_URL_DEFAULT		= $(GIT_URL_SET:yes=$(POUND_SIGN))
-$(GIT_URL_DEFAULT)	GIT_URL=$(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME).git
+$(GIT_URL_DEFAULT)	GIT_URL=$(GIT_URL_$(UPSTREAM_PROJECT))
 
 # Set default build type to 64-bit if not set in module makefile
 BUILD_TYPES_DEFAULT	= $(BUILD_TYPES_SET:yes=$(POUND_SIGN))

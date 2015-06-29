@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,8 @@ MODULE_NAME=dejavu-fonts-ttf
 UPSTREAM	= DejaVu fonts
 UPSTREAM_URL	= http://dejavu-fonts.org/
 UPSTREAM_SET	= yes
+GIT_URL		= https://github.com/dejavu-fonts/dejavu-fonts.git
+GIT_URL_SET	= yes
 
 MODULE_LICENSE          = Bitstream Vera Fonts License
 MODULE_LICENSE_SET      = yes

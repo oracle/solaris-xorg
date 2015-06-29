@@ -30,6 +30,8 @@ MODULE_NAME=xorg-server
 
 # Package metadata
 MODULE_DESC = portions of the X.Org X server software
+GIT_URL     = $(XORG_GIT_URL)/xserver
+GIT_URL_SET = yes
 
 # Version number (used in path names) - set in open-src/common/Makefile.init
 MODULE_VERSION=$(XORGSERVER_VERS)

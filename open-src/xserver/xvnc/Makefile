@@ -33,6 +33,8 @@ MODULE_NAME=tigervnc
 UPSTREAM	= TigerVNC
 UPSTREAM_URL	= http://www.tigervnc.com/
 UPSTREAM_SET	= yes
+GIT_URL		= https://github.com/TigerVNC/tigervnc.git
+GIT_URL_SET	= yes
 
 MODULE_LICENSE          = GPLv2
 MODULE_LICENSE_SET      = yes

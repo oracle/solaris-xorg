@@ -2,7 +2,7 @@
 #
 # Liberation Fonts Makefile
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,8 @@ MODULE_NAME=liberation-fonts-ttf
 UPSTREAM	= Fedora Fonts SIG
 UPSTREAM_URL	= http://fedorahosted.org/liberation-fonts/
 UPSTREAM_SET	= yes
+GIT_URL		= http://git.fedorahosted.org/git/liberation-fonts.git
+GIT_URL_SET	= yes
 
 MODULE_LICENSE          = Liberation Font Software License Agreement
 MODULE_LICENSE_SET      = yes

@@ -47,6 +47,8 @@ MODULE_PREFIX_SET=yes
 
 # Package metadata
 MODULE_DESC = the pixman pixel-manipulation library
+GIT_URL     = $(FDO_GIT_URL)/pixman
+GIT_URL_SET = yes
 
 # pkg(5) name we deliver the files in (override default)
 MODULE_PKGNAME=library/graphics/pixman

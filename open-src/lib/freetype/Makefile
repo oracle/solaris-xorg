@@ -59,6 +59,8 @@ MODULE_ARC_CASES += PSARC/2015/148
 UPSTREAM		= The FreeType Project
 UPSTREAM_URL		= http://freetype.org/
 UPSTREAM_SET		= yes
+GIT_URL			= http://git.sv.nongnu.org/r/freetype/freetype2.git
+GIT_URL_SET		= yes
 
 MODULE_LICENSE		= The FreeType Project License
 MODULE_LICENSE_SET	= yes
