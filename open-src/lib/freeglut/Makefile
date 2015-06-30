@@ -47,7 +47,7 @@ UPSTREAM_SET = yes
 ORACLE_TPNO = 22885
 
 # Download site for source
-SOURCE_URL = $(SF_DOWNLOADS_URL)/freeglut/freeglut/$(SOURCE_TARBALL_NAME)
+SOURCE_URL = $(SF_DOWNLOADS_URL)/freeglut/freeglut/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET = yes
 
 # Patches to apply to source after unpacking, in order

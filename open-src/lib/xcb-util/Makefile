@@ -2,7 +2,7 @@
 #
 # xcb-util - Library of xcb utility functions
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,11 +28,12 @@
 MODULE_NAME=xcb-util
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.9
+MODULE_VERSION=0.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 01dcc7a16d5020530552712710646ea2
-TARBALL_SHA1 = 02060d8e2e70838fc41cd3a27c7f2909090d8c20
+TARBALL_MD5  = 2e97feed81919465a04ccc71e4073313
+TARBALL_SHA1 = 7f2e9b7efcc2c34eb1d6ae312c3d73b075832e46
+TARBALL_SHA256 = 46e49469cb3b594af1d33176cd7565def2be3fa8be4371d62271fabb5eae50e9
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -41,7 +42,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util library of xcb utility functions
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 18007
+ORACLE_TPNO = 22888
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order

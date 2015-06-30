@@ -2,7 +2,7 @@
 #
 # xcb-util-wm - Library of xcb utility functions for Window Manager hints
 #
-# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,11 +32,12 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.9
+MODULE_VERSION=0.4.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = c612aae7ffe2e70fe743efab9c5548e9
-TARBALL_SHA1 = 22d4bc822ef53e4716ce14349e7241a7f8810fa0
+TARBALL_MD5  = 87b19a1cd7bfcb65a24e36c300e03129
+TARBALL_SHA1 = 7006c52b961c123355320bfc30477cdf90c8bbb7
+TARBALL_SHA256 = 28bf8179640eaa89276d2b0f1ce4285103d136be6c98262b6151aaee1d3c2a3f
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -45,7 +46,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-wm library of xcb utility functions for Window Manager hints
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 18010
+ORACLE_TPNO = 22889
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order

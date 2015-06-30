@@ -2,7 +2,7 @@
 #
 # xcb-util-keysyms - Library of xcb utility functions for handling X keysyms
 #
-# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,11 +32,12 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.9
+MODULE_VERSION=0.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 64e4aad2d48cd4a92e2da13b9f35bfd2
-TARBALL_SHA1 = 74d9d0eeb13ec0e36b35f4b812e8073d1a09e51c
+TARBALL_MD5  = 1022293083eec9e62d5659261c29e367
+TARBALL_SHA1 = ff02ee8ac22c53848af50c0a6a6b00feb002c1cb
+TARBALL_SHA256 = 0ef8490ff1dede52b7de533158547f8b454b241aa3e4dcca369507f66f216dd9
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -45,7 +46,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-keysyms library of xcb utility functions for handling X keysyms
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 18008
+ORACLE_TPNO = 22892
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order

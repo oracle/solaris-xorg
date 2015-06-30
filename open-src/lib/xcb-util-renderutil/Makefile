@@ -2,7 +2,7 @@
 #
 # xcb-util-renderutil - Library of xcb utility functions for X Render Extension
 #
-# Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,11 +32,12 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.8
+MODULE_VERSION=0.3.9
 
 # Checksums for upstream tarball
-TARBALL_MD5  = b346ff598ee093c141f836fbc0f8f721
-TARBALL_SHA1 = ce6b6acb015fa47c716adfd83b2f36c874401277
+TARBALL_MD5  = 468b119c94da910e1291f3ffab91019a
+TARBALL_SHA1 = cb533b1d039f833f070e7d6398c221a31d30d5e2
+TARBALL_SHA256 = c6e97e48fb1286d6394dddb1c1732f00227c70bd1bedb7d1acabefdd340bea5b
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -45,7 +46,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-renderutil library of xcb utility functions for the X Render Extension
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 5072
+ORACLE_TPNO = 22890
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order

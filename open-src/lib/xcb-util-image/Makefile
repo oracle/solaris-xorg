@@ -2,7 +2,7 @@
 #
 # xcb-util-image - Library of xcb utility functions for handling X images
 #
-# Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,11 +33,12 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.9
+MODULE_VERSION=0.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = fabb80b36490b00fc91289e2c7f66770
-TARBALL_SHA1 = afeba6230400fe8bec6076fd07bf20a8e412bbb5
+TARBALL_MD5  = 08fe8ffecc8d4e37c0ade7906b3f4c87
+TARBALL_SHA1 = c9c9361781911a47b28f74fc6ebe0abd1273fae4
+TARBALL_SHA256 = 2db96a37d78831d643538dd1b595d7d712e04bdccf8896a5e18ce0f398ea2ffc
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -46,7 +47,7 @@ MODULE_ARC_CASES = PSARC/2010/109
 MODULE_DESC = the xcb-util-image library of xcb utility functions for handling X images
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 18009
+ORACLE_TPNO = 22893
 ORACLE_TPNO_SET = yes
 
 # Patches to apply to source after unpacking, in order
