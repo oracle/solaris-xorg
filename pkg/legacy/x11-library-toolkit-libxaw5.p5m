@@ -20,5 +20,5 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/x11/library/toolkit/libxaw5@0.5.12,5.12-5.12.0.0.0.77.0
+    value=pkg:/x11/library/toolkit/libxaw5@5.12,5.12-5.12.0.0.0.79.0
 set name=pkg.obsolete value=true

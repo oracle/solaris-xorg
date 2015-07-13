@@ -21,6 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 set name=pkg.fmri \
-    value=pkg:/system/graphics/fbconfig/fbconfig-efb@0.5.12,5.12-5.12.0.0.0.77.0
+    value=pkg:/system/graphics/fbconfig/fbconfig-efb@5.12,5.12-5.12.0.0.0.79.0
 set name=pkg.obsolete value=true
 set name=variant.arch value=sparc

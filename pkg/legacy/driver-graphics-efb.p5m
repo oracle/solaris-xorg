@@ -27,6 +27,6 @@
 # global zone only.  See the include file for greater detail, as well as
 # information about overriding the defaults.
 #
-set name=pkg.fmri value=pkg:/driver/graphics/efb@0.5.12,5.12-5.12.0.0.0.77.0
+set name=pkg.fmri value=pkg:/driver/graphics/efb@5.12,5.12-5.12.0.0.0.79.0
 set name=pkg.obsolete value=true
 set name=variant.arch value=sparc
