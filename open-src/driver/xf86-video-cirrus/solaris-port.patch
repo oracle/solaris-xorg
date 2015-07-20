@@ -9,155 +9,71 @@
  	unsigned long		PIOReg;
      union {
  	struct lgRec		*lg;
---- src/cir_dga.c	Tue Apr 21 20:43:53 2015
-+++ src/cir_dga.c	Tue Apr 21 20:44:03 2015
-@@ -73,7 +73,7 @@
+--- src/alp.h	Thu Jul 16 09:58:14 2015
++++ src/alp.h	Thu Jul 16 09:58:26 2015
+@@ -3,8 +3,8 @@
+ #ifndef ALP_H
+ #define ALP_H
  
+-extern ScrnInfoPtr AlpProbe(int entity);
+-extern const OptionInfoRec *	AlpAvailableOptions(int chipid);
++extern _X_EXPORT ScrnInfoPtr AlpProbe(int entity);
++extern _X_EXPORT const OptionInfoRec *	AlpAvailableOptions(int chipid);
  
+ # ifdef _ALP_PRIVATE_
+ /* Saved registers that are not part of the core VGA */
+--- src/lg.h	Thu Jul 16 09:57:35 2015
++++ src/lg.h	Thu Jul 16 09:57:57 2015
+@@ -14,8 +14,8 @@
+ #define LG_H
+ #define LG_DEBUG
  
--_X_EXPORT Bool
-+Bool
- CirDGAInit(ScreenPtr pScreen)
- {
-   ScrnInfoPtr pScrn = xf86ScreenToScrn(pScreen);
---- src/cir_driver.c	Tue Apr 21 20:45:38 2015
-+++ src/cir_driver.c	Tue Apr 21 20:47:14 2015
-@@ -91,7 +91,7 @@
- };
+-extern ScrnInfoPtr LgProbe(int entity);
+-extern const OptionInfoRec *	LgAvailableOptions(int chipid);
++extern _X_EXPORT ScrnInfoPtr LgProbe(int entity);
++extern _X_EXPORT const OptionInfoRec *	LgAvailableOptions(int chipid);
  
- /* List of PCI chipset names */
--_X_EXPORT PciChipsets CIRPciChipsets[] = {
-+PciChipsets CIRPciChipsets[] = {
- 	{ PCI_CHIP_GD5430,	PCI_CHIP_GD5430,	RES_SHARED_VGA },
- 	{ PCI_CHIP_GD5434_4,PCI_CHIP_GD5434_4,	RES_SHARED_VGA },
- 	{ PCI_CHIP_GD5434_8,PCI_CHIP_GD5434_8,	RES_SHARED_VGA },
-@@ -307,7 +307,7 @@
-  * Map the framebuffer and MMIO memory.
-  */
+ # ifdef _LG_PRIVATE_
  
--_X_EXPORT Bool
-+Bool
- CirMapMem(CirPtr pCir, int scrnIndex)
- {
- 	int mmioFlags;
-@@ -397,7 +397,7 @@
-  * Unmap the framebuffer and MMIO memory.
-  */
+--- src/cir.h	Thu Jul 16 09:53:49 2015
++++ src/cir.h	Thu Jul 16 09:57:12 2015
+@@ -75,27 +75,27 @@
+ } CirRec, *CirPtr;
  
--_X_EXPORT Bool
-+Bool
- CirUnmapMem(CirPtr pCir, int scrnIndex)
- {
- #ifdef CIR_DEBUG
-@@ -425,7 +425,7 @@
- 	return TRUE;
- }
+ /* CirrusClk.c */
+-extern Bool
++extern _X_EXPORT Bool
+ CirrusFindClock(int *rfreq, int max_clock, int *num_out, int *den_out);
  
--_X_EXPORT void
-+void
- cirProbeDDC(ScrnInfoPtr pScrn, int index)
- {
-     vbeInfoPtr pVbe;
---- src/CirrusClk.c	Tue Apr 21 20:49:29 2015
-+++ src/CirrusClk.c	Tue Apr 21 20:49:40 2015
-@@ -85,7 +85,7 @@
-  * use the tested clock since others can be unstable.
-  */
+ /* cir_driver.c */
+ extern SymTabRec CIRChipsets[];
+-extern PciChipsets CIRPciChipsets[];
++extern _X_EXPORT PciChipsets CIRPciChipsets[];
  
--_X_EXPORT Bool
-+Bool
- CirrusFindClock(int *rfreq, int max_clock, int *num_out, int *den_out)
- {
- 	int n, i;
---- src/cir_shadow.c	Tue Apr 21 20:51:42 2015
-+++ src/cir_shadow.c	Tue Apr 21 20:52:38 2015
-@@ -18,7 +18,7 @@
- #define MIN(a, b) (((a) < (b)) ? (a) : (b))
- #define MAX(a, b) (((a) > (b)) ? (a) : (b))
+-extern Bool CirMapMem(CirPtr pCir, int scrnIndex);
+-extern Bool CirUnmapMem(CirPtr pCir, int scrnIndex);
+-extern void cirProbeDDC(ScrnInfoPtr pScrn, int index);
++extern _X_EXPORT Bool CirMapMem(CirPtr pCir, int scrnIndex);
++extern _X_EXPORT Bool CirUnmapMem(CirPtr pCir, int scrnIndex);
++extern _X_EXPORT void cirProbeDDC(ScrnInfoPtr pScrn, int index);
  
--_X_EXPORT void
-+void
- cirRefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
- {
-     CirPtr pCir = CIRPTR(pScrn);
-@@ -53,7 +53,7 @@
-     }
- } 
+ /* cir_dga.c */
+-extern Bool CirDGAInit(ScreenPtr pScreen);
++extern _X_EXPORT Bool CirDGAInit(ScreenPtr pScreen);
  
--_X_EXPORT void
-+void
- cirPointerMoved(SCRN_ARG_TYPE arg, int x, int y)
- {
-     SCRN_INFO_PTR(arg);
-@@ -71,7 +71,7 @@
-     (*pCir->PointerMoved)(arg, newX, newY);
- }
+ /* in cir_shadow.c */
+-void cirPointerMoved(SCRN_ARG_TYPE arg, int x, int y);
+-void cirRefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
+-void cirRefreshArea8(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
+-void cirRefreshArea16(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
+-void cirRefreshArea24(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
+-void cirRefreshArea32(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
++void _X_EXPORT cirPointerMoved(SCRN_ARG_TYPE arg, int x, int y);
++void _X_EXPORT cirRefreshArea(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
++void _X_EXPORT cirRefreshArea8(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
++void _X_EXPORT cirRefreshArea16(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
++void _X_EXPORT cirRefreshArea24(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
++void _X_EXPORT cirRefreshArea32(ScrnInfoPtr pScrn, int num, BoxPtr pbox);
  
--_X_EXPORT void
-+void
- cirRefreshArea8(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
- {
-     CirPtr pCir = CIRPTR(pScrn);
-@@ -125,7 +125,7 @@
- } 
- 
- 
--_X_EXPORT void
-+void
- cirRefreshArea16(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
- {
-     CirPtr pCir = CIRPTR(pScrn);
-@@ -180,7 +180,7 @@
- 
- 
- /* this one could be faster */
--_X_EXPORT void
-+void
- cirRefreshArea24(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
- {
-     CirPtr pCir = CIRPTR(pScrn);
-@@ -239,7 +239,7 @@
-     }
- }
- 
--_X_EXPORT void
-+void
- cirRefreshArea32(ScrnInfoPtr pScrn, int num, BoxPtr pbox)
- {
-     CirPtr pCir = CIRPTR(pScrn);
---- src/alp_driver.c	Tue Apr 21 20:54:03 2015
-+++ src/alp_driver.c	Tue Apr 21 20:54:22 2015
-@@ -197,13 +197,13 @@
- 
- #endif /* XFree86LOADER */
- 
--_X_EXPORT const OptionInfoRec *
-+const OptionInfoRec *
- AlpAvailableOptions(int chipid)
- {
-     return CirOptions;
- }
- 
--_X_EXPORT ScrnInfoPtr
-+ScrnInfoPtr
- AlpProbe(int entity)
- {
-     ScrnInfoPtr pScrn = NULL;
---- src/lg_driver.c	Tue Apr 21 20:55:27 2015
-+++ src/lg_driver.c	Tue Apr 21 20:55:45 2015
-@@ -204,13 +204,13 @@
- 
- #endif /* XFree86LOADER */
- 
--_X_EXPORT const OptionInfoRec *
-+const OptionInfoRec *
- LgAvailableOptions(int chipid)
- {
-     return LgOptions;
- }
- 
--_X_EXPORT ScrnInfoPtr
-+ScrnInfoPtr
- LgProbe(int entity)
- {
-     ScrnInfoPtr pScrn = NULL;
+ /* properties */
+ #define HWCUR64 0x1
