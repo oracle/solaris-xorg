@@ -1286,6 +1286,9 @@ fini(void)
 
     get_dsession_mgr_table();
 
+    if (!sync_sessions())
+	fprintf(stderr, "warning: sync sessions partially failed\n");
+
     for (i = 0; i < disp_num; i++) {
 	if (dsession_mgr_table[i].dev_path[0]) {
 	    strlcpy(device, dsession_mgr_table[i].dev_path, PATH_MAX);
