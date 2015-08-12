@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -35,6 +35,8 @@ set name=pkg.description \
 file path=usr/include/xcb/xcb_atom.h
 file path=usr/include/xcb/xcb_aux.h
 file path=usr/include/xcb/xcb_bitops.h
+file path=usr/include/xcb/xcb_cursor.h
+file path=usr/include/xcb/xcb_errors.h
 file path=usr/include/xcb/xcb_event.h
 file path=usr/include/xcb/xcb_ewmh.h
 file path=usr/include/xcb/xcb_icccm.h
@@ -44,6 +46,10 @@ file path=usr/include/xcb/xcb_pixel.h
 file path=usr/include/xcb/xcb_renderutil.h
 file path=usr/include/xcb/xcb_util.h
 #
+link path=usr/lib/$(ARCH64)/libxcb-cursor.so target=libxcb-cursor.so.0
+file path=usr/lib/$(ARCH64)/libxcb-cursor.so.0
+link path=usr/lib/$(ARCH64)/libxcb-errors.so target=libxcb-errors.so.0
+file path=usr/lib/$(ARCH64)/libxcb-errors.so.0
 link path=usr/lib/$(ARCH64)/libxcb-ewmh.so target=libxcb-ewmh.so.2
 file path=usr/lib/$(ARCH64)/libxcb-ewmh.so.2
 link path=usr/lib/$(ARCH64)/libxcb-icccm.so target=libxcb-icccm.so.4
@@ -59,6 +65,8 @@ file path=usr/lib/$(ARCH64)/libxcb-util.so.1
 #
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-atom.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-aux.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/xcb-cursor.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/xcb-errors.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-event.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-ewmh.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-icccm.pc
@@ -67,6 +75,10 @@ file path=usr/lib/$(ARCH64)/pkgconfig/xcb-keysyms.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-renderutil.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/xcb-util.pc
 #
+link path=usr/lib/libxcb-cursor.so target=libxcb-cursor.so.0
+file path=usr/lib/libxcb-cursor.so.0
+link path=usr/lib/libxcb-errors.so target=libxcb-errors.so.0
+file path=usr/lib/libxcb-errors.so.0
 link path=usr/lib/libxcb-ewmh.so target=libxcb-ewmh.so.2
 file path=usr/lib/libxcb-ewmh.so.2
 link path=usr/lib/libxcb-icccm.so target=libxcb-icccm.so.4
@@ -82,6 +94,8 @@ file path=usr/lib/libxcb-util.so.1
 #
 file path=usr/lib/pkgconfig/xcb-atom.pc
 file path=usr/lib/pkgconfig/xcb-aux.pc
+file path=usr/lib/pkgconfig/xcb-cursor.pc
+file path=usr/lib/pkgconfig/xcb-errors.pc
 file path=usr/lib/pkgconfig/xcb-event.pc
 file path=usr/lib/pkgconfig/xcb-ewmh.pc
 file path=usr/lib/pkgconfig/xcb-icccm.pc

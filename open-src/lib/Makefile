@@ -52,6 +52,8 @@ xcb-util-image: libxcb xcb-util
 xcb-util-keysyms: libxcb
 xcb-util-renderutil: libxcb
 xcb-util-wm: libxcb
+xcb-util-cursor: libxcb xcb-util-renderutil xcb-util-image
+xcb-util-errors: libxcb
 libFS: libxtrans
 libICE: libxtrans
 libSM: libxtrans libICE
@@ -103,6 +105,8 @@ OS_SUBDIRS_common = \
 	libXdmcp \
 	libxcb \
 	xcb-util \
+        xcb-util-cursor \
+        xcb-util-errors \
 	xcb-util-image \
 	xcb-util-keysyms \
 	xcb-util-renderutil \
