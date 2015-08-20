@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -630,6 +630,7 @@ LoadTsolConfig(void)
 		value = strtok(NULL, " \t\n");
 		UpdateTsolConfig(keyword, value);
 	}
+	fclose(fp);
 
 	InitPrivileges();
 }

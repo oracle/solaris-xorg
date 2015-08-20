@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -102,9 +102,9 @@ int
 mga_map_fb(
     void)
 {
-	register void *ptr;
-
 	if (mga_info.mga_fb_ptr == NULL) {
+		register void *ptr;
+
 		ptr = mmap(NULL, mga_info.mga_fb_size,
 		    PROT_READ | PROT_WRITE, MAP_SHARED,
 		    mga_info.mga_fd, mga_info.mga_fb_addr);
@@ -126,18 +126,18 @@ int
 mga_map_control(
     void)
 {
-	register void *ptr;
-
 	if (mga_info.mga_control_ptr == NULL) {
+		register void *ptr;
+
 		ptr = mmap(NULL, mga_info.mga_control_size,
 		    PROT_READ | PROT_WRITE, MAP_SHARED,
 		    mga_info.mga_fd, mga_info.mga_control_addr);
 
 		if (ptr == MAP_FAILED)
 			return (-1);
-	}
 
-	mga_info.mga_control_ptr = (mga_t volatile *) ptr;
+		mga_info.mga_control_ptr = (mga_t volatile *) ptr;
+	}
 
 	if (gfx_vts_debug_mask & VTS_DEBUG)
 		printf("mga_control_ptr = 0x%llx\n",
@@ -150,18 +150,18 @@ int
 mga_map_iload(
     void)
 {
-	register void *ptr;
-
 	if (mga_info.mga_iload_ptr == NULL) {
+		register void *ptr;
+
 		ptr = mmap(NULL, mga_info.mga_iload_size,
 		    PROT_READ | PROT_WRITE, MAP_SHARED,
 		    mga_info.mga_fd, mga_info.mga_iload_addr);
 
 		if (ptr == MAP_FAILED)
 			return (-1);
-	}
 
-	mga_info.mga_iload_ptr = (char volatile *) ptr;
+		mga_info.mga_iload_ptr = (char volatile *) ptr;
+	}
 
 	if (gfx_vts_debug_mask & VTS_DEBUG)
 		printf("mga_iload_ptr = 0x%llx\n",

@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 1999, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -276,6 +276,7 @@ Dga_token	filesuffix ;
     }
 
     if( read(infofd, &tmp, sizeof(tmp)) != sizeof(tmp) ) {
+	(void) close(infofd) ;
 	cleanup_lockpages(cmap_grab,0,0,0) ;
 #ifdef MT
 	mutex_unlock(&dgaGlobalMutex);
@@ -284,6 +285,7 @@ Dga_token	filesuffix ;
     }
 
     if( tmp.cm_magic != CMMAGIC ) {
+	(void) close(infofd) ;
 	cleanup_lockpages(cmap_grab,0,0,0) ;
 #ifdef MT
 	mutex_unlock(&dgaGlobalMutex);

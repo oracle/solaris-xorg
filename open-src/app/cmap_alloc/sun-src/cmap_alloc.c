@@ -205,7 +205,7 @@ alloc_cmap_for_visual(
 			32, PropModeAppend, (unsigned char *)(&new_cmap),
 			10);
 	if (verbose) 
-	  (void)printf("done\n    new colormap id = 0x%x\n", new_cmap.colormap);
+	  (void)printf("done\n    new colormap id = 0x%lx\n", new_cmap.colormap);
     }
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -64,7 +64,6 @@ fbc_append_config(
 	if (supplement_path == NULL) {
 		return (FBC_ERR_OPEN);
 	}
-	xf86conffree((char *)supplement_path);	/* Don't need this path */
 
 #if (0)	/* This may or may not be necessary */
 	/*

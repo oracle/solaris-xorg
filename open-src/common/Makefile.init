@@ -178,6 +178,8 @@ $(WITHOUT_PARFAIT)	LD=/usr/bin/ld
 PARFAIT_ENV_gcc		= PARFAIT_NATIVEGCC="$(GCC)"
 PARFAIT_ENV_gcc	       += PARFAIT_NATIVEGXX="$(GXX)"
 PARFAIT_ENV		= $(PARFAIT_ENV_$(MODULE_COMPILER))
+# Output shorter error messages when parfait-wrapped compilers fail
+PARFAIT_ENV            += PARFAIT_WRAPPER_QUIETNATIVE=1
 
 ## Set common variables based on above rules
 CC			= $(CC_$(CHOSEN_COMPILER))

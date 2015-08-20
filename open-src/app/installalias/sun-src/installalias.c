@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1993, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -153,7 +153,8 @@ ProcessFontsDirectory (
 	    return EBadFontPath;
 	}
 	dir->dir_mtime = statb.st_mtime;
-	while ((count = fscanf(file, "%1024s %[^\n]\n", file_name, font_name)) 
+	while ((count =
+		fscanf(file, "%1023s %1023[^\n]\n", file_name, font_name))
 	       != EOF) {
 	    if (count != 2) {
 		FontFileFreeDir (dir);

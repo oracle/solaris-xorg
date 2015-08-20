@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,10 +22,16 @@
 #
 
 diff --git a/src/imConv.c b/src/imConv.c
-index ec8493f..93e683f 100644
+index ec8493f..cfd75e7 100644
 --- a/src/imConv.c
 +++ b/src/imConv.c
-@@ -69,6 +69,7 @@ struct SubstRec {
+@@ -64,11 +64,12 @@ typedef int (*ucstocsConvProc)(
+ );
+ 
+ struct SubstRec {
+-    const char encoding_name[8];
++    const char encoding_name[12]; /* large enough to fit "suneu-greek" */
+     const char charset_name[12];
  };
  
  static const struct SubstRec SubstTable[] = {

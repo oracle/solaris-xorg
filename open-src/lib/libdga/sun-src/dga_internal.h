@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 1997, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -61,8 +61,8 @@ typedef	struct dga_window {
 #else
 	int	    (*w_lock_func)();   /* alternate function for locking */
 #endif
-	int	    (*w_unlock_func)(); /* alternate func for unlocking */
-	int	    (*w_update_func)(); 
+	int	    (*w_unlock_func)(Dga_drawable); /* alternate func for unlocking */
+	int	    (*w_update_func)(Dga_drawable);
 	int	    w_modif;		/* cached result of update check */
 	u_int       c_wm_chngcnt[17];	/* last recorded global change counts */
 	u_int       *w_wm_2nd;          /* Ptr to second entry in wm_chngcnt[]*/
@@ -239,8 +239,8 @@ typedef struct dga_pixmap {
 #else
     int         (*p_lock_func)(); /* alternate function for locking */
 #endif
-    int         (*p_unlock_func)(); /* alternate func for unlocking */
-    int         (*p_update_func)(); /* function to call for updates */
+    int         (*p_unlock_func)(Dga_drawable); /* alternate func for unlocking */
+    int         (*p_update_func)(Dga_drawable, short); /* function to call for updates */
     int         p_modif;        /* cached result of update check ?? */
     u_int	c_chngcnt[1];   /* Last recorded global change count */
     u_int       *p_chngcnt_2nd;  /* Pts to c_chngcnt[0]*/
@@ -292,10 +292,6 @@ typedef struct dga_pixmap {
 } *_Dga_pixmap;
 
 typedef void * Dga_pixmap;
-
-#ifdef	__cplusplus
-extern "C" {
-#endif
 
 #ifdef MT
 extern mutex_t		dgaGlobalMutex;

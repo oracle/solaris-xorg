@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 1997, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -42,6 +42,7 @@ dga_draw_display (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return (dgai_pix_display((_Dga_pixmap)dgadraw));
     }
+    return (NULL);
 }
 
 Drawable
@@ -53,6 +54,7 @@ dga_draw_id (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return ((Drawable)((_Dga_pixmap)dgadraw)->p_id);
     }
+    return (None);
 }
 
 int
@@ -66,6 +68,7 @@ dga_draw_type (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return (DGA_DRAW_PIXMAP);
     }
+    return (-1);
 }
 
 char *
@@ -77,6 +80,7 @@ dga_draw_devname (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return (dgai_pix_devname((_Dga_pixmap)dgadraw));
     }
+    return (NULL);
 }
 
 int
@@ -88,6 +92,7 @@ dga_draw_devfd (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return (dgai_pix_devfd((_Dga_pixmap)dgadraw));
     }
+    return (-1);
 }
 
 int
@@ -99,6 +104,7 @@ dga_draw_depth (Dga_drawable dgadraw)
     case DGA_DRAW_PIXMAP:
 	return (dgai_pix_depth((_Dga_pixmap)dgadraw));
     }
+    return (-1);
 }
 
 void
@@ -123,7 +129,7 @@ dga_draw_set_client_infop (Dga_drawable dgadraw, void *client_info_ptr)
 void *
 dga_draw_get_client_infop (Dga_drawable dgadraw)
 {
-    void *rval;
+    void *rval = NULL;
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
 #endif
@@ -144,7 +150,7 @@ dga_draw_get_client_infop (Dga_drawable dgadraw)
 int
 dga_draw_devinfochg (Dga_drawable dgadraw)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -166,7 +172,7 @@ dga_draw_devinfochg (Dga_drawable dgadraw)
 void *
 dga_draw_devinfo (Dga_drawable dgadraw)
 {
-    void *rval;
+    void *rval = NULL;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -188,7 +194,7 @@ dga_draw_devinfo (Dga_drawable dgadraw)
 int
 dga_draw_sitechg (Dga_drawable dgadraw, int *reason)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -250,7 +256,7 @@ dga_draw_sitegetnotify (Dga_drawable dgadraw, DgaSiteNotifyFunc *site_notify_fun
 int
 dga_draw_site (Dga_drawable dgadraw)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -272,7 +278,7 @@ dga_draw_site (Dga_drawable dgadraw)
 void *
 dga_draw_address (Dga_drawable dgadraw)
 {
-    void *rval;
+    void *rval = NULL;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -294,7 +300,7 @@ dga_draw_address (Dga_drawable dgadraw)
 int
 dga_draw_linebytes (Dga_drawable dgadraw)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -316,7 +322,7 @@ dga_draw_linebytes (Dga_drawable dgadraw)
 int
 dga_draw_bitsperpixel (Dga_drawable dgadraw)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -338,7 +344,7 @@ dga_draw_bitsperpixel (Dga_drawable dgadraw)
 int
 dga_draw_clipchg (Dga_drawable dgadraw)
 {
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -379,7 +385,7 @@ dga_draw_bbox(Dga_drawable dgadraw, int *xp, int *yp, int *widthp, int *heightp)
 int
 dga_draw_visibility (Dga_drawable dgadraw)
 { 
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -402,7 +408,7 @@ dga_draw_visibility (Dga_drawable dgadraw)
 int
 dga_draw_empty (Dga_drawable dgadraw)
 { 
-    int rval;
+    int rval = -1;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -424,7 +430,7 @@ dga_draw_empty (Dga_drawable dgadraw)
 short *
 dga_draw_clipinfo (Dga_drawable dgadraw)
 {
-    short *rval;
+    short *rval = NULL;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);
@@ -457,6 +463,7 @@ dga_draw_singlerect (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_singlerect((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* always a single rect */
 	rval = 1;
 	break;
@@ -480,6 +487,7 @@ dga_draw_obscured (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_obscured((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* never obscured */
 	rval = 0;
 	break;
@@ -505,6 +513,7 @@ dga_draw_borderwidth (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_borderwidth((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* always 0 */
 	rval = 0;
 	break;
@@ -550,6 +559,7 @@ dga_draw_rtngrab (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtngrab((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps */
 	rval = 0;
 	break;
@@ -573,6 +583,7 @@ dga_draw_rtnungrab (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtnungrab((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps */
 	rval = 0;
 	break;
@@ -596,6 +607,7 @@ dga_draw_rtnchg (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtnchg((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- force a query for active */
 	rval = 1;
 	break;
@@ -619,6 +631,7 @@ dga_draw_rtnactive (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtnactive((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- never active */
 	rval = 0;
 	break;
@@ -642,6 +655,7 @@ dga_draw_rtncached (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtncached((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- consider never cached */
 	rval = 0;
 	break;
@@ -665,6 +679,7 @@ dga_draw_rtndevinfop (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtndevinfop((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- doesn't have devinfo */
 	rval = NULL;
 	break;
@@ -696,6 +711,7 @@ dga_draw_rtndevtype (Dga_drawable dgadraw, u_char *type,
 	dgai_mbsmemb_rtndevtype((_Dga_window)dgadraw, type, name);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- no dev type and name */
 	*type = (u_char) 0;
 	*name = NULL;
@@ -718,6 +734,7 @@ dga_draw_rtndimensions (Dga_drawable dgadraw, short *width,
 	dgai_mbsmemb_rtndimensions((_Dga_window)dgadraw, width, height, linebytes);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- no dimensions */
 	*width = 0;
 	*height = 0;
@@ -742,6 +759,7 @@ dga_draw_rtnbitsperpixel (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtnbitsperpixel((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps */
 	rval = 0;
 	break;
@@ -765,6 +783,7 @@ dga_draw_rtnpixels (Dga_drawable dgadraw)
 	rval = dgai_mbsmemb_rtnpixels((_Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- doesn't have retained pixels */
 	rval = NULL;
 	break;
@@ -788,6 +807,7 @@ dga_draw_widinfop (Dga_drawable dgadraw)
 	rval = dga_win_widinfop((Dga_window)dgadraw);
 	break;
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps -- doesn't have retained pixels */
 	rval = NULL;
 	break;
@@ -809,6 +829,7 @@ dga_draw_mbchg (Dga_drawable dgadraw, int *reason)
     case DGA_DRAW_WINDOW:
 	return (dgai_mbsmemb_mbchg((_Dga_window)dgadraw, reason));
     case DGA_DRAW_PIXMAP:
+    default:
 	/* pixmaps never are multibuffered */
 	return (0);
     }
@@ -850,6 +871,7 @@ dga_draw_mbaccessmode (Dga_drawable dgadraw)
     case DGA_DRAW_WINDOW:
 	return (dgai_mbsmemb_mbaccessmode((_Dga_window)dgadraw));
     case DGA_DRAW_PIXMAP:
+    default:
 	return (DGA_MBACCESS_NONE);
     }
 }
@@ -861,6 +883,7 @@ dga_draw_mbsitetypeconst (Dga_drawable dgadraw)
     case DGA_DRAW_WINDOW:
 	return (dgai_mbsmemb_mbsitetypeconst((_Dga_window)dgadraw));
     case DGA_DRAW_PIXMAP:
+    default:
 	/* can't tell for pixmaps - be conservative */
 	return (0);
     }
@@ -902,6 +925,7 @@ dga_draw_ovlstatechg (Dga_drawable dgadraw)
     case DGA_DRAW_WINDOW:
 	return (dgai_mbsmemb_ovlstatechg((_Dga_window)dgadraw));
     case DGA_DRAW_PIXMAP:
+    default:
 	/* Pixmaps never have an ovlstate */
 	return (0);
     }
@@ -914,6 +938,7 @@ dga_draw_ovlstate (Dga_drawable dgadraw)
     case DGA_DRAW_WINDOW:
 	return (dgai_mbsmemb_ovlstate((_Dga_window)dgadraw));
     case DGA_DRAW_PIXMAP:
+    default:
 	/* Pixmaps never have an ovlstate */
 	return (DGA_OVLSTATE_CONFLICT);
     }

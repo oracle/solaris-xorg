@@ -606,7 +606,7 @@ SetPriority(const ClientProcessPtr cpp, int cmd)
 		  case SET_INTERACTIVE:	cmdmsg = "SET_INTERACTIVE"; 	break;
 		  default:		cmdmsg = "UNKNOWN_CMD!!!"; 	break;
 		}
-		LogMessage(X_INFO, "SolarisIA: SetPriority(%ld, %s): %s\n",
+		LogMessage(X_INFO, "SolarisIA: SetPriority(%d, %s): %s\n",
 			   pid, cmdmsg,
 			   (ret == Success) ? "succeeeded" : "failed");
 	    });

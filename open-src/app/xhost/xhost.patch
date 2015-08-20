@@ -1,5 +1,5 @@
 diff --git a/xhost.c b/xhost.c
-index a67d136..f43b267 100644
+index a67d136..0e867b0 100644
 --- a/xhost.c
 +++ b/xhost.c
 @@ -119,6 +119,11 @@ extern int getdomainname(char *name, size_t len);
@@ -136,71 +136,66 @@ index a67d136..f43b267 100644
  	exit (1);
      }
      for (i = 0; i < namelen; i++) {
-@@ -325,8 +355,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -325,7 +355,8 @@ change_host(Display *dpy, char *name, Bool add)
  	family = FamilyInternet;
  	name += 5;
  #else
 -	fprintf (stderr, "%s: not compiled for TCP/IP\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for TCP/IP\n"), ProgramName);
+ 	free(lname);
  	return 0;
  #endif
-     }
-@@ -335,8 +365,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -335,7 +366,8 @@ change_host(Display *dpy, char *name, Bool add)
  	family = FamilyInternet6;
  	name += 6;
  #else
 -	fprintf (stderr, "%s: not compiled for IPv6\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for IPv6\n"), ProgramName);
+ 	free(lname);
  	return 0;
  #endif
-     }
-@@ -347,15 +377,15 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -347,14 +379,16 @@ change_host(Display *dpy, char *name, Bool add)
  	family = FamilyInternet6;
  	name += 7;
  #else
 -	fprintf (stderr, "%s: not compiled for IPv6\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for IPv6\n"), ProgramName);
+ 	free(lname);
  	return 0;
  #endif
      }
  #endif /* ACCEPT_INETV6 */
      else if (!strncmp("dnet:", lname, 5)) {
 -	fprintf (stderr, "%s: not compiled for DECnet\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for DECnet\n"), ProgramName);
+ 	free(lname);
  	return 0;
      }
-     else if (!strncmp("nis:", lname, 4)) {
-@@ -363,8 +393,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -363,7 +397,8 @@ change_host(Display *dpy, char *name, Bool add)
  	family = FamilyNetname;
  	name += 4;
  #else
 -	fprintf (stderr, "%s: not compiled for Secure RPC\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for Secure RPC\n"), ProgramName);
+ 	free(lname);
  	return 0;
  #endif
-     }
-@@ -373,8 +403,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -373,7 +408,8 @@ change_host(Display *dpy, char *name, Bool add)
  	family = FamilyKrb5Principal;
  	name +=4;
  #else
 -	fprintf (stderr, "%s: not compiled for Kerberos 5\n", ProgramName);
--	free(lname);
 +	/* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	fprintf (stderr, gettext("%s: not compiled for Kerberos 5\n"), ProgramName);
+ 	free(lname);
  	return 0;
  #endif
-     }
-@@ -386,11 +416,21 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -386,11 +422,22 @@ change_host(Display *dpy, char *name, Bool add)
  	name += 3;
      }
      if (family == FamilyWild && (cp = strchr(lname, ':'))) {
@@ -222,12 +217,13 @@ index a67d136..f43b267 100644
 +	    /* Internationalize messages for bug 4256527... S Swales 5/25/00 */
 +	    fprintf (stderr, gettext("%s: unknown address family \"%s\"\n"),
 +		     ProgramName, lname);
++	    free(lname);
 +	    return 0;
 +	}
      }
      free(lname);
  
-@@ -400,8 +440,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -400,8 +447,8 @@ change_host(Display *dpy, char *name, Bool add)
  
  	cp = strchr(name, ':');
  	if (cp == NULL || cp == name) {
@@ -238,7 +234,7 @@ index a67d136..f43b267 100644
  	      ProgramName, name);
  	    return 0;
  	}
-@@ -429,7 +469,8 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -429,7 +476,8 @@ change_host(Display *dpy, char *name, Bool add)
  	retval = krb5_parse_name(name, &princ);
  	if (retval) {
  	    krb5_init_ets();	/* init krb errs for error_message() */
@@ -248,7 +244,7 @@ index a67d136..f43b267 100644
  		    ProgramName, error_message(retval));
  	    return 0;
  	}
-@@ -456,7 +497,7 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -456,7 +504,7 @@ change_host(Display *dpy, char *name, Bool add)
  	    XAddHost(dpy, &ha);
  	else
  	    XRemoveHost(dpy, &ha);
@@ -257,7 +253,7 @@ index a67d136..f43b267 100644
  	return 1;
      }
      /*
-@@ -475,12 +516,14 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -475,12 +523,14 @@ change_host(Display *dpy, char *name, Bool add)
  	    *cp = '\0';
  	    pwd = getpwnam(name);
  	    if (!pwd) {
@@ -274,7 +270,7 @@ index a67d136..f43b267 100644
  		return 0;
  	    }
  	    netname = username;
-@@ -587,8 +630,11 @@ change_host(Display *dpy, char *name, Bool add)
+@@ -587,8 +637,11 @@ change_host(Display *dpy, char *name, Bool add)
  		familyMsg = "inet ";
  	    }
  
@@ -288,7 +284,7 @@ index a67d136..f43b267 100644
  	}
  	freeaddrinfo(addresses);
  	return 1;
-@@ -824,14 +870,16 @@ static int
+@@ -824,14 +877,16 @@ static int
  local_xerror(Display *dpy, XErrorEvent *rep)
  {
      if ((rep->error_code == BadAccess) && (rep->request_code == X_ChangeHosts)) {

@@ -146,7 +146,7 @@ DtloginInit(void)
     dmd = calloc(1, sizeof(struct dmdata));
     if (dmd == NULL) {
 	DtloginError("Failed to allocate %d bytes for display manager pipe",
-		     sizeof(struct dmdata));
+		     (int) sizeof(struct dmdata));
 	return;
     }
 
@@ -569,7 +569,7 @@ dtlogin_process(struct dmuser *user, int user_logged_in)
 		    } else {
 			DtloginError("Failed to allocate %d bytes"
 				     " for uid reset info",
-				     sizeof(struct dmScreenPriv));
+				     (int) sizeof(struct dmScreenPriv));
 		    }
 		}
 	    } else {

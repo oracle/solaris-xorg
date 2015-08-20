@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -53,7 +53,7 @@ void TraceMessage(
 	const char	*format,	/* printf()-style format string */
 			...);		/* printf()-style variable arguments */
 
-int gfx_vts_set_message(
+void gfx_vts_set_message(
 	return_packet	*rp,		/* VTS test return packet */
 	int		count,
 	int		mesg_num,

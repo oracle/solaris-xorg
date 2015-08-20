@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1593,7 +1593,7 @@ main(
 	 *      * The fbconfig(1M) arguments       (argc-1 pointers)
 	 *      * A NULL terminator                (     1 pointer )
 	 */
-	cfg_argv = malloc((2 + argc + 1) * sizeof (char *));
+	cfg_argv = calloc((2 + argc + 1), sizeof (char *));
 	if (cfg_argv == NULL) {
 		PrintError("Insufficient memory for new argument vector");
 		return (1);

@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 2001, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -167,21 +167,6 @@ Display *dpy;
 			protmajor = 3;
 /*			protminor = 0; let minor number pass through */
 			}
-		}
-	else if ((xecp = XInitExtension(dpy, "SunWindowGrabber")) != NULL) {
-		if (strcmp(ServerVendor(dpy),
-		    "X11/NeWS - Sun Microsystems Inc.") == 0) {
-			if (VendorRelease(dpy) >= 3000) {
-				protmajor = 2;
-				protminor = 0;
-				}
-			else if (VendorRelease(dpy) >= 2000) {
-				protmajor = 1;
-				protminor = 0;
-				}
-			}
-		else
-			return 0;
 		}
 	else
 		return 0;
@@ -1327,6 +1312,9 @@ XDgaUnGrabDrawable(Dga_drawable dgadraw)
     Display   *dpy = dga_draw_display(dgadraw);
     int       type = dga_draw_type(dgadraw);
     int       status;
+
+    if (dpy == NULL)
+	return BadDrawable;
 
 #ifdef MT
     mutex_lock(&dgaGlobalMutex);

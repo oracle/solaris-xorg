@@ -155,7 +155,7 @@ gfx_vts_add_message(
  *    encountered, whereas the array size allows for multiple messages.
  */
 
-int
+void
 gfx_vts_set_message(
 	return_packet	*rp,		/* VTS test return packet */
 	int		count,

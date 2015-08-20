@@ -1,6 +1,6 @@
 /*
 *
-* Copyright (c) 1993, 2009, Oracle and/or its affiliates. All rights reserved.
+* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
 *
 * Permission is hereby granted, free of charge, to any person obtaining a
 * copy of this software and associated documentation files (the "Software"),
@@ -2633,6 +2633,7 @@ Bool InitHelp()
 		    HELPDIR,ACCESSXHELP_FILE);
 		helpfilefp = fopen(helpfile, "r");
 		if (!helpfilefp) {
+			XtFree(helpfile);
 			return(False);
 		}
 	}

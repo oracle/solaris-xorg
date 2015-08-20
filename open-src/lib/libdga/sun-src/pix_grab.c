@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 2004, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -206,6 +206,8 @@ dga_pix_grab(token, pix)
         i = 0;
         while ((i < SHPX_MAX_CLIENTS) && (shpx_client_directory[i].cid != 0))
         	i++;
+        if (i >= SHPX_MAX_CLIENTS)
+        	return(0);
         if ((c_fd = open(c_fn,O_RDWR ,0666)) < 0) 
         	return(0);
         /* map the shpx directory for this client and map at 4 megabytes */
@@ -303,7 +305,7 @@ dga_pix_grab(token, pix)
     clientp->p_lock_func = NULL;
     clientp->p_unlock_func = NULL;
 #endif
-    clientp->p_update_func = (int(*)())dgai_pix_update;
+    clientp->p_update_func = dgai_pix_update;
     clientp->p_shpx_client = NULL;
     clientp->p_token = token;
     clientp->c_size = infop->s_size;
@@ -400,8 +402,7 @@ Dga_pixmap clientpi;
         	    (shpx_client_directory[i].cid != pixlist->p_token)) {
                 i++;
 	    }
-            if ((i == SHPX_MAX_CLIENTS) &&
-        	    (Dga_shpx_client_count == SHPX_MAX_CLIENTS)) {
+            if (i >= SHPX_MAX_CLIENTS) {
                 return;
             }
 	    shpx_client_directory[i].npix--;

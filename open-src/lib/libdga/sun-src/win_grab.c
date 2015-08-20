@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, 2003, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -390,6 +390,7 @@ dgai_win_grab_common (Display *dpy, int devfd, Dga_token token, int drawableGrab
 	    		fprintf(stderr, 
 "wx_grab: mismatch on shared WXINFO size info page is %d sizeof is %d \n",
 				infop->info_sz, sizeof(WXINFO));
+				free(new_clientp);
 				return(NULL);
 			}
 			new_clientp->drawable_type = DGA_DRAW_WINDOW;
@@ -495,6 +496,7 @@ dgai_win_grab_common (Display *dpy, int devfd, Dga_token token, int drawableGrab
 	sprintf(filename, "%s%08x", GRABFILE, token);
 
         if ((filefd = open(filename,O_RDWR,0666))<0) {
+	    safe_free_clientp(clientp) ;
 	    return((Dga_window)NULL);
 	}
 
@@ -518,7 +520,10 @@ dgai_win_grab_common (Display *dpy, int devfd, Dga_token token, int drawableGrab
 	"wx_grab: mismatch on WXINFO size info page is %d sizeof is %d \n",
 			infop->info_sz, sizeof(WXINFO));
 #endif
-				return(NULL);
+	    munmap((caddr_t)infop, MAXSHMEMSIZE) ;
+	    close(filefd) ;
+	    safe_free_clientp(clientp) ;
+	    return(NULL);
 	}
 
 	/* open the frame buffer if not already opened by client */
@@ -1808,5 +1813,6 @@ dgai_unlock(Dga_drawable dgadraw)
 	dgawin = (_Dga_window) dgadraw;
 	mutex_unlock(dgawin->mutexp);
     }
+    return Success;
 }
 #endif

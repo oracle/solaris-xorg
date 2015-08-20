@@ -1,4 +1,4 @@
-/* Copyright (c) 1993, Oracle and/or its affiliates. All rights reserved.
+/* Copyright (c) 1993, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,7 @@ dga_draw_db_grab (Dga_drawable dgadraw, int nbuffers,
 	return (dga_db_grab((Dga_window)dgawin, nbuffers, vrtfunc, vrtcounterp));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	return (0);
     }
 }
@@ -59,6 +60,7 @@ dga_draw_db_ungrab (Dga_drawable dgadraw)
 	return (dga_db_ungrab((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	return (0);
     }
 }
@@ -167,6 +169,7 @@ dga_draw_db_interval_check (Dga_drawable dgadraw)
 	return (dga_db_interval_check((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - consider interval always expired */
 	return (1);
     }
@@ -185,6 +188,7 @@ dga_draw_db_write_inquire (Dga_drawable dgadraw)
 	return (dga_db_write_inquire((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - always return an invalid buffer index */
 	return (-1);
     }
@@ -203,6 +207,7 @@ dga_draw_db_read_inquire (Dga_drawable dgadraw)
 	return (dga_db_read_inquire((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - always return an invalid buffer index */
 	return (-1);
     }
@@ -221,6 +226,7 @@ dga_draw_db_display_inquire (Dga_drawable dgadraw)
 	return (dga_db_display_inquire((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - always return an invalid buffer index */
 	return (-1);
     }
@@ -240,6 +246,7 @@ dga_draw_db_display_done (Dga_drawable dgadraw, int flag,
 	return (dga_db_display_done((Dga_window)dgawin, flag, display_done_func));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - consider display done (to prevent hangs) */
 	return (1);
     }
@@ -258,6 +265,7 @@ dga_draw_db_dbinfop (Dga_drawable dgadraw)
 	return (dga_win_dbinfop((Dga_window)dgawin));
     }
     case DGA_DRAW_PIXMAP:
+    default:
 	/* not applicable to pixmaps - return NULL */
 	return (NULL);
     }

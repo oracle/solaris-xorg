@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -169,18 +169,18 @@ int
 ast_map_mmio(
     void)
 {
-	register void *ptr;
-
 	if (ast_info.ast_mmio_ptr == NULL) {
+		register void *ptr;
+
 		ptr = mmap(NULL, ast_info.ast_mmio_size,
 		    PROT_READ | PROT_WRITE, MAP_SHARED,
 		    ast_info.ast_fd, ast_info.ast_mmio_addr);
 
 		if (ptr == MAP_FAILED)
 			return (-1);
-	}
 
-	ast_info.ast_mmio_ptr = (uchar_t *)ptr;
+		ast_info.ast_mmio_ptr = (uchar_t *)ptr;
+	}
 
 	if (gfx_vts_debug_mask & VTS_DEBUG)
 		printf("ast_mmio_ptr = 0x%llx\n",
@@ -194,9 +194,9 @@ int
 ast_map_fb(
     void)
 {
-	register void *ptr;
-
 	if (ast_info.ast_fb_ptr == NULL) {
+		register void *ptr;
+
 		ptr = mmap(NULL, ast_info.ast_fb_size,
 		    PROT_READ | PROT_WRITE, MAP_SHARED,
 		    ast_info.ast_fd, ast_info.ast_fb_addr);

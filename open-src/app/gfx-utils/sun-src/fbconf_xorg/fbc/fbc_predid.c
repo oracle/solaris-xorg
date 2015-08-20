@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -96,7 +96,7 @@ fbc_predid_dump_bytes(
 			sprintf(&hex_buf[hex_cols*i], " %02X",
 				edid_data[byte_addr]);
 		}
-		printf("\t0x%02X: %s\n", line_addr, hex_buf);
+		printf("\t0x%02zX: %s\n", line_addr, hex_buf);
 		hex_buf[0] = '\0';
 	}
 

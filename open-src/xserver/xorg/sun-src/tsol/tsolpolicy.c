@@ -315,7 +315,7 @@ TsolCheckDrawableAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 
 	Mask check_mode = access_mode;
 	TsolInfoPtr tsolinfo = GetClientTsolInfo(client);
-	TsolResPtr  tsolres;
+	TsolResPtr  tsolres = NULL;
 	xpolicy_t flags;
 	int reqtype;
 
@@ -537,6 +537,7 @@ TsolCheckXIDAccess(CallbackListPtr *pcbl, void *nulldata, void *calldata)
 		break;
 	default:
 		err_code = BadValue;
+		object_code = AW_END;
 		break;
 	}
 

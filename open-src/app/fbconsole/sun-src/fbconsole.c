@@ -260,7 +260,7 @@ OpenLog(
 		    "fbconsole: couldn't open console log file '%s'\n",path);
 		exit(1);
 	}
-	setbuf(log, NULL);
+	setvbuf(log, NULL, _IONBF, 0);
 
 	fchmod(fileno(log), S_IRUSR|S_IWUSR);
 

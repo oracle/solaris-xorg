@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -1185,7 +1185,7 @@ aw_free_tok(token_t *tokp)
 static int
 aw_gen_rec(int param, va_list arglist)
 {
-	void *ad[8];			/* attribute data */
+	void *ad[8] = { NULL };		/* attribute data */
 	token_t *tokp;			/* token for converted data */
 	int a;				/* invocation line argument */
 	au_event_ent_t *auevent;	/* event for this call */
@@ -1910,7 +1910,7 @@ aw_parse(int param, va_list arglist)
 {
 	int a;
 	au_event_ent_t *auevent;
-	void *ad[8]; /* argument data */
+	void *ad[8] = { NULL }; /* argument data */
 
 	/*
 	 * During the port from TS 2, we had to slightly reorg code, thus
@@ -2499,7 +2499,7 @@ static int
 aw_set_context(int param, va_list arglist)
 {
 	int a;
-	void *ad[8]; /* argument data */
+	void *ad[8] = { NULL }; /* argument data */
 
 	a = param;
 

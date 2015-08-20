@@ -37,7 +37,7 @@ TARBALL_SHA1  = 9e10371ca8961b50c2d69150a88fc031455699d1
 TARBALL_SHA256= 7f360c9905849c3587d48efc0f0ecbc852c19f61a52b18530d6b005cb9148c57
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = solaris-abi.patch 6724993.patch
+SOURCE_PATCHES = solaris-abi.patch 6724993.patch,-p1
 
 # Since we're patching src/Makefile.am in solaris-abi.patch,
 # we need to autoreconf

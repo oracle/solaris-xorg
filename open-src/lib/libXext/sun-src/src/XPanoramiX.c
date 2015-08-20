@@ -572,7 +572,7 @@ Status XineramaGetCenterHint(Display* display, int screen_number,
       if (!xiGetInfo)
          return 0;
 
-      if ((fb > -1) && (fb < fbs))  /* if fb has a legal value */
+      if ((fb >= 0) && (fb < fbs) && (fb < MAXSCREEN))  /* if fb has a legal value */
       {
          *xret = rects[fb].x + (rects[fb].width / 2);
          *yret = rects[fb].y + (rects[fb].height / 2);
