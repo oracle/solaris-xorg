@@ -87,6 +87,7 @@ libxkbfile: libX11
 mesa: libdrm libX11 libXext libXdamage libXfixes libXxf86vm
 libglu: mesa
 freeglut: mesa libglu
+libepoxy: mesa
 
 # pixman doesn't need these itself, but its test framework uses gtk,
 # which does depend on these
@@ -145,6 +146,7 @@ OS_SUBDIRS_common = \
 	libXxf86misc \
 	libXxf86vm \
 	mesa \
+	libepoxy \
 	libglu \
 	freeglut \
 	pixman \
