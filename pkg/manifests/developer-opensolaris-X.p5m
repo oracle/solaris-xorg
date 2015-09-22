@@ -47,6 +47,7 @@ depend type=require fmri=pkg:/compress/gzip
 depend type=require fmri=pkg:/compress/xz
 
 # X.Org ships many docs using the DocBook XML DTD's and stylesheets
+depend type=require fmri=pkg:/data/docbook/docbook-dtds
 depend type=require fmri=pkg:/data/docbook/docbook-style-dsssl
 depend type=require fmri=pkg:/data/docbook/docbook-style-xsl
 depend type=require fmri=pkg:/data/sgml-common
@@ -231,11 +232,8 @@ depend type=require fmri=pkg:/text/gnu-patch
 # autoconf scripts prefer gnu sed
 depend type=require fmri=pkg:/text/gnu-sed
 
-# temporarily using lynx because of regression with w3m on sparc - 21097691
+# xmlto uses lynx to convert html to text
 depend type=require fmri=pkg:/web/browser/lynx
-
-# w3m is used to convert html docs to text, after generating html from docbook
-depend type=require fmri=pkg:/web/browser/w3m
 
 # Builds need to be able to download upstream sources with wget
 depend type=require fmri=pkg:/web/wget
