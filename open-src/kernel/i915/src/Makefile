@@ -69,8 +69,8 @@ C_SRCS = dvo_ch7017.c \
 	intel_sprite.c \
 	intel_tv.c
 
-MANPAGES	= i915.7d
-MANSECTION	= man7d
+MANPAGES	= i915.4d
+MANSECTION	= man4d
 MANSOURCE	= ../manpages
 
 # Include kernel common rules

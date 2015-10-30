@@ -496,8 +496,8 @@ file path=usr/share/man/man3/FcValueEqual.3
 file path=usr/share/man/man3/FcValuePrint.3
 file path=usr/share/man/man3/FcValueSave.3
 file path=usr/share/man/man3lib/libfontconfig.3lib
-file path=usr/share/man/man4/fonts.conf.4
 file path=usr/share/man/man5/fonts-conf.5
+link path=usr/share/man/man5/fonts.conf.5 target=fonts-conf.5
 dir  path=var/cache/fontconfig
 legacy pkg=SUNWfontconfig desc="Fontconfig library" name="Fontconfig library"
 legacy pkg=SUNWfontconfig-docs desc="Fontconfig library documentation" \

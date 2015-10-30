@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,4 +27,4 @@ set name=pkg.description value="Xorg driver for ATI Rage 128 based video cards"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/drivers/r128_drv.so
 file path=usr/share/doc/X11/README.r128
-file path=usr/share/man/man7/r128.7
+file path=usr/share/man/man4/r128.4

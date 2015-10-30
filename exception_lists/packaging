@@ -50,9 +50,9 @@ usr/share/doc/X11/Xserver/secint.xml
 usr/share/doc/X11/MAINTAINERS
 
 # Obsolete man pages
-usr/share/man/man5/Consortium.5
-usr/share/man/man5/XProjectTeam.5
-usr/share/man/man5/Xprint.5
+usr/share/man/man7/Consortium.7
+usr/share/man/man7/XProjectTeam.7
+usr/share/man/man7/Xprint.7
 
 # ON delivers the packaged version of this link
 usr/lib/64
@@ -86,7 +86,7 @@ usr/bin/intel_gpu_abrt				i386
 
 # No need to deliver modesetting driver for now
 usr/lib/xorg/modules/drivers/modesetting_drv.so
-usr/share/man/man7/modesetting.7
+usr/share/man/man4/modesetting.4
  
 # No need to deliver any udev stuff
 usr/lib/udev                                  i386

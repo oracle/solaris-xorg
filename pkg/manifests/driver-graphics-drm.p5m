@@ -39,7 +39,7 @@ file path=kernel/drv/$(ARCH64)/i915 group=sys
 file path=kernel/kmdb/$(ARCH64)/i915 group=sys
 file path=kernel/misc/$(ARCH64)/drm group=sys
 file path=usr/lib/mdb/kvm/$(ARCH64)/i915.so group=sys
-file path=usr/share/man/man7d/i915.7d
+file path=usr/share/man/man4d/i915.4d
 driver name=i915 perms="* 0644 root sys" \
     alias=pci8086,42 \
     alias=pci8086,46 \

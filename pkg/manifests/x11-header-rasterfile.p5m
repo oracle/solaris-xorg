@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,4 +25,4 @@ set name=pkg.description \
     value="Documentation and C language definition of Sun rasterfile image format"
 dir  path=usr/include/pixrect
 file path=usr/include/pixrect/rasterfile.h
-file path=usr/share/man/man4/rasterfile.4
+file path=usr/share/man/man5/rasterfile.5

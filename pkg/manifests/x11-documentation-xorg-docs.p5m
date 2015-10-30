@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -63,11 +63,11 @@ dir  path=usr/share/doc/X11/xlfd
 file path=usr/share/doc/X11/xlfd/xlfd.html
 file path=usr/share/doc/X11/xlfd/xlfd.txt
 file path=usr/share/doc/X11/xlfd/xlfd.xml
-file path=usr/share/man/man5/X.5
-file path=usr/share/man/man5/X11.5
-file path=usr/share/man/man5/XOrgFoundation.5
-file path=usr/share/man/man5/XStandards.5
-file path=usr/share/man/man5/Xsecurity.5
+file path=usr/share/man/man7/X.7
+file path=usr/share/man/man7/X11.7
+file path=usr/share/man/man7/XOrgFoundation.7
+file path=usr/share/man/man7/XStandards.7
+file path=usr/share/man/man7/Xsecurity.7
 file path=usr/share/pkgconfig/xorg-sgml-doctools.pc
 dir  path=usr/share/sgml/X11
 dir  path=usr/share/sgml/X11/dbs

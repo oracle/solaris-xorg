@@ -1,5 +1,5 @@
 diff --git a/man/X.man b/man/X.man
-index 7ecab0a..aea636a 100644
+index 16b4c96..4c8e0f6 100644
 --- a/man/X.man
 +++ b/man/X.man
 @@ -110,6 +110,8 @@ web browser plug-ins, \fIlibxrx.so\fP and \fIlibxrxnest.so\fP;
@@ -21,13 +21,13 @@ index 7ecab0a..aea636a 100644
 -is typically started by the system at boot time and takes care of keeping the
 -server running and getting users logged in.  If you are running one of these
 +The default configuration of __distroname__ starts X at boot time via
-+the \fIgdm\fP(1m) display manager.   The \fIxdm\fP(1) display manager is also
++the \fIgdm\fP(__adminmansuffix__) display manager.   The \fIxdm\fP(1) display manager is also
 +provided as an option the system administrator can configure.
 +If you are running one of these
  display managers, you will normally see a window on the screen welcoming you
  to the system and asking for your login information.  Simply type them in as
  you would at a normal terminal.  If you make a mistake, the display manager
-@@ -360,10 +361,14 @@ to explicitly draw the window's region on the screen with the pointer, for
+@@ -362,10 +363,12 @@ to explicitly draw the window's region on the screen with the pointer, for
  example).
  .PP
  Since window managers are regular (albeit complex) client programs,
@@ -39,23 +39,24 @@ index 7ecab0a..aea636a 100644
 +__distroname__ includes several window managers, including the
 +GNOME window manager
 +.IR metacity (1),
-+the compositing effects manager
-+.IR compiz (1),
 +and the X.Org classic window manager
 +.IR twm (1).
  .PP
  See the user-contributed software in the X.Org Foundation distribution for other
  popular window managers.
-@@ -1280,10 +1285,21 @@ the appropriate instance name can be placed before the asterisk:
+@@ -1265,14 +1268,22 @@ the appropriate instance name can be placed before the asterisk:
+ .BR Xdmx (__appmansuffix__),
+ .BR Xephyr (__appmansuffix__),
+ .BR Xnest (__appmansuffix__),
+-.BR Xquartz (__appmansuffix__),
  .BR Xvfb (__appmansuffix__),
  .BR Xvnc (__appmansuffix__),
- .BR XWin (__appmansuffix__).
-+
+-.BR XWin (__appmansuffix__).
 +.\" related software
-+.BR gdm (1m),
++.BR gdm (__adminmansuffix__),
 +.BR gnome-session (1),
 +.BR metacity (1),
-+.BR locale (5).
++.BR locale (__miscmansuffix__).
 +
  .\" specifications
  .I "Xlib \- C Language X Interface\fR,\fP"

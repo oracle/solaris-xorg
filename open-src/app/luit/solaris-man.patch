@@ -1,8 +1,7 @@
 Update See Also section of man page to remove man pages not found on Solaris
-and to not overflow the number of words Solaris nroff can have in a .I macro.
 
 diff --git a/man/luit.man b/man/luit.man
-index 3c752eb..34f92eb 100644
+index 3c752eb..8482512 100644
 --- a/man/luit.man
 +++ b/man/luit.man
 @@ -230,7 +230,7 @@ Charsets with a non-trivial intermediary byte are not yet supported.
@@ -10,7 +9,7 @@ index 3c752eb..34f92eb 100644
  will never be.
  .SH SEE ALSO
 -xterm(__appmansuffix__), unicode(__miscmansuffix__), utf-8(__miscmansuffix__), charsets(__miscmansuffix__).
-+xterm(1), locale(5),
++xterm(__appmansuffix__), locale(__miscmansuffix__),
  .nf
  .br
  \fICharacter Code Structure and Extension Techniques (ISO\ 2022, ECMA-35)\fR.

@@ -434,6 +434,10 @@ DEFAULT_CONFIG_ENV += am_cv_python_pyexecdir="$(PYTHON_VENDOR_DIR)"
 DEFAULT_CONFIG_ENV += INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p"
 DEFAULT_CONFIG_ENV += MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
 DEFAULT_CONFIG_ENV += NM="/usr/gnu/bin/nm"
+# Override default man page sections until all X.Org modules are updated
+# to use new xorg-macros with Solaris 12 man page section support
+DEFAULT_CONFIG_ENV += DRIVER_MAN_SUFFIX=4 FILE_MAN_SUFFIX=5
+DEFAULT_CONFIG_ENV += MISC_MAN_SUFFIX=7 ADMIN_MAN_SUFFIX=8
 
 $(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN)) CONFIG_ENV = $(DEFAULT_CONFIG_ENV) 
 $(WITH_PARFAIT) CONFIG_ENV += $(PARFAIT_ENV)

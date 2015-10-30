@@ -1,7 +1,7 @@
 #!/usr/perl5/bin/perl -w
 
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -172,7 +172,7 @@ sub get_attributes_table {
   my $attributes_table = q{
 .\\" Begin Oracle Solaris update
 .SH "ATTRIBUTES"
-See \fBattributes\fR(5) for descriptions of the following attributes:
+See \fBattributes\fR(7) for descriptions of the following attributes:
 .sp
 .TS
 allbox;

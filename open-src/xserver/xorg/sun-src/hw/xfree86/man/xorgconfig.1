@@ -1,6 +1,6 @@
 '\" t
 .\"
-.\" Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -22,7 +22,7 @@
 .\" DEALINGS IN THE SOFTWARE.
 .\"
 .\"
-.TH xorgconfig 1 "2 May 2014"
+.TH xorgconfig 1 "26 Oct 2015"
 .SH NAME
 .PP
 xorgconfig, xorgcfg \- generate an xorg.conf file
@@ -33,7 +33,7 @@ The
 and
 .BR xorgconfig (1)
 utilities for generating
-.BR xorg.conf (4)
+.BR xorg.conf (5)
 files are no longer included in this release.
 .PP
 The
@@ -62,18 +62,8 @@ Users of Sun graphics devices for the SPARC platform may use the
 .BR fbconfig (1)
 utility to generate or update device-specific
 configurations.
-.PP
-Input device settings formerly found in xorg.conf have in most cases
-been replaced by settings made via the
-.BR hal (5)
-configuration framework in
-.BR fdi (4)
-configuration files.
-.SH FILES
-.IP /etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
-Default system configuration for input devices
 .SH "ATTRIBUTES"
-See \fBattributes\fR(5) for descriptions of the following attributes:
+See \fBattributes\fR(7) for descriptions of the following attributes:
 .sp
 .TS
 allbox;
@@ -86,9 +76,7 @@ Interface Stability	Obsolete
 .sp
 .SH "SEE ALSO"
 .IR Xorg (1),
-.IR xorg.conf (4),
-.IR hal (5),
-.IR fdi (4),
+.IR xorg.conf (5),
 .IR nvidia-settings (1),
 .IR nvidia-xconfig (1),
 .IR fbconfig (1).

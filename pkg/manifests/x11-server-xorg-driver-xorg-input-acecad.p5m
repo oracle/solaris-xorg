@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,4 +27,4 @@ set name=pkg.description \
     value="Xorg input driver for Acecad Flair pen-based graphics tablets"
 set name=variant.arch value=i386
 file path=usr/lib/xorg/modules/input/acecad_drv.so
-file path=usr/share/man/man7/acecad.7
+file path=usr/share/man/man4/acecad.4

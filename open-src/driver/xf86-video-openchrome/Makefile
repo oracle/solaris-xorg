@@ -48,7 +48,6 @@ TARBALL_SHA1 = 1f7b23d4ed53417eda5c6730486b36812f469295
 TARBALL_SHA256 = e49e2f1e5dac86408e5a74b87038cc4082d2c3fba4e0579823161991432412ed
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = manpage-sections.patch,-p1
 SOURCE_PATCHES += ldflags.patch,-p1
 SOURCE_PATCHES += disable-xvmc.patch,-p1
 SOURCE_PATCHES += via_regs.patch,-p1
@@ -57,7 +56,7 @@ SOURCE_PATCHES += via_regs.patch,-p1
 CLEAN_LINEFEED_TARGET = $(SOURCE_DIR)/.source.clean.done
 MODULE_ADD_SOURCE_TARGETS = $(CLEAN_LINEFEED_TARGET)
 
-# manpage-sections.patch edits configure.ac, so we need to autoreconf
+# disable-xvmc.patch edits configure.ac, so we need to autoreconf
 AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list

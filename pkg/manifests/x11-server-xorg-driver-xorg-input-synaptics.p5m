@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,5 +34,5 @@ file path=usr/lib/xorg/synclient mode=0555
 file path=usr/lib/xorg/syndaemon mode=0555
 file path=usr/share/man/man1/synclient.1
 file path=usr/share/man/man1/syndaemon.1
-file path=usr/share/man/man7/synaptics.7
+file path=usr/share/man/man4/synaptics.4
 file path=usr/share/pkgconfig/xorg-synaptics.pc

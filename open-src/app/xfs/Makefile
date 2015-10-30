@@ -37,7 +37,7 @@ TARBALL_SHA1  = 5b8c653476a09e65d93eb7e40da99794366699f5
 TARBALL_SHA256= a40b75e674c091464f85739292b6bf24e2d153f4a2ac456d3ea6b8a64e269ffa
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += smf-manpage.patch
+SOURCE_PATCHES += smf-manpage.patch,-p1
 SOURCE_PATCHES += config-warning.patch
 
 # Man pages to apply Sun footer to & attributes to list

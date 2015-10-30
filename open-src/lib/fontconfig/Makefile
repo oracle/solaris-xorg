@@ -202,10 +202,9 @@ $(FONTCONFIG_SUN_CONFFILES): $(SUN_CONFFILES)
 FC_MAN_DIR=$(PROTODIR)/usr/share/man
 
 fontconfig-sunman-install: $(INSTALL_RULES)
-	mkdir -p $(FC_MAN_DIR)/man4 $(FC_MAN_DIR)/man3lib
-	-rm -f $(FC_MAN_DIR)/man4/fonts.conf.4
-	sed -e 's/.TH "FONTS-CONF" "5"/.TH "fonts.conf" "4"/' 	\
-	  $(FC_MAN_DIR)/man5/fonts-conf.5 > $(FC_MAN_DIR)/man4/fonts.conf.4
+	mkdir -p $(FC_MAN_DIR)/man5 $(FC_MAN_DIR)/man3lib
+	-rm -f $(FC_MAN_DIR)/man5/fonts.conf.5
+	ln -s fonts-conf.5 $(FC_MAN_DIR)/man5/fonts.conf.5
 	-rm -f $(FC_MAN_DIR)/man3lib/libfontconfig.3lib
 	$(PERL) -p -e 's/^$$/.LP/;' -e 's/.?\251/\\(co/;' 	\
 	    libfontconfig.3lib > $(FC_MAN_DIR)/man3lib/libfontconfig.3lib

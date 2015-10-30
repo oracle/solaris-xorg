@@ -66,14 +66,14 @@ fix_entity_paths: $(UNPACK_TARGET)
 
 MAN_DIR=$(PROTODIR)$(X11_MAN_DIR)
 
-install_docs: $(MAN_DIR)/man5/X11.5 $(MAN_DIR)/man5/XStandards.5
+install_docs: $(MAN_DIR)/man7/X11.7 $(MAN_DIR)/man7/XStandards.7
 
-$(MAN_DIR)/man5/XStandards.5: default_install
-	mv -f $(MAN_DIR)/man5/Standards.5 $@
+$(MAN_DIR)/man7/XStandards.7: default_install
+	mv -f $(MAN_DIR)/man7/Standards.7 $@
 
-$(MAN_DIR)/man5/X11.5:
-	mkdir -p $(MAN_DIR)/man5
-	$(INSTALL_SCRIPT) -m 0444 X11.5 $@
+$(MAN_DIR)/man7/X11.7:
+	mkdir -p $(MAN_DIR)/man7
+	$(INSTALL_SCRIPT) -m 0444 X11.7 $@
 
 default_install: install_preformatted
 
