@@ -1,8 +1,9 @@
 diff --git a/man/Xserver.man b/man/Xserver.man
-index 3bf844f..310202b 100644
+index ba65c9e..53c7912 100644
 --- a/man/Xserver.man
 +++ b/man/Xserver.man
-@@ -1,3 +1,25 @@
+@@ -1,4 +1,26 @@
+ '\" t
 +.\" 
 +.\" Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 +.\" 
@@ -25,9 +26,9 @@ index 3bf844f..310202b 100644
 +.\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 +.\" DEALINGS IN THE SOFTWARE.
 +.\"
- .\" $Xorg: Xserver.man,v 1.4 2001/02/09 02:04:07 xorgcvs Exp $
- .\" $XdotOrg: xserver/xorg/doc/Xserver.man.pre,v 1.4 2005/12/23 20:11:12 alanc Exp $
+ .\"
  .\" Copyright 1984 - 1991, 1993, 1994, 1998  The Open Group
+ .\"
 @@ -32,14 +54,22 @@ Xserver \- X Window System display server
  .SH SYNOPSIS
  .B X
@@ -53,21 +54,24 @@ index 3bf844f..310202b 100644
  This utility is run from the system boot files and takes care of keeping
  the server running, prompting for usernames and passwords, and starting up
  the user sessions.
-@@ -205,6 +235,13 @@ with
+@@ -205,13 +235,14 @@ with
  .BR "\-nolisten tcp" .
  This option may be issued multiple times to disable listening to different
  transport types.
+-Supported transport types are platform dependent, but commonly include:
 +The current transport names supported on __distroname__ are as follows: 
-+.sp
-+.nf 
-+tcp     TCP over IPv4 or IPv6
+ .TS
+ l l.
+ tcp     TCP over IPv4 or IPv6
+ inet    TCP over IPv4 only
+ inet6   TCP over IPv6 only
+-unix    UNIX Domain Sockets
 +unix    UNIX Domain Sockets (/tmp/.X11-unix/X\fIn\fP)
 +pipe    Named pipes (/tmp/.X11-pipe/X\fIn\fP)
-+.fi
+ local   Platform preferred local connection method
+ .TE
  .TP 8
- .B \-listen \fItrans-type\fP
- enables a transport type.  For example, TCP/IP connections can be enabled
-@@ -408,7 +445,7 @@ located in the XKB base directory or a subdirectory, and specified as the
+@@ -417,7 +448,7 @@ located in the XKB base directory or a subdirectory, and specified as the
  relative path from the XKB base directory.  The default XKB base directory is
  .IR __projectroot__/lib/X11/xkb .
  .TP 8
@@ -76,7 +80,7 @@ index 3bf844f..310202b 100644
  enables(+) or disables(-) AccessX key sequences.
  .TP 8
  .B \-xkbdir \fIdirectory\fP
-@@ -564,6 +601,110 @@ the following font path:
+@@ -572,6 +603,110 @@ the following font path:
      /usr/share/fonts/default/Type1,
      /usr/share/fonts/default/ghostscript
  .fi
@@ -187,7 +191,7 @@ index 3bf844f..310202b 100644
  
  .SH FILES
  .TP 30
-@@ -579,8 +720,12 @@ Outline font directories
+@@ -587,8 +722,12 @@ Outline font directories
  .I /tmp/.X11-unix/X\fBn\fP
  Unix domain socket for display number \fBn\fP
  .TP 30
@@ -202,7 +206,7 @@ index 3bf844f..310202b 100644
  .TP 30
  .I __projectroot__/lib/X11/xdm/xdm-errors
  Default error log file if the server is run from \fIxdm\fP(1)
-@@ -602,14 +747,21 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
+@@ -610,14 +749,21 @@ Security: \fIXsecurity\fP(__miscmansuffix__), \fIxauth\fP(1), \fIXau\fP(1),
  \fIxdm\fP(1), \fIxhost\fP(1), \fIxfwp\fP(1),
  .I "Security Extension Specification"
  .PP

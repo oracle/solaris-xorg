@@ -38,6 +38,7 @@ TARBALL_SHA1  = 19be186705145ca7231ca646b61208c9eba48ca7
 TARBALL_SHA256= 24b8677c3462c10465cf50d40576d76682acd5835526093a575865b2aa242c4b
 
 # Patches to apply to source after unpacking, in order
+SOURCE_PATCHES += upstream-manpages.patch,-p1
 SOURCE_PATCHES += solaris-manpages.patch,-p1
 
 # Man pages to apply distro customizations to

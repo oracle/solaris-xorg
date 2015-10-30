@@ -27,24 +27,27 @@ index 16b4c96..4c8e0f6 100644
  display managers, you will normally see a window on the screen welcoming you
  to the system and asking for your login information.  Simply type them in as
  you would at a normal terminal.  If you make a mistake, the display manager
-@@ -362,10 +363,12 @@ to explicitly draw the window's region on the screen with the pointer, for
+@@ -362,13 +363,12 @@ to explicitly draw the window's region on the screen with the pointer, for
  example).
  .PP
  Since window managers are regular (albeit complex) client programs,
--a variety of different user interfaces can be built.  The X.Org Foundation distribution
--comes with a window manager named \fItwm\fP which supports overlapping windows,
+-a variety of different user interfaces can be built.  The X.Org Foundation
+-provides a window manager named \fItwm\fP which supports overlapping windows,
 -popup menus, point-and-click or click-to-type input models, title bars, nice
 -icons (and an icon manager for those who don't like separate icon windows).
+-.PP
+-See your distro package manager for other
+-popular window managers.
 +a variety of different user interfaces can be built.
 +__distroname__ includes several window managers, including the
 +GNOME window manager
 +.IR metacity (1),
 +and the X.Org classic window manager
 +.IR twm (1).
- .PP
- See the user-contributed software in the X.Org Foundation distribution for other
- popular window managers.
-@@ -1265,14 +1268,22 @@ the appropriate instance name can be placed before the asterisk:
+ .SH "FONT NAMES"
+ Collections of characters for displaying text and symbols in X are known as
+ \fIfonts\fP.  A font typically contains images that share a common appearance
+@@ -1265,10 +1268,14 @@ the appropriate instance name can be placed before the asterisk:
  .BR Xdmx (__appmansuffix__),
  .BR Xephyr (__appmansuffix__),
  .BR Xnest (__appmansuffix__),
@@ -58,14 +61,6 @@ index 16b4c96..4c8e0f6 100644
 +.BR metacity (1),
 +.BR locale (__miscmansuffix__).
 +
+ .PP
  .\" specifications
  .I "Xlib \- C Language X Interface\fR,\fP"
- and
- .I "X Toolkit Intrinsics \- C Language Interface"
-+.PP
-+Those specifications, and additional specifications & documentation for the
-+X Window System may also be found in /usr/share/doc/ or on the X.Org
-+Foundation website at http://www.x.org/
- .SH TRADEMARKS
- .PP
- X Window System is a trademark of The Open Group.
