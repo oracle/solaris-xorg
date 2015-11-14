@@ -42,7 +42,8 @@ SOURCE_PATCHES += sparc-ast.patch,-p1 \
 		16448336.patch,-p1 \
 		16027951.patch,-p1 \
 		17907916.patch,-p1 \
-		20816358-disable-DP501.patch,-p1
+		20816358-disable-DP501.patch,-p1 \
+		22115519.patch,-p1
 
 # Link in additional source files from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src
