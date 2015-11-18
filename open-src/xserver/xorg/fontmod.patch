@@ -1,4 +1,4 @@
-# Copyright (c) 2007, 2010, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,8 +19,8 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-Add Sun's old "bitstream" font module to the list of obsolete modules
-to ignore in xorg.conf files.
+Add Sun's old "bitstream" font module & IA & xtsol extension modules to the
+list of obsolete modules to ignore in xorg.conf files.
 
 diff --git a/hw/xfree86/common/xf86Config.c b/hw/xfree86/common/xf86Config.c
 index af8a89e..ab9a37a 100644
@@ -30,7 +30,7 @@ index af8a89e..ab9a37a 100644
  
      const char *ignore[] = { "GLcore", "speedo", "bitmap", "drm",
          "freetype", "type1",
-+        "bitstream",
++        "bitstream", "ia", "xtsol",
          NULL
      };
      pointer *optarray;

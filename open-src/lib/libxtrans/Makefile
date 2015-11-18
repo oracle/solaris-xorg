@@ -48,9 +48,8 @@ TARBALL_SHA1  = 2d3ae1839d841f568bc481c6116af7d2a9f9ba59
 TARBALL_SHA256= adbd3b36932ce4c062cd10f57d78a156ba98d618bdb6f50664da327502bc8301
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES  = inetv6.patch,-p1 \
-	7162172.patch
-SOURCE_PATCHES += tsol-unix-domain.patch,-p1
+SOURCE_PATCHES  = inetv6.patch,-p1
+SOURCE_PATCHES += 7162172.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=xtrans

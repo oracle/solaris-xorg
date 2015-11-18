@@ -182,9 +182,6 @@ depend type=require fmri=pkg:/x11/session/xauth
 # app/xinit
 depend type=require fmri=pkg:/x11/session/xinit
 
-# lib/libXtsol
-depend type=require fmri=pkg:/x11/trusted/libxtsol
-
 # app/rgb, xgamma, xhost, xinput, xmodmap, xprop, xrandr, xrdb
 # xrefresh, xset, xsetroot
 depend type=require fmri=pkg:/x11/x11-server-utilities

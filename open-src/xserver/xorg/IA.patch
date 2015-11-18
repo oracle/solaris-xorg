@@ -1,6 +1,8 @@
---- a/Makefile.am	Thu Nov  6 14:32:19 2014
-+++ b/Makefile.am	Thu Nov  6 14:33:16 2014
-@@ -58,6 +58,7 @@
+diff --git a/Makefile.am b/Makefile.am
+index f0fa2d8..2127601 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -58,6 +58,7 @@ SUBDIRS = \
  	$(GLX_DIR) \
  	$(PRESENT_DIR) \
  	$(DRI3_DIR) \
@@ -8,9 +10,11 @@
  	exa \
  	$(GLAMOR_DIR) \
  	config \
---- a/configure.ac	Thu Nov  6 14:33:28 2014
-+++ b/configure.ac	Thu Nov  6 14:39:52 2014
-@@ -1421,6 +1421,10 @@
+diff --git a/configure.ac b/configure.ac
+index c7379de..e09f020 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1421,6 +1421,10 @@ AC_DEFINE(XINPUT, 1, [Support X Input extension])
  XI_LIB='$(top_builddir)/Xi/libXi.la'
  XI_INC='-I$(top_srcdir)/Xi'
  
@@ -21,30 +25,37 @@
  AM_CONDITIONAL(XF86UTILS, test "x$XF86UTILS" = xyes)
  AM_CONDITIONAL(VGAHW, test "x$VGAHW" = xyes)
  AM_CONDITIONAL(VBE, test "x$VBE" = xyes)
-@@ -2622,3 +2626,6 @@
+@@ -2636,3 +2640,6 @@ xserver.ent
  xorg-server.pc
  ])
  AC_OUTPUT
 +
 +# Add Sun IA extension
 +AC_OUTPUT([IA/Makefile])
---- a/hw/xfree86/dixmods/Makefile.am	Thu Nov  6 14:40:47 2014
-+++ b/hw/xfree86/dixmods/Makefile.am	Thu Nov  6 14:41:06 2014
-@@ -48,3 +48,11 @@
- libdixmods_la_CFLAGS = $(AM_CFLAGS)
+diff --git a/include/extinit.h b/include/extinit.h
+index fa5f293..62a0ab2 100644
+--- a/include/extinit.h
++++ b/include/extinit.h
+@@ -121,6 +121,14 @@ extern _X_EXPORT Bool noMITShmExtension;
+ extern void ShmExtensionInit(void);
+ #endif
  
- libxorgxkb_la_SOURCES = xkbVT.c xkbPrivate.c xkbKillSrv.c
++#define SolarisIAExtension
 +
-+# Sun IA extension module additions
-+extsmodule_LTLIBRARIES += libia.la
-+libia_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(top_srcdir)/IA
-+libia_la_LDFLAGS = -avoid-version
-+libia_la_LIBADD = $(top_builddir)/IA/libIA.la
-+libia_la_SOURCES = iamodule.c
++#ifdef SolarisIAExtension
++#include <X11/extensions/interactive.h>
++extern _X_EXPORT Bool noIAExtension;
++extern void IAExtensionInit(void);
++#endif
 +
---- a/mi/miinitext.c	Thu Nov  6 14:41:23 2014
-+++ b/mi/miinitext.c	Thu Nov  6 14:41:39 2014
-@@ -150,6 +150,9 @@
+ extern void SyncExtensionInit(void);
+ 
+ extern void XCMiscExtensionInit(void);
+diff --git a/mi/miinitext.c b/mi/miinitext.c
+index 5872bf5..a9a3826 100644
+--- a/mi/miinitext.c
++++ b/mi/miinitext.c
+@@ -150,6 +150,9 @@ static ExtensionToggle ExtensionToggleList[] = {
  #ifdef XCSECURITY
      {"SECURITY", &noSecurityExtension},
  #endif
@@ -54,13 +65,27 @@
  #ifdef RES
      {"X-Resource", &noResExtension},
  #endif
---- a/hw/xfree86/common/xf86Config.c	Mon Jun 22 07:30:22 2015
-+++ b/hw/xfree86/common/xf86Config.c	Mon Jun 22 07:35:50 2015
-@@ -118,6 +118,7 @@
-     {.name = "fb",.toLoad = TRUE,.load_opt = NULL},
-     {.name = "shadow",.toLoad = TRUE,.load_opt = NULL},
+@@ -296,6 +299,9 @@ static const ExtensionModule staticExtensions[] = {
+ #ifdef RES
+     {ResExtensionInit, XRES_NAME, &noResExtension},
  #endif
-+    {.name = "ia",.toLoad = TRUE,.load_opt = NULL},
-     {.name = NULL,.toLoad = FALSE,.load_opt = NULL}
- };
++#ifdef SolarisIAExtension
++    {IAExtensionInit, IANAME, &noIAExtension},
++#endif
+ #ifdef XV
+     {XvExtensionInit, XvName, &noXvExtension},
+     {XvMCExtensionInit, XvMCName, &noXvExtension},
+diff --git a/os/utils.c b/os/utils.c
+index 1a070de..efaeef7 100644
+--- a/os/utils.c
++++ b/os/utils.c
+@@ -184,6 +184,9 @@ Bool noXvExtension = FALSE;
+ #ifdef DRI2
+ Bool noDRI2Extension = FALSE;
+ #endif
++#ifdef SolarisIAExtension
++Bool noIAExtension = FALSE;
++#endif
+ 
+ Bool noGEExtension = FALSE;
  

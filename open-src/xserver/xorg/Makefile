@@ -297,19 +297,17 @@ install_fix_paths_glxmodule: default_install
 
 install_fix_paths: install_fix_paths_glxmodule
 
-# Install metadata for Xephyr, Xvfb, Xdmx, & xtsol packages too
+# Install metadata for Xephyr, Xvfb, & Xdmx packages too
 XCOMMON_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xserver-common)
 XEPHYR_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-xorg=%-xephyr)
 XVFB_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xvfb)
 XDMX_PKG_METADATA_DIR =	  $(MODULE_PKG_METADATA_DIR:%-xorg=%-xdmx)
-XTSOL_PKG_METADATA_DIR =  $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-trusted-trusted-xorg)
 MODES_PKG_METADATA_DIR = $(MODULE_PKG_METADATA_DIR:%-server-xorg=%-modeline-utilities)
 
 EXTRA_METADATA_DIRS =	$(XCOMMON_PKG_METADATA_DIR) \
 			$(XEPHYR_PKG_METADATA_DIR) \
 			$(XVFB_PKG_METADATA_DIR) \
 			$(XDMX_PKG_METADATA_DIR) \
-			$(XTSOL_PKG_METADATA_DIR) \
 			$(MODES_PKG_METADATA_DIR)
 
 EXTRA_ATTRDATA_FILES = $(EXTRA_METADATA_DIRS:%=%/$(ATTRDATA_FILE_NAME))
@@ -325,12 +323,6 @@ $(EXTRA_ATTRDATA_FILES) $(EXTRA_LICENSE_FILES): $(EXTRA_METADATA_DIRS)
 
 $(EXTRA_METADATA_DIRS):
 	mkdir -p $@
-
-# Xtsol module is covered only by Oracle copyright/license
-XTSOL_LICENSE = $(XTSOL_PKG_METADATA_DIR)/$(LICENSE_FILE_NAME)
-$(XTSOL_LICENSE):=	LICENSE_NAME	= $(ORACLE_LICENSE_NAME)
-$(XTSOL_LICENSE):=	LICENSE_FILE	= COPYING.tsol
-$(XTSOL_LICENSE):=	LICENSE_INSERT  = $(ORACLE_LICENSE_INSERT)
 
 # Special compatibility links from /usr/X11/include to /usr/include
 X11_INCLUDE_COMPAT_DIR = $(PROTODIR)/usr/X11/include

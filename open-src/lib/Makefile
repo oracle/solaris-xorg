@@ -77,7 +77,6 @@ libXrender: libX11 libXext
 libXres: libX11 libXext
 libXScrnSaver: libX11 libXext
 libXt: libX11 libSM libICE
-libXtsol: libX11 libXext
 libXtst: libX11 libXext
 libXv: libX11 libXext
 libXvMC: libX11 libXext libXv
@@ -139,7 +138,6 @@ OS_SUBDIRS_common = \
 	libXrandr \
 	libXres \
 	libXScrnSaver \
-	libXtsol \
 	libXtst \
 	libXv \
 	libXvMC \
@@ -165,7 +163,8 @@ OBSOLETE_SUBDIRS = \
 	libXaw5 \
 	libXlg3d \
 	libXprintUtil \
-	libXprintAppUtil
+	libXprintAppUtil \
+	libXtsol
 
 PWD:sh=pwd
 TOP=$(PWD)/../..

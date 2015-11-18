@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,7 +29,7 @@ Architecture and Implementation
    The open source TigerVNC release is built using the Xorg server sources
    to provide the X server portion of the sources for Xvnc.   This provides
    an Xvnc that includes the same features as Sun's Xorg, including Sun
-   enhancements like Trusted Extensions support & Xserver DTrace probes.
+   enhancements like IA Extension support & Xserver DTrace probes.
 
 Source code access
 
@@ -107,7 +107,7 @@ Source code access
   10. Are there known issues or bugs with this feature? If so, please provide
       bug Ids and any known workarounds.
 
-      See bugster for known bugs.
+      See 10006/X11/VNC in BugDB for known bugs.
 
   11. How would one recognize if the new feature is working or not working?
       (Note: The engineer will provide as much information as possible at 

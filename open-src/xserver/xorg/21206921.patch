@@ -5,7 +5,7 @@
   *
   */
 -/* Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
-+/* Copyright (c) 2008, 2015 Oracle and/or its affiliates. All rights reserved.
++/* Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
   *
   * Permission is hereby granted, free of charge, to any person obtaining a
   * copy of this software and associated documentation files (the "Software"),
@@ -18,9 +18,9 @@
          return TRUE;
 +    user_id = geteuid();
 +    if (user_id != 0) {               /* reset privs back to root */
-+    if (seteuid(0) < 0) {
-+	xf86Msg(X_WARNING, "Error in resetting euid to root \n");
-+	}
++        if (seteuid(0) < 0) {
++            xf86Msg(X_WARNING, "Error in resetting euid to root \n");
++        }
 +    }
  
      if (sysi86(SI86V86, V86SC_IOPL, PS_IOPL) < 0) {
@@ -32,7 +32,7 @@
 +	ExtendedEnabled = TRUE;
 +    if (user_id != 0) {               /* reset privs back to user */
 +      	if (seteuid(user_id) < 0) {
-+	xf86Msg(X_WARNING, "Error in resetting euid to %d\n", user_id);
++           xf86Msg(X_WARNING, "Error in resetting euid to %d\n", user_id);
 +	}
 +    }
  #endif                          /* i386 */
@@ -45,7 +45,7 @@
 -    sysi86(SI86V86, V86SC_IOPL, 0);
 -
 -    ExtendedEnabled = FALSE;
-+    if (sysi86(SI86V86, V86SC_IOPL, 0) < 0 )
++    if (sysi86(SI86V86, V86SC_IOPL, 0) < 0)
 +        xf86Msg(X_WARNING, "xf86DisableIOPorts: Failed to set IOPL for I/O\n");
 +    else
 +        ExtendedEnabled = FALSE;

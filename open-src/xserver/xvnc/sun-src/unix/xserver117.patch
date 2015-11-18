@@ -64,7 +64,7 @@
 --- xserver/mi/miinitext.c	Tue Nov 11 15:22:55 2014
 +++ xserver/mi/miinitext.c	Tue Nov 11 15:28:19 2014
 @@ -135,6 +135,10 @@
- extern void TsolExtensionInit(void);
+ extern void IAExtensionInit(void);
  #endif
  
 +#ifdef TIGERVNC

@@ -7,7 +7,6 @@ cli-nobanner.patch,-p1
 make_xkm_output_dir.patch,-p1
 dtlogin-userinfo.patch,-p1
 IA.patch,-p1
-xtsol.patch,-p1
 amd64-loader-path.patch,-p1
 fontmod.patch,-p1
 sparc-probe.patch,-p1
@@ -26,7 +25,6 @@ workaround-7154410.patch,-p1
 cli-nolock.patch,-p1
 16418361.patch,-p1
 sparc-config-improv.patch,-p1
-17385060.patch,-p1
 add-input-dev-in-multi-session.patch,-p1
 sparc-multisession.patch,-p1
 glx-mesa.patch,-p1

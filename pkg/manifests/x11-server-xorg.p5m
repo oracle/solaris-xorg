@@ -209,7 +209,6 @@ dir  path=usr/lib/xorg/modules
 dir  path=usr/lib/xorg/modules/dri
 dir  path=usr/lib/xorg/modules/drivers
 dir  path=usr/lib/xorg/modules/extensions
-file path=usr/lib/xorg/modules/extensions/libia.so
 dir  path=usr/lib/xorg/modules/input
 file path=usr/lib/xorg/modules/libexa.so
 file path=usr/lib/xorg/modules/libfb.so
