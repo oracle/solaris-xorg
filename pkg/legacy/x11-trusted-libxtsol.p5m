@@ -19,5 +19,5 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/x11/trusted/libxtsol@0.5.12,5.12-5.12.0.0.0.87.0
+set name=pkg.fmri value=pkg:/x11/trusted/libxtsol@5.12,5.12-5.12.0.0.0.88.0
 set name=pkg.obsolete value=true
