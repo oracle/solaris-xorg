@@ -54,6 +54,8 @@ MODULE_ARC_CASES += LSARC/2008/140
 MODULE_ARC_CASES += PSARC/2010/162
 # PSARC/2015/035 Moving fontconfig utilities to LP64 by default
 MODULE_ARC_CASES += PSARC/2015/035
+# PSARC/2015/527 Fontconfig 2.11.94  
+MODULE_ARC_CASES += PSARC/2015/527
 
 # Package metadata
 UPSTREAM	= fontconfig
@@ -61,14 +63,15 @@ UPSTREAM_URL	= http://fontconfig.org/
 UPSTREAM_SET	= yes
 GIT_URL		= $(FDO_GIT_URL)/fontconfig
 GIT_URL_SET	= yes
-ORACLE_TPNO	= 12113
+ORACLE_TPNO	= 23955
 
 # Version number (used in path names)
-MODULE_VERSION=2.8.0
+MODULE_VERSION=2.11.94
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 77e15a92006ddc2adbb06f840d591c0e
-TARBALL_SHA1 = 570fb55eb14f2c92a7b470b941e9d35dbfafa716
+TARBALL_MD5  = 479be870c7f83f15f87bac085b61d641
+TARBALL_SHA1 = 3748d8a2b9cf8052dbd003f524d829157f1ead83
+TARBALL_SHA256 = 73f6d323c7bcfbde25d78397675191d55b8f4139132c6a9444410f3a2d8a9a95
 
 # Source tarball
 SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
@@ -83,17 +86,18 @@ SOURCE_PATCHES = \
 		arial-narrow.conf.patch \
 		cjk-fonts.conf.patch,-p1 \
 		Makefile.am.0.patch \
-		bitmap-hacks.patch \
-		6447517.patch \
+		bitmap-hacks.patch,-p1 \
+		6447517.patch,-p1 \
 		6770058.patch \
-		7026635.patch \
-		7058808.patch
+		7026635.patch,-p1 \
+		7058808.patch \
+		font-links.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=fontconfig
 
 # Man pages to apply Sun footer to & attributes to list
-FONTCONFIG_CMDS = fc-cache fc-list fc-query fc-cat fc-match fc-scan
+FONTCONFIG_CMDS = fc-cache fc-list fc-query fc-cat fc-match fc-scan fc-pattern fc-validate
 SUNTOUCHED_MANPAGES = $(FONTCONFIG_CMDS:%=%/%.1) doc/*.3 doc/*.5
 MODULE_STABILITY=Volatile
 LIB_MAN_SUFFIX=3fontconfig
@@ -114,6 +118,8 @@ SUNTOUCH_MAN_FLAGS_fc-query.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 SUNTOUCH_MAN_FLAGS_fc-cat.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 SUNTOUCH_MAN_FLAGS_fc-match.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
 SUNTOUCH_MAN_FLAGS_fc-scan.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-pattern.1	= $(SUNTOUCH_MAN_FLAGS_CMDS)
+SUNTOUCH_MAN_FLAGS_fc-validate.1= $(SUNTOUCH_MAN_FLAGS_CMDS)
 
 # pkg-config files to update
 FIX_PC_FILES=fontconfig.pc.in
@@ -125,7 +131,9 @@ BINSUBDIR_64    = $(SUBDIR64)
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = \
     --bindir='$${exec_prefix}/bin/$(BINSUBDIR)' \
-    --with-confdir=/etc/fonts \
+    --with-baseconfigdir='/etc/fonts' \
+    --with-templatedir='/etc/fonts/conf.avail' \
+    --with-xmldir='/etc/fonts' \
     --with-default-fonts='/usr/share/fonts' \
     --with-add-fonts='/etc/X11/fontpath.d,/usr/share/ghostscript/fonts,/usr/X11/lib/X11/fonts' \
     --with-cache-dir=/var/cache/fontconfig

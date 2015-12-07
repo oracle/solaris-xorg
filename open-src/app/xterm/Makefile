@@ -2,7 +2,7 @@
 #
 # xterm - terminal emulator for X
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,20 +40,24 @@ RESIZE_PKGNAME=terminal/resize
 MODULE_PKGCLASS=Applications/System Utilities
 MODULE_PKGCLASS_SET=yes
 
+# ARC cases that covered this module
+# PSARC/2015/308 xterm 318
+MODULE_ARC_CASES += PSARC/2015/308
+
 # Package metadata
 UPSTREAM	= Thomas Dickey
 UPSTREAM_URL	= http://invisible-island.net/xterm/
 UPSTREAM_SET	= yes
 MODULE_DESC	= the xterm terminal emulator application
-ORACLE_TPNO 	= 15694
+ORACLE_TPNO 	= 23284
 
 # Version number (used in path names)
-MODULE_VERSION=297
+MODULE_VERSION=320
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 45610ae6fe90cf086fcd75b9cb97bbaf
-TARBALL_SHA1  = 64b1531ee31f0a5880cc5e44c245887264b6f587
-TARBALL_SHA256= a2dc32a9a8401a2d3d2ae99844ba9cd9f81f0bc930870ebef783a9bcf165d179
+TARBALL_MD5   = 0d7f0e6390d132ae59876b3870e5783d
+TARBALL_SHA1  = b1d2a1698430eb96530aa7c7bb7a6c562dcecf72
+TARBALL_SHA256= a60dbb574334c081425fa30f011cd9f571e3be7a91e2a84e252461798bce24a7
 
 # Source tarball
 SOURCE_URL=ftp://invisible-island.net/xterm/$(SOURCE_TARBALL_NAME:.tar.gz=.tgz)

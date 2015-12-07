@@ -9,19 +9,19 @@ Reset the locale after reading file.
 
 
 diff -urp -x '*~' -x '*.orig' src/fcxml.c src/fcxml.c
---- src/fcxml.c	2009-11-16 14:46:18.000000000 -0800
-+++ src/fcxml.c	2010-05-10 15:00:04.697920803 -0700
-@@ -2456,6 +2456,9 @@ FcConfigParseAndLoad (FcConfig	    *conf
+--- a/src/fcxml.c	Thu Jun 18 09:18:07 2015
++++ b/src/fcxml.c	Thu Jun 18 09:19:31 2015
+@@ -3226,6 +3226,9 @@
      void	    *buf;
  #endif
-     
-+    char	    *cur_locale = setlocale (LC_NUMERIC, NULL);
+ 
++    char           *cur_locale = setlocale (LC_NUMERIC, NULL);
 +    setlocale (LC_NUMERIC, "C");
 +
-     filename = FcConfigFilename (name);
-     if (!filename)
- 	goto bail0;
-@@ -2555,6 +2558,7 @@ bail1:
+ #ifdef _WIN32
+     if (!pGetSystemWindowsDirectory)
+     {
+@@ -3346,6 +3349,7 @@
      close (fd);
      fd = -1;
  bail0:

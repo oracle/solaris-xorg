@@ -1,13 +1,12 @@
-diff -urp -x '*~' -x '*.orig' Makefile.am Makefile.am
---- Makefile.am	2009-11-16 09:24:52.000000000 -0800
-+++ Makefile.am	2010-05-10 15:15:11.378520724 -0700
-@@ -104,16 +104,6 @@ install-data-local: fonts.conf
- 	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf"; \
- 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(configdir)/fonts.conf; \
+--- Makefile.am	Thu Jun 18 09:00:13 2015
++++ Makefile.am	Thu Jun 18 09:00:43 2015
+@@ -116,16 +116,6 @@
+ 	  echo " $(INSTALL_DATA) fonts.conf $(DESTDIR)$(baseconfigdir)/fonts.conf"; \
+ 	  $(INSTALL_DATA) fonts.conf $(DESTDIR)$(baseconfigdir)/fonts.conf; \
  	fi; fi
 -	@(if $(RUN_FC_CACHE_TEST); then \
--	    echo " $(bindir)/fc-cache -s -f -v"; \
--	    $(bindir)/fc-cache -s -f -v; \
+-	    echo "fc-cache$(EXEEXT) -s -f -v"; \
+-	    fc-cache/fc-cache$(EXEEXT) -s -f -v; \
 -	else \
 -	    echo "***"; \
 -	    echo "*** Warning: fonts.cache not built"; \
