@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -99,6 +99,7 @@ MODULE_CONFIG_ENV += $(MODULE_BUILD_ENV)
 # Need to use GNU Make to build
 MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
+MODULE_MAKEFLAGS = TOP="$(PWD)/$(BUILD_DIR)"
 
 # Need to build with gcc
 MODULE_COMPILER=gcc

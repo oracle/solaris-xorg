@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -90,20 +90,7 @@ $(PROTODIR)/usr/include/drm:
 	@rm -f $@
 	ln -s libdrm $@
 
-# Upstream seems to install in $(X11_SERVERLIBS_SUBDIR)/pkgconfig no matter
-# what, so just move them afterwards
-PC_FILES_i386 = libdrm_intel.pc libdrm_radeon.pc
-PC_FILES = libdrm.pc libkms.pc $(PC_FILES_$(MACH))
-MOVED_PC_FILES = $(PC_FILES:%=$(PROTODIR)/$(PKGCONFIG_DIR)/%)
-XSERVER_PC_DIR = $(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR)/pkgconfig
-
-install-gen: $(MOVED_PC_FILES) install_fixed_manpages
-
-$(PROTODIR)/$(PKGCONFIG_DIR)/%.pc: $(PROTODIR)/$(XSERVER_PC_DIR)/%.pc
-	-rm -f $@
-	mv $< $@
-
-$(PC_FILES:%=$(PROTODIR)/$(XSERVER_PC_DIR)/%): default_install
+install-gen: install_fixed_manpages
 
 # Need to apply suntouch changes to man pages generated during build
 MANDIR = $(PROTODIR)$(X11_MAN_DIR)

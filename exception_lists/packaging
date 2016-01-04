@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,6 @@
 # The following entries are built in the proto/ area
 # but not included in any packages - this is intentional.
 #
-
-# These should be empty directories left from the libdrm workaround for
-# pkgconfig installation
-usr/lib/xorg/pkgconfig
-usr/lib/xorg/amd64/pkgconfig		i386
-usr/lib/xorg/sparcv9/pkgconfig		sparc
 
 # /var/run is a symlink to a tmpfs filesystem created at system boot
 var/run
