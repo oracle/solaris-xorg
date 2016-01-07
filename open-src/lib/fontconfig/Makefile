@@ -2,7 +2,7 @@
 #
 # Fontconfig - Font configuration and customization library
 #
-# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -153,6 +153,11 @@ AUTORECONF=yes
 FONTCONFIG_PROG_LDFLAGS=$(MAPFILES_FOR_PROGS) ../src/libfontconfig.so.1
 PROGRAM_VARS = fc_cache fc_cat fc_list fc_match fc_query fc_scan
 MODULE_BUILD_MAKEFLAGS = $(PROGRAM_VARS:%=%_LDADD="$(FONTCONFIG_PROG_LDFLAGS)")
+
+# 22507047 libfontconfig should not need a libpthread dependency
+# Upstream uses ac_pthread.m4 which insists on using -mt & -lpthread on Solaris
+# despite them not being necessary any more
+MODULE_LD_OPTIONS += $(ZDISCARD_UNUSED_DEP)
 
 # Include common rulesets
 include ../Makefile.inc
