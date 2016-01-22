@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -122,7 +122,7 @@ MODULE_PKGCONFIG_MAN_SET=yes
 
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-xthreads --enable-loadable-i18n \
-	--disable-xf86bigfont \
+	--disable-xf86bigfont --disable-secure-rpc \
 	--with-xcb=yes --enable-loadable-xcursor --enable-xcms \
 	--enable-xlocaledir --enable-xkb --enable-man-pages=$(LIB_MAN_SUFFIX) \
 	--with-locale-lib-dir='$${exec_prefix}/lib/X11/locale$(LIBSUBDIR)'

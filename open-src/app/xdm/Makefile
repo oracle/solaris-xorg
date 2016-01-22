@@ -2,7 +2,7 @@
 #
 # xdm - X Display Manager with support for XDMCP and host chooser
 #
-# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,6 +72,7 @@ MODULE_PREFIX_SET=yes
 # Find xrdb & xterm in /usr/bin even with --bindir set to /usr/sbin
 MODULE_CONFIG_OPTS= \
 	--enable-shared=yes --enable-static=no \
+	--disable-secure-rpc \
 	--with-xdmconfigdir=/etc/X11/xdm \
 	--with-piddir=/var/run/xdm \
 	--with-authdir=/var/run/xdm \

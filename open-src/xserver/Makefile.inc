@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to all xserver build trees
 #
-# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,6 +55,7 @@ MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_PREFIX)/bin/
 XSERVER_CONFIG_OPTS_COMMON = \
 	--docdir='$(MODULE_DOC_DIR)' \
         --enable-xdm-auth-1 --enable-xdmcp --enable-xcsecurity \
+	--disable-secure-rpc \
 	--enable-shared --disable-static \
 	--enable-glx --enable-dri2 \
 	--disable-xsdl --disable-xwin --disable-xnest \

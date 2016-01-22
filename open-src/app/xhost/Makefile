@@ -2,7 +2,7 @@
 #
 # xhost - utility for mananging X server access control lists
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -54,6 +54,8 @@ MODULE_STABILITY=Committed
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6
 MODULE_ARC_CASES = PSARC/2001/108
+
+MODULE_CONFIG_OPTS = --disable-secure-rpc
 
 MODULE_ADD_INSTALL_TARGETS = install_po
 
