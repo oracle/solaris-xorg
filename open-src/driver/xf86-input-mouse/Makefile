@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xf86-input-mouse 1.x Makefile
+# xf86-input-mouse Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,6 +56,9 @@ MODULE_ADD_INSTALL_TARGETS=install_docs
 MODULE_PKGCONFIG_DIR=$(PKGCONFIG_DIR_SHARE)
 MODULE_PKGCONFIG_DIR_SET=yes
 
+# Fix path for installing headers in proto area and in xorg-mouse.pc
+FIX_PC_FILES = xorg-mouse.pc.in
+MODULE_CONFIG_OPTS += --with-sdkdir='$(XORG_SDK_INCLUDES_DIR)'
 MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
 
 include ../Makefile.inc

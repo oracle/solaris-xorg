@@ -2,7 +2,7 @@
 #
 # libxshmfence
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,5 +50,8 @@ MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xshmfence.pc.in
+
+# Don't include path to x11proto headers in our proto area in the *.pc files.
+MODULE_FIX_PC_FLAGS += -e 's| \@XPROTO_CFLAGS\@||g;'
 
 include ../Makefile.inc

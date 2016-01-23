@@ -123,6 +123,9 @@ SUNTOUCH_MAN_FLAGS_fc-validate.1= $(SUNTOUCH_MAN_FLAGS_CMDS)
 
 # pkg-config files to update
 FIX_PC_FILES=fontconfig.pc.in
+# Don't include path to freetype headers in our proto area in the *.pc files.
+# The 'Requires: freetype' will handle the right -I flags for us.
+MODULE_FIX_PC_FLAGS += -e 's| \@FREETYPE_CFLAGS\@||g;'
 
 BINSUBDIR       = $(BINSUBDIR_$(BUILD_TYPE))
 BINSUBDIR_32    = $(SUBDIR32)

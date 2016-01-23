@@ -2,7 +2,7 @@
 #
 # xf86-input-synaptics driver for Synaptics & compatible touchpads
 #
-# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -52,7 +52,9 @@ MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP) -lm
 # Extra install rules
 MODULE_ADD_INSTALL_TARGETS = install_fdi
 
-# Fix path for installing headers in proto area
+# Fix path for installing headers in proto area and in xorg-synaptics.pc
+FIX_PC_FILES = xorg-synaptics.pc.in
+MODULE_CONFIG_OPTS += --with-sdkdir='$(XORG_SDK_INCLUDES_DIR)'
 MODULE_INSTALL_MAKEFLAGS = sdkdir='$(XORG_SDK_INCLUDES_DIR)'
 
 # Install xorg-synaptics.pc to /usr/share since it defines the architecture
