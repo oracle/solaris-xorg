@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Application modules
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,14 +44,12 @@ OS_SUBDIRS_common = \
 	iceauth \
 	ico \
 	installalias \
-	lbxproxy \
 	listres \
 	luit \
 	kbd_mode \
 	mesa-demos \
 	mkcookie \
 	oclock \
-	proxymngr \
 	sessreg \
 	setxkbmap \
 	showfont \
@@ -80,11 +78,9 @@ OS_SUBDIRS_common = \
 	xev \
 	xeyes \
 	xfd \
-	xfindproxy \
 	xfontsel \
 	xfs \
 	xfsinfo \
-	xfwp \
 	xgamma \
 	xgc \
 	xhost \
@@ -129,8 +125,12 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 	intel-gpu-tools
 
 OBSOLETE_SUBDIRS = \
+	lbxproxy \
 	rstart \
+	proxymngr \
 	xlswins \
+	xfindproxy \
+	xfwp \
 	xplsprinters \
 	xpm \
 	xprehashprinterlist \

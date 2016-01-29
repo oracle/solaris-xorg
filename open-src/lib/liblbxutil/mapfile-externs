@@ -1,8 +1,0 @@
-# liblbxutil expects its caller to export these functions to it
-
-{
-  global:
-    Xalloc = FUNCTION extern;
-    Xcalloc = FUNCTION extern;
-    Xfree = FUNCTION extern;
-};

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,9 +37,6 @@ file path=usr/include/GL/internal/glcore.h
 dir  path=usr/include/X11
 file path=usr/include/X11/DECkeysym.h
 file path=usr/include/X11/HPkeysym.h
-dir  path=usr/include/X11/PM
-file path=usr/include/X11/PM/PM.h
-file path=usr/include/X11/PM/PMproto.h
 file path=usr/include/X11/Sunkeysym.h
 file path=usr/include/X11/X.h
 file path=usr/include/X11/XF86keysym.h
@@ -267,8 +264,6 @@ file path=usr/share/doc/xproto/glossary.xml
 file path=usr/share/doc/xproto/keysyms.xml
 file path=usr/share/doc/xproto/sect1-9.xml
 file path=usr/share/doc/xproto/x11protocol.xml
-dir  path=usr/share/doc/xproxymanagementprotocol
-file path=usr/share/doc/xproxymanagementprotocol/PM_spec
 file path=usr/share/pkgconfig/bigreqsproto.pc
 file path=usr/share/pkgconfig/compositeproto.pc
 file path=usr/share/pkgconfig/damageproto.pc
@@ -297,4 +292,4 @@ file path=usr/share/pkgconfig/xf86miscproto.pc
 file path=usr/share/pkgconfig/xf86vidmodeproto.pc
 file path=usr/share/pkgconfig/xineramaproto.pc
 file path=usr/share/pkgconfig/xproto.pc
-file path=usr/share/pkgconfig/xproxymngproto.pc
+

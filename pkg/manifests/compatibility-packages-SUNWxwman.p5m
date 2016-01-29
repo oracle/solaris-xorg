@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -103,9 +103,6 @@ depend type=require fmri=pkg:/x11/library/libice
 
 # lib/libXpm
 depend type=require fmri=pkg:/x11/library/libxpm
-
-# app/lbxproxy, proxymgr, xfindproxy, xfwp
-depend type=require fmri=pkg:/x11/network/x11-network-proxies
 
 # app/oclock
 depend type=require fmri=pkg:/x11/oclock
