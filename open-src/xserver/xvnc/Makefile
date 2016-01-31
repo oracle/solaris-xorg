@@ -4,7 +4,7 @@
 # Based on Fedora's tigervnc.spec revision 1.20 from
 # http://cvs.fedoraproject.org/viewvc/rpms/tigervnc/devel/tigervnc.spec
 #
-# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -84,8 +84,9 @@ SOURCE_PATCHES += solaris-audit.patch,-p1
 SOURCE_PATCHES += 17950657.patch,-p1
 SOURCE_PATCHES += studio12.4-patch,-p1
 SOURCE_PATCHES += CVE-2014-8240.patch,-p1
-SOURCE_PATCHES += gnutls-disable-sslv3.patch,-p1
 SOURCE_PATCHES += vnc-Makefile.patch,-p1
+SOURCE_PATCHES += gnutls-3.patch,-p1
+SOURCE_PATCHES += gnutls-drop-ecdh.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -149,6 +150,13 @@ MODULE_CONFIG_ENV = \
 # Command line options to GNU autoconf configure script for vnc clients
 MODULE_CONFIG_OPTS  = --with-installed-zlib --with-system-jpeg --without-simd
 MODULE_CONFIG_OPTS += --libdir='$${exec_prefix}/lib/vnc'
+MODULE_CONFIG_OPTS += --enable-gnutls
+
+# Force use of gnutls-3 pkgconfig during 2.x->3.x transition (bug 22144600)
+GNUTLS_PKGCONFIG_CMD = \
+    PKG_CONFIG_PATH=/usr/lib/$(SUBDIR64)/pkgconfig/gnutls-3/ pkg-config
+MODULE_CONFIG_OPTS += GNUTLS_CFLAGS="$$($(GNUTLS_PKGCONFIG_CMD) --cflags gnutls)"
+MODULE_CONFIG_OPTS += GNUTLS_LDFLAGS="$$($(GNUTLS_PKGCONFIG_CMD) --libs gnutls)"
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = Xvnc
