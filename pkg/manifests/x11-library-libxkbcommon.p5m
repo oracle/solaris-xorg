@@ -1,0 +1,110 @@
+# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+<transform dir file link hardlink path=usr/share/doc/libxkbcommon -> \
+    default facet.doc.html true>
+set name=pkg.fmri value=pkg:/x11/library/libxkbcommon@__version:libxkbcommon__
+set name=pkg.summary \
+    value="keymap handling library for toolkits and window systems"
+set name=pkg.description \
+    value="libxkbcommon is a keyboard keymap compiler and support library which processes a reduced subset of keymaps as defined by the XKB (X Keyboard Extension) specification.  It also contains a module for handling Compose and dead keys."
+dir  path=usr/include/xkbcommon
+file path=usr/include/xkbcommon/xkbcommon-compat.h
+file path=usr/include/xkbcommon/xkbcommon-compose.h
+file path=usr/include/xkbcommon/xkbcommon-keysyms.h
+file path=usr/include/xkbcommon/xkbcommon-names.h
+file path=usr/include/xkbcommon/xkbcommon-x11.h
+file path=usr/include/xkbcommon/xkbcommon.h
+link path=usr/lib/$(ARCH64)/libxkbcommon-x11.so target=libxkbcommon-x11.so.0
+file path=usr/lib/$(ARCH64)/libxkbcommon-x11.so.0
+link path=usr/lib/$(ARCH64)/libxkbcommon.so target=libxkbcommon.so.0
+file path=usr/lib/$(ARCH64)/libxkbcommon.so.0
+file path=usr/lib/$(ARCH64)/pkgconfig/xkbcommon-x11.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/xkbcommon.pc
+link path=usr/lib/libxkbcommon-x11.so target=libxkbcommon-x11.so.0
+file path=usr/lib/libxkbcommon-x11.so.0
+link path=usr/lib/libxkbcommon.so target=libxkbcommon.so.0
+file path=usr/lib/libxkbcommon.so.0
+file path=usr/lib/pkgconfig/xkbcommon-x11.pc
+file path=usr/lib/pkgconfig/xkbcommon.pc
+dir  path=usr/share/doc/libxkbcommon
+file path=usr/share/doc/libxkbcommon/annotated.html
+file path=usr/share/doc/libxkbcommon/arrowdown.png
+file path=usr/share/doc/libxkbcommon/arrowright.png
+file path=usr/share/doc/libxkbcommon/bc_s.png
+file path=usr/share/doc/libxkbcommon/bdwn.png
+file path=usr/share/doc/libxkbcommon/classes.html
+file path=usr/share/doc/libxkbcommon/closed.png
+file path=usr/share/doc/libxkbcommon/doc.png
+file path=usr/share/doc/libxkbcommon/doxygen-extra.css
+file path=usr/share/doc/libxkbcommon/doxygen.css
+file path=usr/share/doc/libxkbcommon/doxygen.png
+file path=usr/share/doc/libxkbcommon/dynsections.js
+file path=usr/share/doc/libxkbcommon/files.html
+file path=usr/share/doc/libxkbcommon/folderclosed.png
+file path=usr/share/doc/libxkbcommon/folderopen.png
+file path=usr/share/doc/libxkbcommon/functions.html
+file path=usr/share/doc/libxkbcommon/functions_func.html
+file path=usr/share/doc/libxkbcommon/functions_type.html
+file path=usr/share/doc/libxkbcommon/functions_vars.html
+file path=usr/share/doc/libxkbcommon/globals.html
+file path=usr/share/doc/libxkbcommon/globals_defs.html
+file path=usr/share/doc/libxkbcommon/globals_enum.html
+file path=usr/share/doc/libxkbcommon/globals_eval.html
+file path=usr/share/doc/libxkbcommon/globals_func.html
+file path=usr/share/doc/libxkbcommon/globals_type.html
+file path=usr/share/doc/libxkbcommon/group__components.html
+file path=usr/share/doc/libxkbcommon/group__compose.html
+file path=usr/share/doc/libxkbcommon/group__context.html
+file path=usr/share/doc/libxkbcommon/group__include-path.html
+file path=usr/share/doc/libxkbcommon/group__keymap.html
+file path=usr/share/doc/libxkbcommon/group__keysyms.html
+file path=usr/share/doc/libxkbcommon/group__logging.html
+file path=usr/share/doc/libxkbcommon/group__state.html
+file path=usr/share/doc/libxkbcommon/group__x11.html
+file path=usr/share/doc/libxkbcommon/index.html
+file path=usr/share/doc/libxkbcommon/jquery.js
+file path=usr/share/doc/libxkbcommon/md_doc_compat.html
+file path=usr/share/doc/libxkbcommon/md_doc_quick-guide.html
+file path=usr/share/doc/libxkbcommon/modules.html
+file path=usr/share/doc/libxkbcommon/nav_f.png
+file path=usr/share/doc/libxkbcommon/nav_g.png
+file path=usr/share/doc/libxkbcommon/nav_h.png
+file path=usr/share/doc/libxkbcommon/open.png
+file path=usr/share/doc/libxkbcommon/pages.html
+file path=usr/share/doc/libxkbcommon/splitbar.png
+file path=usr/share/doc/libxkbcommon/structxkb__compose__state.html
+file path=usr/share/doc/libxkbcommon/structxkb__compose__table.html
+file path=usr/share/doc/libxkbcommon/structxkb__context.html
+file path=usr/share/doc/libxkbcommon/structxkb__keymap.html
+file path=usr/share/doc/libxkbcommon/structxkb__rule__names.html
+file path=usr/share/doc/libxkbcommon/structxkb__state.html
+file path=usr/share/doc/libxkbcommon/sync_off.png
+file path=usr/share/doc/libxkbcommon/sync_on.png
+file path=usr/share/doc/libxkbcommon/tab_a.png
+file path=usr/share/doc/libxkbcommon/tab_b.png
+file path=usr/share/doc/libxkbcommon/tab_h.png
+file path=usr/share/doc/libxkbcommon/tab_s.png
+file path=usr/share/doc/libxkbcommon/tabs.css
+file path=usr/share/doc/libxkbcommon/xkbcommon-compose_8h.html
+file path=usr/share/doc/libxkbcommon/xkbcommon-names_8h.html
+file path=usr/share/doc/libxkbcommon/xkbcommon-x11_8h.html
+file path=usr/share/doc/libxkbcommon/xkbcommon_8h.html

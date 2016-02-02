@@ -87,6 +87,7 @@ mesa: libdrm libX11 libXext libXdamage libXfixes libXxf86vm
 libglu: mesa
 freeglut: mesa libglu
 libepoxy: mesa
+libxkbcommon: libxcb
 
 # pixman doesn't need these itself, but its test framework uses gtk,
 # which does depend on these
@@ -148,7 +149,8 @@ OS_SUBDIRS_common = \
 	freeglut \
 	pixman \
 	libxshmfence \
-	libXpresent
+	libXpresent \
+	libxkbcommon
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
