@@ -38,7 +38,8 @@ TARBALL_SHA256= 6cd76ccae4e06eee47d3ead84a118740e9406e2a9b7adc9b08e92c69ce89c2e3
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = scanpci.man.patch,-p1 \
 		21510615.patch \
-		21850880.patch
+		21850880.patch \
+		21509973.patch
 
 # Library name
 LIBNAME=libpciaccess
