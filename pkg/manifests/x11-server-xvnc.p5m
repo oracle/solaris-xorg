@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,6 +24,7 @@ set name=pkg.summary value="TigerVNC X11/VNC server"
 set name=pkg.description \
     value="X Window System server based on X.Org Foundation open source release and TigerVNC open source release that displays over RFB protocol to a VNC client"
 file path=lib/svc/manifest/application/x11/xvnc-inetd.xml
+file path=usr/lib/vnclock mode=0555
 link path=usr/X11/bin/Xvnc target=../../bin/Xvnc
 $(i386_ONLY)link path=usr/bin/$(ARCH64)/Xvnc target=../Xvnc
 file path=usr/bin/Xvnc group=root mode=2555
@@ -65,3 +66,6 @@ depend type=require fmri=pkg:/x11/keyboard/xkbcomp
 # vncserver script requires xauth & xrdb programs
 depend type=require fmri=pkg:/x11/session/xauth
 depend type=require fmri=pkg:/x11/x11-server-utilities
+
+# Xvnc depends on xscreensaver
+depend type=require fmri=pkg:/desktop/xscreensaver

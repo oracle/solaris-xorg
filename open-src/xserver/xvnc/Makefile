@@ -87,6 +87,7 @@ SOURCE_PATCHES += CVE-2014-8240.patch,-p1
 SOURCE_PATCHES += vnc-Makefile.patch,-p1
 SOURCE_PATCHES += gnutls-3.patch,-p1
 SOURCE_PATCHES += gnutls-drop-ecdh.patch,-p1
+SOURCE_PATCHES += screenlock.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -267,6 +268,8 @@ Xvnc_install_data: $(SOURCE_TARGETS)
 		$(PROTODIR)/usr/share/man/man1/x0vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 xvnc-inetd.xml \
 		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11/
+	$(INSTALL_SCRIPT) -m 0555 vnclock.sh \
+		$(PROTODIR)/usr/lib/vnclock
 
 # Java VNCviewer applet for connecting from a web browser
 JAVA_INSTALL_DIR = $(PROTODIR)/usr/share/vnc/classes

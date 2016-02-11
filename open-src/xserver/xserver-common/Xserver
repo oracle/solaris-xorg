@@ -1,7 +1,7 @@
 #!/bin/ksh93
 #
 #
-# Copyright (c) 2004, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -119,6 +119,35 @@ getprop options/server_args SERVERARGS
 getprop options/tcp_listen TCP_LISTEN
 getprop options/display_0_on_console CONSOLE
 getprop options/config_file CONFIG_FILE
+getprop options/vncplatform VNCPLATFORM
+
+hwname=$(prtconf -b | nawk -F':[ \t]*' '/^banner-name:/ {print $2}')
+# Get the platform name that uses Xvnc instead of Xorg and clean it up. 
+VNCPLATFORM=$(echo ${VNCPLATFORM}| tr -d '\\')
+
+# Check if this is a platform that should use Xvnc or Xorg.
+if [[ "${XSERVER}" == "/usr/bin/Xorg" ]] ; then
+    # Configure x11-server to run Xvnc instead of Xorg for ${VNCPLATFORM}
+    if [[ ("${hwname}" != "") && ("${hwname}" == "${VNCPLATFORM}") ]] ; then
+        XSERVER="/usr/bin/Xvnc"
+        SERVERARGS="-SecurityTypes=TLSNone -DisconnectClients=false -NeverShared -IdleTimeout=3600 -interface 169.254.182.77 -screenlock"
+        svccfg -s application/x11/x11-server setprop \
+             options/server = astring: "${XSERVER}"
+        # Need single quotes due to some shells having issue with spaces.
+        svccfg -s application/x11/x11-server setprop \
+             options/server_args = astring: '"-SecurityTypes=TLSNone -DisconnectClients=false -NeverShared -IdleTimeout=3600 -interface 169.254.182.77 -screenlock"'
+    fi
+else
+    # This check is needed in case the system is booted from a cloned archive.
+    if [[ ("${hwname}" == "") || ("${hwname}" != "${VNCPLATFORM}") ]] ; then
+        XSERVER="/usr/bin/Xorg"
+        SERVERARGS=""
+        svccfg -s application/x11/x11-server setprop \
+             options/server = astring: "${XSERVER}"
+        svccfg -s application/x11/x11-server setprop \
+             options/server_args = astring: '""'
+    fi 
+fi
 
 ORIGINAL_XSERVER="${XSERVER}"
 
@@ -224,5 +253,10 @@ if [[ ! -z "${CONFIG_FILE}" ]] ; then
 fi
 
 ALLARGS="${DEPTHARG} ${LISTENARG} ${SERVERARGS} ${CONSOLE} ${CONFIGARG} $*"
+# Remove unneeded arguments for Xvnc.
+if [[ "${XSERVER}" == "/usr/bin/Xvnc" ]] ; then
+    ALLARGSVNC=$(echo ${ALLARGS}| sed 's/-novtswitch//'| tr -d '\\')
+    ALLARGS=${ALLARGSVNC}
+fi
 
 exec ${XSERVER} :${DISPLAY} ${ALLARGS}

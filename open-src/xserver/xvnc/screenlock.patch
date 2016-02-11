@@ -1,0 +1,151 @@
+diff --git a/common/rfb/VNCServerST.h b/common/rfb/VNCServerST.h
+index aa9ade0..cc4f9a8 100644
+--- a/common/rfb/VNCServerST.h
++++ b/common/rfb/VNCServerST.h
+@@ -189,6 +189,9 @@ namespace rfb {
+     bool getDisable() { return disableclients;};
+     void setDisable(bool disable) { disableclients = disable;};
+ 
++    // - Check how many of the clients are authenticated.
++    int authClientCount();
++
+   protected:
+ 
+     friend class VNCSConnectionST;
+@@ -219,9 +222,6 @@ namespace rfb {
+     ManagedPixelBuffer renderedCursor;
+     bool renderedCursorInvalid;
+ 
+-    // - Check how many of the clients are authenticated.
+-    int authClientCount();
+-
+     bool needRenderedCursor();
+     void checkUpdate();
+ 
+diff --git a/unix/xserver/dix/main.c b/unix/xserver/dix/main.c
+index 68d5263..34ed329 100644
+--- a/unix/xserver/dix/main.c
++++ b/unix/xserver/dix/main.c
+@@ -118,6 +118,10 @@ Equipment Corporation.
+ #include "dpmsproc.h"
+ #endif
+ 
++#ifdef sun
++#include <priv.h>
++#endif
++
+ #ifdef SUNSOFT
+ extern void DtloginInit(void);
+ extern void DtloginCloseDown(void);
+@@ -153,6 +157,38 @@ RemoveXauthSymFile(void)
+ {
+         remove(sym_authfile);
+ }
++
++void
++SetPrivileges(void)
++{   
++        priv_set_t *pPrivSet;  
++
++        if ((pPrivSet = priv_allocset()) == NULL) {
++                return;
++        }
++
++        /*
++         * Establish the basic set of privileges.
++         */
++        priv_basicset(pPrivSet);
++
++        /* Add needed privileges. */
++        (void) priv_addset(pPrivSet, PRIV_PROC_AUDIT);
++	(void) priv_addset(pPrivSet, PRIV_FILE_DAC_READ);
++	(void) priv_addset(pPrivSet, PRIV_FILE_DAC_WRITE);
++
++	/* Set the permitted privilege set. */
++	if (setppriv(PRIV_SET, PRIV_PERMITTED, pPrivSet) !=0) {
++		ErrorF("Could not setppriv() PRIV_PERMITTED");
++	}
++
++	/* Set the limit privilege set. */
++	if (setppriv(PRIV_SET, PRIV_LIMIT, pPrivSet) !=0) {
++		ErrorF("Could not setppriv() PRIV_LIMT");
++	}
++
++	priv_freeset(pPrivSet);
++}
+ #endif
+ 
+ #ifdef XQUARTZ
+@@ -186,6 +222,7 @@ dix_main(int argc, char *argv[], char *envp[])
+     ProcessCommandLine(argc, argv);
+ 
+ #if defined(sun)
++    SetPrivileges();
+     xauthfile = GetAuthFilename();
+     if (xauthfile)
+         SetupXauthFile(xauthfile);
+diff --git a/unix/xserver/hw/vnc/XserverDesktop.cc b/unix/xserver/hw/vnc/XserverDesktop.cc
+index 742e517..b89f87d 100644
+--- a/unix/xserver/hw/vnc/XserverDesktop.cc
++++ b/unix/xserver/hw/vnc/XserverDesktop.cc
+@@ -49,6 +49,7 @@ extern "C" {
+ #define class c_class
+ 
+ extern const char *display;
++extern bool screenlock;
+ 
+ #include "colormapst.h"
+ #ifdef RANDR
+@@ -509,11 +510,28 @@ void XserverDesktop::blockHandler(fd_set* fds)
+     std::list<Socket*>::iterator i;
+     for (i = sockets.begin(); i != sockets.end(); i++) {
+       int fd = (*i)->getFd();
++      int status;
++      pid_t pid;
+       if ((*i)->isShutdown()) {
+         vlog.debug("client gone, sock %d",fd);
+         server->removeSocket(*i);
+         vncClientGone(fd);
+         delete (*i);
++	/*
++	 * If the screenlock option is chosen, lock the screen when the client
++	 * disconnects.
++	 */
++        if (screenlock && (server->authClientCount() == 0)) {
++          if ((pid = fork()) < 0) {
++            vlog.error("Could not fork");
++          } else if (pid == 0) {
++            if (execlp("/usr/lib/vnclock", "vnclock",
++	      display, NULL) < 0) {
++              vlog.error("Could not exec vnclock");
++            }
++            exit(0);
++          } 
++        } 
+       } else {
+         FD_SET(fd, fds);
+       }
+diff --git a/unix/xserver/hw/vnc/xvnc.cc b/unix/xserver/hw/vnc/xvnc.cc
+index 55fe9b5..2af6f81 100644
+--- a/unix/xserver/hw/vnc/xvnc.cc
++++ b/unix/xserver/hw/vnc/xvnc.cc
+@@ -167,6 +167,7 @@ static bool displaySpecified = false;
+ static char displayNumStr[16];
+ 
+ char *listenaddr = NULL;
++bool screenlock = false;
+ 
+ 
+ static void
+@@ -581,6 +582,11 @@ ddxProcessArgument(int argc, char *argv[], int i)
+ 	return 2;
+     }
+ 
++    if (strcmp(argv[i], "-screenlock") == 0) {
++        screenlock = true;
++        return 1;
++    }
++
+     if (strcmp(argv[i], "-noclipboard") == 0) {
+ 	noclipboard = true;
+ 	return 1;
