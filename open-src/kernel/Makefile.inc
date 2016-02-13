@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -121,7 +121,7 @@ DRM_INCL	= -I$(TOP)/open-src/kernel/sys/drm -I$(TOP)/open-src/kernel/sys
 KFLAGS		= -m64 -U$(MACH) -U__$(MACH) -xmodel=kernel -xvector=none \
 		-Wu,-save_args -v -xildoff -D_KERNEL -D_ELF64  -D_DDI_STRICT \
 		-Dsun -D__sun -D__SVR4 -D_SYSCALL32 -D_SYSCALL32_IMPL \
-		-D_ASM_INLINES -Xa -xspace -xdebugformat=stabs -errtags=yes \
+		-D_ASM_INLINES -xspace -xdebugformat=stabs -errtags=yes \
 		-errwarn=%all -W0,-xglobalstatic
 
 # Architecture specific flags

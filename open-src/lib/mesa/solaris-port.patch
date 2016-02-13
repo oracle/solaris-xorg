@@ -47,33 +47,6 @@
  
  #if defined( __powerpc__ )
  
---- src/mesa/drivers/dri/i965/brw_draw_upload.c	Fri Oct 24 13:19:36 2014
-+++ src/mesa/drivers/dri/i965/brw_draw_upload.c	Fri Oct 24 13:20:28 2014
-@@ -216,7 +216,24 @@
-    BRW_SURFACEFORMAT_R8G8B8A8_SSCALED
- };
- 
-+#if defined (sun)
-+/* Solaris does not have ffsll in libc */
-+#define        NBITS_INT       (CHAR_BIT * sizeof (int))
-+static int ffsll(long long i)
-+{
-+       int i1;
-+       int ret;
- 
-+       i1 = i & UINT_MAX;
-+       ret = ffs(i1);
-+       if (ret == 0) {
-+               i1 = (i & 0xffffffff00000000) >> NBITS_INT;
-+               ret = ffs(i1) + NBITS_INT;
-+       }
-+       return ret;
-+}
-+#endif
-+
- /**
-  * Given vertex array type/size/format/normalized info, return
-  * the appopriate hardware surface type.
 --- src/mesa/drivers/dri/i915/intel_tris.c	Fri Oct 24 13:21:20 2014
 +++ src/mesa/drivers/dri/i915/intel_tris.c	Fri Oct 24 13:21:38 2014
 @@ -343,7 +343,7 @@
@@ -107,35 +80,6 @@
  AC_SUBST([DEFINES])
  case "$host_os" in
  linux*|*-gnu*|gnu*)
-@@ -183,7 +183,7 @@
-     # Enable -fvisibility=hidden if using a gcc that supports it
-     save_CFLAGS="$CFLAGS"
-     AC_MSG_CHECKING([whether $CC supports -fvisibility=hidden])
--    VISIBILITY_CFLAGS="-fvisibility=hidden"
-+    VISIBILITY_CFLAGS=""
-     CFLAGS="$CFLAGS $VISIBILITY_CFLAGS"
-     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
- 		   [VISIBILITY_CFLAGS=""; AC_MSG_RESULT([no])]);
-@@ -204,7 +204,7 @@
-     # Enable -fvisibility=hidden if using a gcc that supports it
-     save_CXXFLAGS="$CXXFLAGS"
-     AC_MSG_CHECKING([whether $CXX supports -fvisibility=hidden])
--    VISIBILITY_CXXFLAGS="-fvisibility=hidden"
-+    VISIBILITY_CXXFLAGS=""
-     CXXFLAGS="$CXXFLAGS $VISIBILITY_CXXFLAGS"
-     AC_LANG_PUSH([C++])
-     AC_LINK_IFELSE([AC_LANG_PROGRAM()], AC_MSG_RESULT([yes]),
---- src/glsl/ir_constant_expression.cpp	Fri Oct 24 13:54:06 2014
-+++ src/glsl/ir_constant_expression.cpp	Fri Oct 24 13:54:47 2014
-@@ -44,7 +44,7 @@
- {
-    return _fpclass(x) == _FPCLASS_NN || _fpclass(x) == _FPCLASS_PN;
- }
--#elif defined(__SUNPRO_CC)
-+#elif (defined(__GNUC__) || (defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)) || (defined(__SUNPRO_CC) && (__SUNPRO_CC >= 0x5130)))
- #include <ieeefp.h>
- static int isnormal(double x)
- {
 --- src/mesa/drivers/dri/common/dri_util.h	Tue Nov  4 09:09:50 2014
 +++ src/mesa/drivers/dri/common/dri_util.h	Tue Nov  4 09:10:58 2014
 @@ -54,7 +54,7 @@

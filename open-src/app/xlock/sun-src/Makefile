@@ -2,7 +2,7 @@
 #
 # xlock Makefile
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,7 +34,7 @@ SRCS=${C_SRCS} ${HDRS} ${IMAGES} xlock.man XLock.ad
 OBJS=${C_SRCS:.c=.o}
 LIBS=-lX11 -lm -lpam -lbsm
 # Base lint flags
-LINTFLAGS = -fd -s -errtags=yes -Xc99
+LINTFLAGS = -fd -s -errtags=yes -std=c11 -xlang=c11
 # 64-bit checks
 LINTFLAGS += -m64 -L/usr/lib/64 -errchk=longptr64,sizematch
 LINTFLAGS += -erroff=E_CAST_INT_TO_SMALL_INT -erroff=E_CAST_UINT_TO_SIGNED_INT

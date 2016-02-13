@@ -88,6 +88,7 @@ SOURCE_PATCHES += vnc-Makefile.patch,-p1
 SOURCE_PATCHES += gnutls-3.patch,-p1
 SOURCE_PATCHES += gnutls-drop-ecdh.patch,-p1
 SOURCE_PATCHES += screenlock.patch,-p1
+SOURCE_PATCHES += signed-unsigned-mismatches.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
@@ -215,7 +216,6 @@ XVNC_CONFIG_OPTS += --without-int10 --disable-config-hal --disable-dga
 XVNC_CONFIG_OPTS += --disable-unit-tests
 
 MODULE_CPPFLAGS = \
-	-D_XOPEN_SOURCE=500 -D__EXTENSIONS__ \
 	-D__extension__=\"\" \
 	-I$(PWD)/$(SOURCE_DIR)/common \
 	-I$(PWD)/$(SOURCE_DIR)/unix/vncconfig \

@@ -1,7 +1,7 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 # Makefile.init has definitions that are needed before the module/modtype rules
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -125,6 +125,10 @@ ARCH64_FLAGS_i386_suncc 	= -m64 -xarch=sse2 -D__amd64__
 ARCH_LIB_FLAGS_sparc_suncc 	= -xregs=no%appl
 ARCH_LIB_FLAGS_i386_suncc 	=  
 
+# Flags to specify which language version to support, default to C11/C++11
+C_VERSION_FLAGS_suncc		= -std=c11 -xlang=c11
+CXX_VERSION_FLAGS_suncc		= -std=c++11 -xlang=c99
+
 ## GNU Compilers
 GCC_VERSION        		= 4.8 
 GCC				= /usr/gcc/$(GCC_VERSION)/bin/gcc
@@ -149,6 +153,11 @@ ARCH64_FLAGS_i386_gcc 		= -march=opteron -m64
 # SPARC ABI requires system libraries not use application registers
 ARCH_LIB_FLAGS_sparc_gcc 	= -mno-app-regs
 ARCH_LIB_FLAGS_i386_gcc 	= 
+
+# Default to C11 plus GNU extensions, since we primarily use gcc for code
+# that requires the GNU extensions.
+C_VERSION_FLAGS_gcc		= -std=gnu11
+CXX_VERSION_FLAGS_gcc		= -std=gnu++11
 
 ## Parfait wrappers
 CC_suncc_parfait	= parfait-cc
@@ -178,14 +187,33 @@ $(WITHOUT_PARFAIT)	LD=/usr/bin/ld
 PARFAIT_ENV_gcc		= PARFAIT_NATIVEGCC="$(GCC)"
 PARFAIT_ENV_gcc	       += PARFAIT_NATIVEGXX="$(GXX)"
 PARFAIT_ENV		= $(PARFAIT_ENV_$(MODULE_COMPILER))
-# Output shorter error messages when parfait-wrapped compilers fail
-PARFAIT_ENV            += PARFAIT_WRAPPER_QUIETNATIVE=1
+# Output shorter error messages when parfait-wrapped compilers fail,
+# unless building with V=1 to be more verbose
+PARFAIT_QUIET_ENV_V_1	= # parfait is noisy unless you tell it to be quiet
+PARFAIT_QUIET_ENV_V_0	= PARFAIT_WRAPPER_QUIETNATIVE=1
+PARFAIT_QUIET_ENV_V_	= $(PARFAIT_QUIET_ENV_V_0)
+PARFAIT_QUIET_ENV	= $(PARFAIT_QUIET_ENV_V_$(V))
+PARFAIT_ENV            += $(PARFAIT_QUIET_ENV)
+
+# Allow modules to override default language choices
+C_VERSION_DEFAULT	= $(C_VERSION_FLAGS_SET:yes=$(POUND_SIGN))
+$(C_VERSION_DEFAULT)	C_VERSION_FLAGS = $(C_VERSION_FLAGS_$(MODULE_COMPILER))
+CXX_VERSION_DEFAULT	= $(CXX_VERSION_FLAGS_SET:yes=$(POUND_SIGN))
+$(CXX_VERSION_DEFAULT)	CXX_VERSION_FLAGS = $(CXX_VERSION_FLAGS_$(MODULE_COMPILER))
+
 
 ## Set common variables based on above rules
+# Architecture & version flags affect how compiler links to C & C++ runtimes
+# so need to be included in $(CC) and $(CXX) when passed to configure to make
+# sure configure tests are run against the right versions.
 CC			= $(CC_$(CHOSEN_COMPILER))
+CC	               += $(ARCH_FLAGS) $(C_VERSION_FLAGS)
 CXX			= $(CXX_$(CHOSEN_COMPILER))
+CXX	               += $(ARCH_FLAGS) $(CXX_VERSION_FLAGS)
 CFLAGS			= $(CFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
+CFLAGS	               += $(C_VERSION_FLAGS)
 CXXFLAGS		= $(CXXFLAGS_$(MODULE_COMPILER)) $(ARCH_FLAGS)
+CXXFLAGS	       += $(CXX_VERSION_FLAGS)
 ARCH32_FLAGS		= $(ARCH32_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH32_FLAGS	       += $(ARCH_FLAGS_$(MACH)_$(MODULE_COMPILER))
 ARCH64_FLAGS		= $(ARCH64_FLAGS_$(MACH)_$(MODULE_COMPILER))

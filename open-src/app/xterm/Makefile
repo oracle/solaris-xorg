@@ -2,7 +2,7 @@
 #
 # xterm - terminal emulator for X
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -86,6 +86,10 @@ MODULE_SUNTOUCH_MAN_FLAGS += \
 	$(SUNTOUCH_MAN_FLAGS_$(@F:%.man.$(FIXED_MAN_SUFFIX)=%))
 SUNTOUCH_MAN_FLAGS_resize = -o '{Availability, $(RESIZE_PKGNAME)}'
 
+# xterm's configure script will set _XOPEN_SOURCE to the old XPG5 version
+# if we don't override it with a newer version (700 for S12, 600 for S11)
+MODULE_CPPFLAGS = -D_XOPEN_SOURCE=700 -D__EXTENSIONS__
+
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
 # and run time 
 FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
@@ -114,6 +118,14 @@ MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_VERBOSE_$(V))
 
 # Tell configure where to find luit binary
 MODULE_CONFIG_ENV = LUIT=$(X11_BIN_DIR)/luit
+
+# xterm's configure script checks for $CC having extra flags & breaks if it
+# does, so we need to force CC to be set to just the compiler, and pass the
+# rest of the flags via CFLAGS & CPPFLAGS
+JUST_CC = $(CC_$(CHOSEN_COMPILER))
+MODULE_CONFIG_ENV += CC="$(JUST_CC)"
+MODULE_CFLAGS   += $(CC:$(JUST_CC)=)
+MODULE_CPPFLAGS += $(CC:$(JUST_CC)=)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xterm resize

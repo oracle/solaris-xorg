@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,13 +41,13 @@ KMOD	= i915
 MDBMOD	= i915.so
 MODULES	= $(KMOD) $(MDBMOD)
 
-CFLAGS		+= -v -K PIC -xc99=%all -xdebugformat=stabs  -xildoff
+CFLAGS		+= -v -K PIC -xdebugformat=stabs -xildoff
 CFLAGS		+= -D_ELF64 -DMDB_DEBUG -D_KERNEL -D_KMDB -g -m64
 CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I$(KERNEL)/sys -I/usr/include
 KMOD_LDFLAGS	= -dy -r -Nmisc/kmdbmod -Mmapfile
 SO_LDFLAGS	= $(LDFLAGS) -Wl,-z,direct -Wl,-z,text -M mapfile
 SO_LDFLAGS	+= -Wl,-z,parent=/usr/bin$(ARCHLIBSUBDIR)/mdb
-CPPFLAGS	+= -xO3 -m64 -Ui386 -U__i386  -Xa  -errtags=yes -errwarn=%all \
+CPPFLAGS	+= -xO3 -m64 -Ui386 -U__i386 -errtags=yes -errwarn=%all \
 	-erroff=E_EMPTY_TRANSLATION_UNIT -erroff=E_STATEMENT_NOT_REACHED \
 	-W0,-xglobalstatic -g -W0,-noglobal \
 	-DTEXT_DOMAIN=\"SUNW_OST_OSCMD\" -D_ERRNO_VERIFY -DMDB_DEBUG \

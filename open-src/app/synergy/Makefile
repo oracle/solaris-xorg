@@ -2,7 +2,7 @@
 #
 # synergy application to share input devices across computers
 #
-# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -76,23 +76,19 @@ SOURCE_PATCHES = CConfig.cpp.patch LP64.patch CPLUSPLUS2011.patch
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
-USE_DEFAULT_CONFIG_ENV=no
 
-BUILD_TYPES_SET=yes
-BUILD_TYPES=64
+CXX_VERSION_FLAGS = -std=sun03 -xlang=c99
+CXX_VERSION_FLAGS_SET = yes
 
 MODULE_CXXFLAGS = -library=no%Cstd -library=Crun
 MODULE_CXXFLAGS += $(OPTIM) -xspace -template=extdef
 MODULE_CXXFLAGS += -features=except,rtti,export,extensions,nestedaccess,tmplife,tmplrefstatic
 MODULE_CXXFLAGS += -instances=global -template=geninlinefuncs -verbose=template
-MODULE_CXXFLAGS += -xlang=c99 -xbuiltin=%none
+MODULE_CXXFLAGS += -xbuiltin=%none
 MODULE_CXXFLAGS += -Qoption ccfe ++boolflag:sunwcch=false
 MODULE_CXXFLAGS += -Qoption ccfe -features=gcc
 MODULE_CXXFLAGS += -Qoption ccfe -features=zla
-MODULE_CXXFLAGS += -mt -D_REENTRANT -D__EXTENSIONS__ -D_LARGEFILE_SOURCE
-MODULE_CXXFLAGS += -D_FILE_OFFSET_BITS=64
-MODULE_CXXFLAGS += -D_XPG5 -D_XOPEN_SOURCE=500
-MODULE_CXXFLAGS += -D_POSIX_PTHREAD_SEMANTICS
+MODULE_CXXFLAGS += -D_XPG5 -D_XOPEN_SOURCE=500 -D__EXTENSIONS__
 MODULE_CXXFLAGS += -DPIC -KPIC -DSYSAPI_UNIX=1 -DWINAPI_XWINDOWS=1
 MODULE_CPPFLAGS = -DSYSAPI_UNIX=1 \
 		  -DWINAPI_XWINDOWS=1 \
@@ -106,7 +102,7 @@ MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
 		 -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -R$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -KPIC -Bdynamic $(ZDISCARD_UNUSED_DEP) \
-		 -lstdcxx4 -lCrun -lsocket -lnsl
+		 -lstdcxx4 -lCrun
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
 INSTALL = /usr/bin/ginstall -c
 MODULE_MAKE=$(GNUMAKE)
