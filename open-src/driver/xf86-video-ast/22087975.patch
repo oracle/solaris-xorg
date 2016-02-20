@@ -1,0 +1,154 @@
+diff --git a/src/ast.h b/src/ast.h
+index 4cae16b..718e6e9 100644
+--- a/src/ast.h
++++ b/src/ast.h
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (c) 2005 ASPEED Technology Inc.
++ * Copyright (c) 2005, 2016, Oracle and/or its affiliates. All rights reserved
+  *
+  * Permission to use, copy, modify, distribute, and sell this software and its
+  * documentation for any purpose is hereby granted without fee, provided that
+@@ -305,78 +306,6 @@ typedef struct _ASTRec {
+ #define ASTPTR(p) ((ASTRecPtr)((p)->driverPrivate))
+ 
+ #if defined(__sparc__)
+-#ifndef VIS_GETPCICONFIG
+-
+-/*
+- * These definitions will be removed when they are included in the
+- * visual_io.h
+- */
+-#define VIS_GETVIDEOMODENAME            (VIOC | 12)
+-#define VIS_STOREVIDEOMODENAME          (VIOC | 13)
+-#define VIS_MAX_VMODE_LEN               48
+-
+-typedef struct  vis_video_mode {
+-        char            mode_name[VIS_MAX_VMODE_LEN];
+-        uint32_t        vRefresh;
+-        char            pad[96];
+-} vis_video_mode_t;
+-
+-
+-#define VIS_GETPCICONFIG               (VIOC | 14)
+-
+-typedef struct  vis_pci_cfg {
+-        uint16_t        VendorID;
+-        uint16_t        DeviceID;
+-        uint16_t        Command;
+-        uint16_t        Status;
+-        uint8_t         RevisionID;
+-        uint8_t         ProgIF;
+-        uint8_t         SubClass;
+-        uint8_t         BaseClass;
+-
+-        uint8_t         CacheLineSize;
+-        uint8_t         LatencyTimer;
+-        uint8_t         HeaderType;
+-        uint8_t         BIST;
+-
+-        uint32_t        bar[6];
+-        uint32_t        CIS;
+-        uint16_t        SubVendorID;
+-        uint16_t        SubSystemID;
+-        uint32_t        ROMBaseAddress;
+-
+-        uint8_t         CapabilitiesPtr;
+-        uint8_t         Reserved_1[3];
+-        uint32_t        Reserved_2;
+-
+-        uint8_t         InterruptLine;
+-        uint8_t         InterruptPin;
+-        uint8_t         MinimumGrant;
+-        uint8_t         MaximumLatency;
+-
+-       uint8_t         pad[100];
+-} vis_pci_cfg_t;
+-
+-
+-#define VIS_SETIOREG                    (VIOC | 17)
+-#define VIS_GETIOREG                    (VIOC | 18)
+-
+-#ifdef __sparc
+-#define ASTIOC                  ('Y' << 8)
+-#define AST_GET_INDEX          (ASTIOC | 14)
+-#define AST_SET_INDEX          (ASTIOC | 15)
+-#endif
+-
+-typedef struct vis_io_reg {
+-        uchar_t         offset;
+-        uchar_t         value;
+-#ifdef __sparc
+-        uchar_t         offset1;
+-        uchar_t         value1;
+-#endif
+-} vis_io_reg_t;
+-#endif
+-
+ extern struct pci_device *ASTGetPciInfo(ASTRecPtr);
+ extern ScrnInfoPtr        ASTAllocScreen(DriverPtr, GDevPtr);
+ extern pointer           ASTMapVidMem(ScrnInfoPtr, unsigned int, CARD32,
+diff --git a/src/ast_vgatool.h b/src/ast_vgatool.h
+index ded26e3..0b81ea5 100644
+--- a/src/ast_vgatool.h
++++ b/src/ast_vgatool.h
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (c) 2005 ASPEED Technology Inc.
++ * Copyright (c) 2005, 2016, Oracle and/or its affiliates. All rights reserved
+  *
+  * Permission to use, copy, modify, distribute, and sell this software and its
+  * documentation for any purpose is hereby granted without fee, provided that
+@@ -48,9 +49,6 @@
+ 
+ #if defined(__sparc__)
+ 
+-#define SET_IO_REG             0x1000
+-#define GET_IO_REG             0x1001
+-
+ #define AR_PORT_WRITE          0x40
+ #define MISC_PORT_WRITE        0x42
+ #define VGA_ENABLE_PORT        0x43
+@@ -89,7 +87,7 @@
+                               .value = index,                          \
+                               .offset1 = off+1                         \
+                        };                                              \
+-		       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);        \
++		       ioctl(pAST->fd, VIS_GETINDEX, &io_reg);        \
+                        val = io_reg.value;                             \
+                        } while (0)
+ 
+@@ -100,7 +98,7 @@
+                               .offset1 = off+1,			       \
+                               .value1 = val			       \
+                        };                                              \
+-                       ioctl(pAST->fd, AST_SET_INDEX, &io_reg);        \
++                       ioctl(pAST->fd, VIS_SETINDEX, &io_reg);        \
+                        } while (0)
+ 
+ #define GetIndexRegMask(off, index, and, val) do {                     \
+@@ -109,7 +107,7 @@
+                               .value = index,                          \
+                               .offset1 = off+1                         \
+                        };                                              \
+-                       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);        \
++                       ioctl(pAST->fd, VIS_GETINDEX, &io_reg);        \
+                        val = io_reg.value & and;                       \
+                        } while (0)
+ 
+@@ -120,13 +118,13 @@
+                               .value = index,                          \
+                               .offset1 = off+1                         \
+                        };                                              \
+-		       ioctl(pAST->fd, AST_GET_INDEX, &io_reg);        \
++		       ioctl(pAST->fd, VIS_GETINDEX, &io_reg);        \
+                        __Temp = (io_reg.value & and) | val;            \
+                        io_reg.offset = off;                            \
+                        io_reg.value = index;                           \
+ 		       io_reg.offset1 = off+1;                         \
+                        io_reg.value1 = __Temp;                         \
+-                       ioctl(pAST->fd, AST_SET_INDEX, &io_reg);        \
++                       ioctl(pAST->fd, VIS_SETINDEX, &io_reg);        \
+                        } while (0)
+ 
+ #else /* !__sparc__ */
