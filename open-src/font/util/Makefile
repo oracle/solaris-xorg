@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,7 +66,7 @@ MODULE_DESC = X.Org font package creation/installation utilities
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/bdftruncate.man man/ucs2any.man
 MODULE_STABILITY=Volatile
-MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
+MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_BIN_DIR)/
 
 ### Include common rulesets
 include ../Makefile.inc

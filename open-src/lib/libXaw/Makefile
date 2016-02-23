@@ -2,7 +2,7 @@
 #
 # libXaw - Athena Widgets toolkit, based on libXt intrinsics
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -75,7 +75,7 @@ MODULE_X11_LIBCOMPAT_LINKS = libXaw.so libXaw.so.7 libXaw7.so libXaw7.so.7
 include ../Makefile.inc
 
 # Additional man page to install
-MAN3LIB_DIR = $(PROTODIR)$(X11_MAN_DIR)/man3lib
+MAN3LIB_DIR = $(PROTODIR)$(MODULE_MAN_DIR)/man3lib
 install: $(MAN3LIB_DIR)/libXaw.3lib
 
 $(MAN3LIB_DIR)/libXaw.3lib: libXaw.3lib

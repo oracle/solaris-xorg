@@ -2,7 +2,7 @@
 #
 # libpciaccess - generic PCI access software library & scanpci utility
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,10 +44,6 @@ SOURCE_PATCHES = scanpci.man.patch,-p1 \
 # Library name
 LIBNAME=libpciaccess
 
-# Where to install libpciaccess files
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
-
 # Package metadata
 MODULE_DESC = the libpciaccess library and scanpci utility
 # pkg(5) name we deliver the files in (override default)
@@ -68,7 +64,7 @@ LIB_MAN_SUFFIX=3pciaccess
 
 # Update scanpci.man with program man page flags instead of library ones
 SUNTOUCH_MAN_FLAGS  = $(COMMON_SUNTOUCH_MAN_FLAGS)
-SUNTOUCH_MAN_FLAGS +=-p $(MODULE_PREFIX)/bin/
+SUNTOUCH_MAN_FLAGS +=-p $(MODULE_BIN_DIR)/
 SUNTOUCH_MAN_FLAGS_SET=yes
 
 # pkg-config files that need to have -R added
@@ -94,12 +90,12 @@ include ../Makefile.inc
 
 # We want to install scanpci, even though the upstream Makefile doesn't
 install_scanpci: default_install
-	mkdir -p $(PROTODIR)$(MODULE_PREFIX)/bin \
+	mkdir -p $(PROTODIR)$(MODULE_BIN_DIR) \
 		 $(PROTODIR)/etc/security/exec_attr.d/ \
-		 $(PROTODIR)$(MODULE_PREFIX)/share/man/man1
+		 $(PROTODIR)$(MODULE_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 755 $(BUILD_DIR)/scanpci/scanpci \
-		$(PROTODIR)$(MODULE_PREFIX)/bin/scanpci
+		$(PROTODIR)$(MODULE_BIN_DIR)/scanpci
 	$(INSTALL_SCRIPT) -m 444 $(BUILD_DIR)/man/scanpci.1 \
-		$(PROTODIR)$(MODULE_PREFIX)/share/man/man1/scanpci.1
+		$(PROTODIR)$(MODULE_MAN_DIR)/man1/scanpci.1
 	$(INSTALL_SCRIPT) -m 444 exec_attr \
 		$(PROTODIR)/etc/security/exec_attr.d/scanpci

@@ -78,7 +78,7 @@ FIX_PC_FILES=libdrm.pc.in intel/libdrm_intel.pc.in libkms/libkms.pc.in \
 
 # Where to install files
 MODULE_ADD_LIB_SUBDIR = $(X11_SERVERLIBS_SUBDIR)
-MODULE_LDFLAGS = -R $(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
+MODULE_LDFLAGS = -R $(MODULE_FULLARCH_LIB_DIR)
 MODULE_PKGCONFIG_DIR = $(PKGCONFIG_DIR)
 MODULE_PKGCONFIG_DIR_SET = yes
 
@@ -93,7 +93,7 @@ $(PROTODIR)/usr/include/drm:
 install-gen: install_fixed_manpages
 
 # Need to apply suntouch changes to man pages generated during build
-MANDIR = $(PROTODIR)$(X11_MAN_DIR)
+MANDIR = $(PROTODIR)$(MODULE_MAN_DIR)
 install_fixed_manpages: default_install
 	$(PERL) $(TOP)/open-src/common/suntouch-manpages.pl \
 		$(SUNTOUCH_MAN_FLAGS) $(BUILD_DIR)/man/*.{3,7}

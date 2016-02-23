@@ -2,7 +2,7 @@
 #
 # mkfontscale - legacy X11 core font metadata creation tool
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,5 +66,5 @@ MODULE_X11_BINCOMPAT_LINKS = mkfontscale
 
 # Need to find libfontenc & libfreetype in matching directory when used
 # in alternate root environments, like during the build of the fonts
-MODULE_LD_OPTIONS= -R $$ORIGIN/$(X11_SERVERLIBS_DIR:$(X11_DIR)%=..%)$(ARCHLIBSUBDIR)
+MODULE_LD_OPTIONS= -R $$ORIGIN/$(X11_SERVERLIBS_DIR:/usr%=..%)$(ARCHLIBSUBDIR)
 include ../Makefile.inc

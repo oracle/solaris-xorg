@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -134,7 +134,7 @@ BUILD_TARGETS_SET=yes
 
 # Need to convert dtrace docs from xml to text/html ourselves, since
 # Solaris doesn't bundle the xmlto tool used upstream
-MODULE_DOC_DIR  = $(MODULE_PREFIX)/share/doc/Xserver
+MODULE_DOC_DIR  = $(MODULE_DATA_DIR)/doc/Xserver
 MODULE_DOC_DIR_SET=yes
 MODULE_XML_PATH = $(SOURCE_DIR)/doc
 DTRACE_DOC_DIR  = $(MODULE_XML_PATH)/dtrace
@@ -223,7 +223,7 @@ actually_clear_build_date: $(AUTOCONF_TARGET)
 
 $(XORGSERVER_BIN): default_build
 
-SDK_INCLUDES_DIR=$(PROTODIR)$(X11_INCLUDES_DIR)/xorg/
+SDK_INCLUDES_DIR=$(PROTODIR)$(XORG_SDK_INCLUDES_DIR)
 
 install_extras: default_install
 	-rm -f $(SDK_INCLUDES_DIR)/xorg-server.h
@@ -232,10 +232,10 @@ install_extras: default_install
 	cp -pf $(SOURCE_DIR)/mi/mioverlay.h \
 	       $(SOURCE_DIR)/hw/xfree86/os-support/bus/xf86Sbus.h \
 	       $(SOURCE_DIR)/hw/xfree86/dri/*.h $(SDK_INCLUDES_DIR)/
-	mkdir -p $(PROTODIR)$(X11_MAN_DIR)/man1
+	mkdir -p $(PROTODIR)$(MODULE_MAN_DIR)/man1
 	cp -pf $(SOURCE_DIR)/hw/xfree86/man/xorgcfg.1 \
 	       $(SOURCE_DIR)/hw/xfree86/man/xorgconfig.1 \
-	       $(PROTODIR)$(X11_MAN_DIR)/man1
+	       $(PROTODIR)$(MODULE_MAN_DIR)/man1
 	mkdir -p $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor
 	cp -pf $(SOURCE_DIR)/config/x11-input.fdi \
 	 $(PROTODIR)/etc/hal/fdi/preprobe/10osvendor/10-x11-input.fdi
@@ -278,9 +278,9 @@ $(BUILD_DIR)/mapfile-Xorg-externs: $(XORGSERVER_BIN)
 
 # Fix paths in proto area to match paths in packages / installed systems
 install_fix_paths_X: default_install
-	rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/X \
-	      $(PROTODIR)$(MODULE_PREFIX)/bin/$(ARCHBINSUBDIR)/X
-	ln -s Xserver $(PROTODIR)$(MODULE_PREFIX)/bin/X
+	rm -f $(PROTODIR)$(MODULE_BIN_DIR)/X \
+	      $(PROTODIR)$(MODULE_BIN_DIR)/$(ARCHBINSUBDIR)/X
+	ln -s Xserver $(PROTODIR)$(MODULE_BIN_DIR)/X
 
 install_fix_paths: install_fix_paths_X
 

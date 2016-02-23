@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -277,10 +277,14 @@ add_source: $(SOURCE_ADD_TARGET)
 $(SOURCE_ADD_TARGET): $(SOURCE_INIT_TARGET)
 	@if [[ "$(ADDITIONAL_SOURCE_DIR)" != "" ]] ; then \
 	  if [[ ! -x $(LNDIR) ]] ; then \
-	    (cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
+	    if [[ -x /usr/bin/lndir ]] ; then \
+	      lndir=/usr/bin/lndir ; \
+	    else \
+	      (cd $(TOP)/open-src/util/lndir && $(MAKE) $(MAKEFLAGS) install) ; \
+	    fi ; \
 	  fi ; \
 	  $(START_CMD_ECHO) ; \
-	  cd $(SOURCE_DIR) && $(LNDIR) ../$(ADDITIONAL_SOURCE_DIR) ; \
+	  cd $(SOURCE_DIR) && $${lndir:-$(LNDIR)} ../$(ADDITIONAL_SOURCE_DIR) ; \
 	fi
 	touch $(SOURCE_ADD_TARGET)
 
@@ -403,11 +407,9 @@ CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
 
 # Environment variable options to GNU autoconf configure script
 $(USE_DEFAULT_CONFIG_CPPFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_CPPFLAGS= \
-	-I$(PROTODIR)$(X11_INCLUDES_DIR) \
 	-I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
 $(USE_DEFAULT_CONFIG_LDFLAGS:no=$(POUND_SIGN)) DEFAULT_CONFIG_LDFLAGS= \
-	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
-	-L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
+	-L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
 
 DEFAULT_PKG_CONFIG_PATH=$(PROTODIR)$(PKGCONFIG_DIR):$(PROTODIR)$(PKGCONFIG_DIR_SHARE):$(PKGCONFIG_DIR):$(PKGCONFIG_DIR_SHARE)
 
@@ -419,7 +421,6 @@ $(CONFIG_SHELL_DEFAULT)		CONFIG_SHELL = /usr/bin/bash
 
 # Set USE_DEFAULT_CONFIG_ENV=no in a Makefile to not use this default
 # autoconfig environment
-# gnu/nm added for working around 17596443
 DEFAULT_CONFIG_ENV  = CC="$(CC)" CXX="$(CXX)" AR="$(AR)"
 DEFAULT_CONFIG_ENV += LD="$(CC) $(ARCH_FLAGS) $(LDFLAGS)"
 DEFAULT_CONFIG_ENV += CFLAGS="$(MODTYPE_CFLAGS) $(MODULE_CFLAGS)" 
@@ -433,7 +434,11 @@ DEFAULT_CONFIG_ENV += am_cv_python_pythondir="$(PYTHON_VENDOR_DIR)"
 DEFAULT_CONFIG_ENV += am_cv_python_pyexecdir="$(PYTHON_VENDOR_DIR)"
 DEFAULT_CONFIG_ENV += INSTALL="$(INSTALL_SCRIPT)" CPPROG="cp -p"
 DEFAULT_CONFIG_ENV += MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
+# gnu/nm added for working around 17596443 - nm -p output change breaks autoconf
 DEFAULT_CONFIG_ENV += NM="/usr/gnu/bin/nm"
+# Never use xmkmf to find X libraries from autoconf - may not be installed
+# on all machines and imake config files are generally not kept up to date
+DEFAULT_CONFIG_ENV += XMKMF="false"
 # Override default man page sections until all X.Org modules are updated
 # to use new xorg-macros with Solaris 12 man page section support
 DEFAULT_CONFIG_ENV += DRIVER_MAN_SUFFIX=4 FILE_MAN_SUFFIX=5

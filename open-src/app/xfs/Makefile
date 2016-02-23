@@ -2,7 +2,7 @@
 #
 # xfs - X11 font server
 #
-# Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -64,10 +64,10 @@ MODULE_ARC_CASES += LSARC/2008/009
 MODULE_ARC_CASES += PSARC/2015/221
 
 # Additional command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS= --sysconfdir=$(X11_DIR)/lib \
+MODULE_CONFIG_OPTS= --sysconfdir=$(MODULE_PREFIX)/lib \
 	--enable-syslog --enable-inetd --disable-devel-docs \
 	--with-default-font-path='catalogue:/etc/X11/fontpath.d' \
-	--with-default-config-file='/etc/X11/fs/config,$(X11_X11LIB_DIR)/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
+	--with-default-config-file='/etc/X11/fs/config,/usr/lib/X11/fs/config,/etc/openwin/fs/fontserver.cfg,/usr/openwin/lib/X11/fontserver.cfg'
 MODULE_CPPFLAGS = -DNO_ALLOCA
 
 # Need to link with libfontenc in server private directory
@@ -85,17 +85,15 @@ include ../Makefile.inc
 check_smf: xfs.xml
 	/usr/sbin/svccfg validate xfs.xml
 
-X11_SMF_MANIFEST_DIR=$(SMF_MANIFEST_DIR)/application/x11
-
 install_smf: check_smf
 	mkdir -p $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) -m 0444 xfs.xml $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 
 install_fsadmin:
-	mkdir -p $(PROTODIR)$(X11_DIR)/sbin \
-		$(PROTODIR)$(X11_MAN_DIR)/man1
-	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(X11_DIR)/sbin/fsadmin
-	$(INSTALL_SCRIPT) -m 0444 fsadmin.1 $(PROTODIR)$(X11_MAN_DIR)/man1/
+	mkdir -p $(PROTODIR)$(MODULE_SBIN_DIR) \
+		$(PROTODIR)$(MODULE_MAN_DIR)/man1
+	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(MODULE_SBIN_DIR)/fsadmin
+	$(INSTALL_SCRIPT) -m 0444 fsadmin.1 $(PROTODIR)$(MODULE_MAN_DIR)/man1/
 
 # Special compatibility link from /usr/X11/bin/fsadmin to /usr/sbin/fsadmin
 install: $(X11_BINCOMPAT_DIR)/fsadmin

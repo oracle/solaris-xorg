@@ -254,7 +254,7 @@ Xvnc_install_programs: $(BUILD_TARGETS)
 
 Xvnc_install_data: $(SOURCE_TARGETS)
 	mkdir -p $(PROTODIR)/usr/share/man/man1 \
-		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11 
+		$(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/unix/vncconfig/vncconfig.man \
@@ -267,7 +267,7 @@ Xvnc_install_data: $(SOURCE_TARGETS)
 	    $(SOURCE_DIR)/unix/x0vncserver/x0vncserver.man \
 		$(PROTODIR)/usr/share/man/man1/x0vncserver.1
 	$(INSTALL_SCRIPT) -m 0444 xvnc-inetd.xml \
-		$(PROTODIR)$(SMF_MANIFEST_DIR)/application/x11/
+		$(PROTODIR)$(X11_SMF_MANIFEST_DIR)/
 	$(INSTALL_SCRIPT) -m 0555 vnclock.sh \
 		$(PROTODIR)/usr/lib/vnclock
 

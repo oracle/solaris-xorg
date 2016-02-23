@@ -2,7 +2,7 @@
 #
 # xcb - Lighter weight X11 client libraries
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -105,7 +105,7 @@ MODULE_ADD_INSTALL_TARGETS=install_solaris_exts
 include ../Makefile.inc
 
 # Additional files we need to install
-MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xcb
+MANDIR = $(PROTODIR)$(MODULE_MAN_DIR)/man3xcb
 
 # Need to apply suntouch changes to man pages generated during build
 install_solaris_exts: $(INSTALL_DEPS)

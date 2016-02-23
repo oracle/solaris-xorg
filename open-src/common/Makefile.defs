@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,13 +39,13 @@ $(MODULE_MAKE_DEFAULT)		MODULE_MAKE = $(MODTYPE_MAKE)
 
 # Where to install files
 MODTYPE_PREFIX_DEFAULT		= $(MODTYPE_PREFIX_SET:yes=$(POUND_SIGN))
-$(MODTYPE_PREFIX_DEFAULT)	MODTYPE_PREFIX=$(X11_DIR)
+$(MODTYPE_PREFIX_DEFAULT)	MODTYPE_PREFIX=/usr
 MODULE_PREFIX_DEFAULT		= $(MODULE_PREFIX_SET:yes=$(POUND_SIGN))
 $(MODULE_PREFIX_DEFAULT)	MODULE_PREFIX=$(MODTYPE_PREFIX)
 
 # Where to install documentation files
 MODTYPE_DOC_DIR_DEFAULT		= $(MODTYPE_DOC_DIR_SET:yes=$(POUND_SIGN))
-$(MODTYPE_DOC_DIR_DEFAULT)	MODTYPE_DOC_DIR=$(MODULE_PREFIX)/share/doc/$(MODULE_NAME)
+$(MODTYPE_DOC_DIR_DEFAULT)	MODTYPE_DOC_DIR=$(MODULE_DATA_DIR)/doc/$(MODULE_NAME)
 MODULE_DOC_DIR_DEFAULT		= $(MODULE_DOC_DIR_SET:yes=$(POUND_SIGN))
 $(MODULE_DOC_DIR_DEFAULT)	MODULE_DOC_DIR=$(MODTYPE_DOC_DIR)
 

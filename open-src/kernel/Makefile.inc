@@ -109,7 +109,6 @@ CONFIG_ENV	+= MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
 CONFIG_ENV	+= NM="/usr/gnu/bin/nm"
 CONFIG_ENV	+= POUND_SIGN="$(POUND_SIGN)"
 CONFIG_ENV	+= PROTOMETA="$(PROTOMETA)/$(MODULE_PKG)"
-CONFIG_ENV	+= X11_MAN_DIR="$(X11_MAN_DIR)"
 
 # Where to find the common include files
 DRM_INCL	= -I$(TOP)/open-src/kernel/sys/drm -I$(TOP)/open-src/kernel/sys

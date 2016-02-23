@@ -1,8 +1,8 @@
 ###############################################################################
 #
-# xload 1.x Makefile
+# xload - system load average display for X
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,6 +59,6 @@ MODULE_X11_BINCOMPAT_LINKS = xload
 include ../Makefile.inc
 
 install_po: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f $(BUILD_DIR)/xload.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	mkdir -p $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
+	ginstall -m 0444 $(BUILD_DIR)/xload.po $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
 

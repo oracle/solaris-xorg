@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,7 +72,7 @@ MODULE_CFLAGS = -DHAVE_DRI1
 # Extra flags to pass to configure script
 # --libdir is needed to set path for XvMC libraries
 MODULE_CONFIG_OPTS=--enable-dri2 --enable-dri3 \
-	  	   --libdir='$(X11_LIB_DIR)$(ARCHLIBSUBDIR)' \
+	  	   --libdir='$(MODULE_FULLARCH_LIB_DIR)' \
 		   --enable-sna --enable-uxa --with-default-accel=uxa \
 		   --disable-udev
 

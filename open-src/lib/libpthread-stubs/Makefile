@@ -2,7 +2,7 @@
 #
 # libpthread-stubs Makefile
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -49,10 +49,6 @@ SOURCE_PATCHES =
 
 # Library name
 LIBNAME=pthread-stubs
-
-# Where to install libpthread-stubs files
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
 
 # Package classification (override default)
 MODULE_PKGCLASS=Development/X11

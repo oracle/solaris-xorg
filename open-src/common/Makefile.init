@@ -284,7 +284,7 @@ ZDISCARD_UNUSED_SEC	= -zdiscard-unused=sections
 # Common flags for all binaries
 DEFAULT_LD_OPTIONS	= -z lazyload -B direct -z guidance
 DEFAULT_LD_OPTIONS     += $(MAPFILES_FOR_ALL)
-DEFAULT_LD_OPTIONS     += -L$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR)
+DEFAULT_LD_OPTIONS     += -L$(PROTODIR)/usr/lib$(LIBSUBDIR)
 
 # Strip debug info out of non-debug builds
 $(BUILD_DEBUG:yes=$(POUND_SIGN))  DEFAULT_LD_OPTIONS += -z strip-class=debug
@@ -315,34 +315,43 @@ PROTODIR=$(PROTOTOP)/root_$(MACH)
 PROTODIR_DEBUG=$(PROTOTOP)/root_$(MACH)-debug
 PROTOMETA=$(PROTOTOP)/metadata_$(MACH)
 
-SMF_MANIFEST_DIR=/lib/svc/manifest
-SMF_METHOD_DIR=/lib/svc/method
+# Standard paths for modules to install into, relative to $(MODULE_PREFIX)
+# See also MODULE_DOC_DIR & MODULE_PKGCONFIG_DIR in Makefile.defs
+MODULE_BIN_DIR		= $(MODULE_PREFIX)/bin
+MODULE_INCLUDES_DIR	= $(MODULE_PREFIX)/include
+MODULE_LIB_DIR		= $(MODULE_PREFIX)/lib
+MODULE_FULLARCH_LIB_DIR	= $(MODULE_LIB_DIR)$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
+MODULE_DATA_DIR		= $(MODULE_PREFIX)/share
+MODULE_LOCALE_DIR	= $(MODULE_PREFIX)/share/locale
+MODULE_LC_MESSAGES_DIR	= $(MODULE_LOCALE_DIR)/C/LC_MESSAGES
+MODULE_MAN_DIR		= $(MODULE_PREFIX)/share/man
+MODULE_SBIN_DIR		= $(MODULE_PREFIX)/sbin
 
-X11_DIR=/usr
-X11_BIN_DIR=$(X11_DIR)/bin
-X11_LIB_DIR=$(X11_DIR)/lib
-X11_INCLUDES_DIR=$(X11_DIR)/include
-XORG_SDK_INCLUDES_DIR=$(X11_INCLUDES_DIR)/xorg
-X11_X11LIB_DIR=$(X11_LIB_DIR)/X11
-SHARE_FONT_DIR=/usr/share/fonts
-X11_FONT_DIR=$(SHARE_FONT_DIR)/X11
-X11_FONT_CATALOGUE=/etc/X11/fontpath.d
-TRUETYPE_FONT_DIR=$(SHARE_FONT_DIR)/TrueType
-X11_DOC_DIR=/usr/share/doc/X11
-X11_SGML_DIR=$(X11_DIR)/share/sgml/X11
-X11_LOCALE_DIR=$(X11_DIR)/share/locale
-X11_MAN_DIR=$(X11_DIR)/share/man
-X11_ACLOCAL_DIR=$(X11_DIR)/share/aclocal
-X11_LC_MESSAGES_DIR=$(X11_LOCALE_DIR)/C/LC_MESSAGES
+# System-wide standard paths that don't differ depending on $(MODULE_PREFIX)
+SMF_MANIFEST_DIR	= /lib/svc/manifest
+X11_SMF_MANIFEST_DIR	= $(SMF_MANIFEST_DIR)/application/x11
+SMF_METHOD_DIR		= /lib/svc/method
+SHARE_FONT_DIR		= /usr/share/fonts
+TRUETYPE_FONT_DIR	= $(SHARE_FONT_DIR)/TrueType
+X11_FONT_DIR		= $(SHARE_FONT_DIR)/X11
+X11_FONT_CATALOGUE	= /etc/X11/fontpath.d
+X11_ACLOCAL_DIR		= /usr/share/aclocal
+X11_BIN_DIR		= /usr/bin
+X11_DOC_DIR		= /usr/share/doc/X11
+X11_INCLUDES_DIR	= /usr/include
+X11_LIB_DIR		= /usr/lib
+X11_SGML_DIR		= /usr/share/sgml/X11
+X11_X11LIB_DIR		= $(X11_LIB_DIR)/X11
+XORG_SDK_INCLUDES_DIR	= $(X11_INCLUDES_DIR)/xorg
 
 # Subdirectory of /usr/lib for X server private libraries
-X11_SERVERLIBS_SUBDIR=/xorg
-X11_SERVERLIBS_DIR=$(X11_LIB_DIR)$(X11_SERVERLIBS_SUBDIR)
+X11_SERVERLIBS_SUBDIR	= /xorg
+X11_SERVERLIBS_DIR	= $(X11_LIB_DIR)$(X11_SERVERLIBS_SUBDIR)
 
 # Subdirectory of /usr/lib for X server loadable modules
-X11_SERVERMODS_SUBDIR=/xorg/modules
-X11_SERVERMODS_DIR=$(X11_LIB_DIR)$(X11_SERVERMODS_SUBDIR)
-MESA_XSERVERMODS_DIR=$(X11_LIB_DIR)/mesa/modules
+X11_SERVERMODS_SUBDIR	= /xorg/modules
+X11_SERVERMODS_DIR	= $(X11_LIB_DIR)$(X11_SERVERMODS_SUBDIR)
+MESA_XSERVERMODS_DIR	= /usr/lib/mesa/modules
 
 # PKGCONFIG_DIR is constructed of _prefix + ARCHLIBSUBDIR + _suffix
 PKGCONFIG_DIR_prefix=/usr/lib
@@ -397,16 +406,17 @@ AUTOMAKE_VERSION=1.15
 
 # Directory to find tools used during build, even when installing to a
 # temporary dest dir, such as during 'make manifest'
-PROTOTOOLSDIR=$(PROTODIR)
+PROTOTOOLSDIR		= $(PROTODIR)
+PROTOTOOLS_BIN_DIR	= $(PROTODIR)/usr/bin
 
 # Some modules use lndir to merge in sources from Sun specific directories
-LNDIR=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/lndir
+LNDIR			= $(PROTOTOOLS_BIN_DIR)/lndir
 
 # Commands to run font utilities from proto area
-MKFONTSCALE=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/mkfontscale
-INSTALLALIAS=$(PROTOTOOLSDIR)$(X11_X11LIB_DIR)/installalias
-FC_QUERY=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-query
-FC_SCAN=$(PROTOTOOLSDIR)$(X11_BIN_DIR)/fc-scan
+MKFONTSCALE		= $(PROTOTOOLS_BIN_DIR)/mkfontscale
+INSTALLALIAS		= $(PROTOTOOLSDIR)$(X11_X11LIB_DIR)/installalias
+FC_QUERY		= $(PROTOTOOLS_BIN_DIR)/fc-query
+FC_SCAN			= $(PROTOTOOLS_BIN_DIR)/fc-scan
 # mkfontdir is just a shell wrapper around /usr/bin/mkfontscale, so we call
 # it directly here, instead of futzing with command paths in the script
 MKFONTDIR=$(MKFONTSCALE) -b -s -l

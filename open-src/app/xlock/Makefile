@@ -2,7 +2,7 @@
 #
 # xlock - manually activated screen lock program
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,7 +56,7 @@ REL_SOURCE_DIR = ../$(SOURCE_DIR)
 MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
 MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
 MODULE_INSTALL_MAKEFLAGS = \
-   bindir=$(X11_BIN_DIR) datadir=$(MODULE_PREFIX)/share mandir=$(X11_MAN_DIR)
+   bindir=$(MODULE_BIN_DIR) datadir=$(MODULE_DATA_DIR) mandir=$(MODULE_MAN_DIR)
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xlock

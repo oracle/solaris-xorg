@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org doc modules
 #
-# Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,8 +47,7 @@ MODTYPE_CPPFLAGS=$(PROG_CPPFLAGS)
 MODTYPE_LDFLAGS=$(PROG_LDFLAGS)
 MODTYPE_LD_OPTIONS=
 
-DOCTOOLS_PATH = \
-    PATH="$(PROTODIR)$(X11_DIR)/bin:$(DOCBOOKUTIL_BINDIR):$$PATH"
+DOCTOOLS_PATH = PATH="$(PROTODIR)$(X11_BIN_DIR):$$PATH"
 
 # Additional environment variable options to GNU autoconf configure script
 MODTYPE_CONFIG_ENV = $(DOCTOOLS_PATH)

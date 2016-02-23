@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -147,7 +147,7 @@ FONT_ATTRS = $(FONT_MANIFESTS:%.p5m=$(PDIR)/%.attr)
 
 $(FONT_ATTRS): $(FONT_METADATA)
 
-FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(LIBSUBDIR_64):$(PROTODIR)$(X11_DIR)/lib$(LIBSUBDIR_64):$(PROTODIR)/usr/lib$(LIBSUBDIR_64)
+FONT_LIBS_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(LIBSUBDIR_64):$(PROTODIR)/usr/lib$(LIBSUBDIR_64)
 
 $(PDIR)/%.font: $(PDIR)/%.p5m
 	@print "## Generating font metadata in $(@F)"

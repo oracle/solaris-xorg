@@ -2,7 +2,7 @@
 #
 # ogl-select - Solaris SMF service to choose between OpenGL implementations
 #
-# Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -79,13 +79,13 @@ OGL_VENDOR_SCRIPTS=mesa_vendor_select $(OGL_VENDOR_SCRIPTS_$(MACH))
 install_ogl-select:
 	mkdir -p $(DESTDIR)$(OGL_SMF_MANIFEST_DIR) \
 		$(DESTDIR)$(SMF_METHOD_DIR) \
-		$(DESTDIR)$(X11_DIR)/share/man/man1 \
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1 \
 		$(DESTDIR)/lib/opengl/ogl_select/
 	$(INSTALL_SCRIPT) -c -m 0444 ogl-select.xml \
 		$(DESTDIR)$(OGL_SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) -c -m 0555 ogl-select \
 		$(DESTDIR)$(SMF_METHOD_DIR)/ogl-select
 	$(INSTALL_SCRIPT) -c -m 0444 ogl-select.man \
-		$(DESTDIR)$(X11_DIR)/share/man/man1/ogl-select.1
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1/ogl-select.1
 	$(INSTALL_SCRIPT) -c -m 0555 $(OGL_VENDOR_SCRIPTS) \
 		$(DESTDIR)/lib/opengl/ogl_select/

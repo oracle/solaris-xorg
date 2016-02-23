@@ -2,7 +2,7 @@
 #
 # libXmu - miscellaneous utility functions based on libX11 & libXt
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,7 +66,7 @@ XMUU_PKGNAME=$(MODULE_PKGNAME:libxmu=libxmuu)
 ADDITIONAL_SOURCE_DIR=sun-src
 
 # sun-src/src/VisGamma.c requires libX11 private headers for _Xcms functions
-MODULE_CPPFLAGS += -I $(TOOLS_DIR)$(X11_INCLUDES_DIR)/X11/xcms
+MODULE_CPPFLAGS += -I $(TOOLS_DIR)/usr/include/X11/xcms
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=xmu.pc.in xmuu.pc.in
@@ -90,14 +90,13 @@ include ../Makefile.inc
 
 # Additional files we need to install
 CP = cp -pf
-MANDIR = $(PROTODIR)$(X11_MAN_DIR)/man3xmu
+MANDIR = $(PROTODIR)$(MODULE_MAN_DIR)/man3xmu
 
 install_solaris_exts: $(INSTALL_DEPS)
-	mkdir -p $(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu $(MANDIR) \
-		 $(PROTODIR)$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
+	mkdir -p $(PROTODIR)$(MODULE_INCLUDES_DIR)/X11/Xmu $(MANDIR)
 	$(CP) $(SOURCE_DIR)/include/X11/Xmu/XmuSolaris.h \
 	       $(SOURCE_DIR)/include/X11/Xmu/WhitePoint.h \
-		$(PROTODIR)$(X11_INCLUDES_DIR)/X11/Xmu
+		$(PROTODIR)$(MODULE_INCLUDES_DIR)/X11/Xmu
 	$(CP) $(SOURCE_DIR)/man/*.3xmu $(MANDIR)
 
 # Metadata for libxmuu package

@@ -93,8 +93,7 @@ MODULE_CPPFLAGS = -D_XOPEN_SOURCE=700 -D__EXTENSIONS__
 # Paths to find Xft/fontconfig/freetype headers libraries at build time
 # and run time 
 FT_CFLAGS= -I$(PROTODIR)/usr/include -I$(PROTODIR)/usr/include/freetype2
-FT_LIBS= \
-  -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -R/usr/lib$(LIBSUBDIR) -lXft -lfontconfig
+FT_LIBS= -L$(PROTODIR)/usr/lib$(LIBSUBDIR) -lXft -lfontconfig
 
 # Override the flags xterm's configure script generates, since it incorrectly
 # adds -R flags pointing to the build proto area, which are not wanted.

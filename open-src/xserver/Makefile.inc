@@ -49,7 +49,7 @@ SERVER_MODULES_DIR='$(X11_SERVERMODS_DIR)'
 DRI_MODULES_DIR='$(X11_SERVERMODS_DIR)/dri$(ARCHLIBSUBDIR)'
 
 # Changes to apply to man pages
-MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_PREFIX)/bin/
+MODTYPE_SUNTOUCH_MAN_FLAGS = -p $(MODULE_BIN_DIR)/
 
 # Command line options to GNU autoconf configure script for xorg-server
 XSERVER_CONFIG_OPTS_COMMON = \
@@ -115,7 +115,7 @@ MODTYPE_LD_SHARED_OPTIONS = $(ZDISCARD_UNUSED_DEP) $(ZDISCARD_UNUSED_FIL)
 # Environment variable options to use when building
 #  - PATH - include /usr/sbin for dtrace command (needed for building probes)
 MODTYPE_BUILD_ENV= PATH=$(PATH):/usr/sbin \
-	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR)
+	LD_LIBRARY_PATH=$(PROTODIR)$(X11_SERVERLIBS_DIR)$(ARCHLIBSUBDIR):$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR)
 
 # Mark packages as only compatible with the current server minor release series,
 # since Xorg tends to break ABI's in each minor release train (1.8, 1.9, etc.)
@@ -135,7 +135,7 @@ install_fix_paths_i386: install_fix_paths_amd64_links
 # choose between them.   Now we just deliver 64-bit and make symlinks from
 # the amd64 paths to the default paths for compatibility
 
-ISAEXEC_DIR = $(PROTODIR)$(MODULE_PREFIX)/bin/$(SUBDIR64)
+ISAEXEC_DIR = $(PROTODIR)$(MODULE_BIN_DIR)/$(SUBDIR64)
 ISAEXEC_LINKS = $(LINKED_TO_ISAEXEC:%=$(ISAEXEC_DIR)/%)
 
 install_fix_paths_amd64_links: $(ISAEXEC_LINKS)

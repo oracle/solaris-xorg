@@ -2,7 +2,7 @@
 #
 # xfd - simple X11/Xft font display application
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -55,6 +55,6 @@ MODULE_X11_BINCOMPAT_LINKS = xfd
 
 include ../Makefile.inc
 
-install_po:
-	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f xfd.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+install_po: $(INSTALL_DEPS)
+	mkdir -p $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
+	ginstall -m 0444 $(BUILD_DIR)/xfd.po $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)

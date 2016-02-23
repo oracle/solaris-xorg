@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -65,7 +65,6 @@ MODULE_X11_BINCOMPAT_LINKS = X Xserver
 ### Include common rulesets
 include ../Makefile.inc
 
-X11_SMF_MANIFEST_DIR=$(SMF_MANIFEST_DIR)/application/x11
 DESTDIR=$(PROTODIR)
 
 check: x11-server.xml
@@ -75,16 +74,16 @@ install_common: $(BUILD_TARGETS)
 	mkdir -p \
 		$(DESTDIR)$(X11_SMF_MANIFEST_DIR) \
 		$(DESTDIR)$(SMF_METHOD_DIR) \
-		$(DESTDIR)$(X11_DIR)/bin \
-		$(DESTDIR)$(X11_DIR)/share/man/man1 \
+		$(DESTDIR)$(MODULE_BIN_DIR) \
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1 \
 		$(DESTDIR)/etc/security/auth_attr.d \
 		$(DESTDIR)/etc/security/prof_attr.d
 	$(INSTALL_SCRIPT) -c -m 0444 x11-server.xml \
 		$(DESTDIR)$(X11_SMF_MANIFEST_DIR)/
 	$(INSTALL_SCRIPT) -c -m 0755 x11-server $(DESTDIR)$(SMF_METHOD_DIR)/
-	$(INSTALL_SCRIPT) -c -m 0755 Xserver $(DESTDIR)$(X11_DIR)/bin/
+	$(INSTALL_SCRIPT) -c -m 0755 Xserver $(DESTDIR)$(MODULE_BIN_DIR)/
 	$(INSTALL_SCRIPT) -c -m 0444 auth_attr \
 		$(DESTDIR)/etc/security/auth_attr.d/$(MODULE_NAME)
 	$(INSTALL_SCRIPT) -c -m 0444 prof_attr \
 		$(DESTDIR)/etc/security/prof_attr.d/$(MODULE_NAME)
-	$(INSTALL_SCRIPT) -c -m 0444 Xnest.1 $(DESTDIR)$(X11_MAN_DIR)/man1/
+	$(INSTALL_SCRIPT) -c -m 0444 Xnest.1 $(DESTDIR)$(MODULE_MAN_DIR)/man1/

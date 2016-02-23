@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org utility modules
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,7 +44,7 @@ $(MODULE_PKGCLASS_DEFAULT)	MODULE_PKGCLASS_SET=yes
 include $(TOP)/open-src/common/Makefile.init
 
 # Most util modules have no man pages, but show path in those that do
-MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/bin/
+MODTYPE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_BIN_DIR)/
 
 # No common dependencies
 MODTYPE_CONFIGURE_DEPS=

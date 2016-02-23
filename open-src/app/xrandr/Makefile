@@ -2,7 +2,7 @@
 #
 # xrandr - utility to configure screen sizes and layout via XRANDR extension
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -68,6 +68,6 @@ include ../Makefile.inc
 
 # Remove xkeystone utility that requires nickle interpreter we don't ship yet
 remove_xkeystone: $(INSTALL_RULES)
-	-rm -f $(PROTODIR)$(MODULE_PREFIX)/bin/xkeystone
+	-rm -f $(PROTODIR)$(MODULE_BIN_DIR)/xkeystone
 
 install: remove_xkeystone

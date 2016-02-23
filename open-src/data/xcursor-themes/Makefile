@@ -2,7 +2,7 @@
 #
 # xcursor-themes: X.Org default X11 cursor themes
 #
-# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,11 +44,12 @@ TARBALL_SHA256= e3fd2c05b9df0d88a3d1192c02143295744685f4f9a03db116e206698331bb86
 SOURCE_PATCHES=	
 
 # Additional environment variable options to GNU autoconf configure script
-MODULE_CONFIG_ENV= PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
+MODULE_CONFIG_ENV= PATH="$(PROTODIR)$(X11_BIN_DIR):$(PATH)"
 
 # Additional environment variable options needed when building
-MODULE_BUILD_ENV = LD_LIBRARY_PATH="$(PROTODIR)$(X11_DIR)/lib" \
-	PATH="$(PROTODIR)$(X11_DIR)/bin:$(PATH)"
+MODULE_BUILD_ENV = LD_LIBRARY_PATH_32="$(PROTODIR)$(X11_LIB_DIR)" \
+	LD_LIBRARY_PATH_64="$(PROTODIR)$(X11_LIB_DIR)$(LIBSUBDIR_64)" \
+	PATH="$(PROTODIR)$(X11_BIN_DIR):$(PATH)"
 
 # ARC cases that covered this module
 # LSARC/2007/491 libXcursor

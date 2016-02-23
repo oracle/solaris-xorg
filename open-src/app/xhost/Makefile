@@ -65,5 +65,5 @@ MODULE_X11_BINCOMPAT_LINKS = xhost
 include ../Makefile.inc
 
 install_po:
-	mkdir -p $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	cp -f xhost.po $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+	mkdir -p $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
+	ginstall -m 0444 xhost.po $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)

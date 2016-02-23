@@ -2,7 +2,7 @@
 #
 # X Toolkit Intrinsics library (libXt)
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -87,7 +87,7 @@ MODULE_X11_LIBCOMPAT_LINKS = libXt.so libXt.so.4 $(EXTRA_LINKS)
 include ../Makefile.inc
 
 # Install additional links to libXt that we include in our packages
-EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
+EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_FULLARCH_LIB_DIR)/%)
 
 $(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)
 	@rm -f $@

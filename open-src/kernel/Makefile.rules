@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,6 +53,6 @@ ROOT_DRV_DIR	= /kernel/drv/$(MACH64_i386)
 ROOT_MISC_DIR	= /kernel/misc/$(MACH64_i386)
 ROOT_MDB_DIR	= /usr/lib/mdb/kvm/$(MACH64_i386)
 ROOT_KMOD_DIR	= /kernel/kmdb/$(MACH64_i386)
-ROOT_MAN_DIR	= $(X11_MAN_DIR)
+ROOT_MAN_DIR	= /usr/share/man
 
 MANTARGET	= $(ROOT_MAN_DIR)/$(MANSECTION)

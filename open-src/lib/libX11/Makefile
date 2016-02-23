@@ -137,8 +137,6 @@ MODULE_CPPFLAGS = -DSUNSOFT -DMOTIFBC -DSUNSOFT_KBD \
 		  -I$(PROTODIR)/usr/include/X11 \
 		  -I$(PROTODIR)/usr/include/xcb
 
-MODULE_LDFLAGS = -R$(X11_LIB_DIR)$(ARCHLIBSUBDIR)
-
 # Need to discard -lc in .so's that don't need it, but leave it for those
 # which do need to link to it.
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
@@ -195,7 +193,7 @@ install_extra_headers: $(INSTALL_DEPS)
 		$(TOOLS_DIR)$(X11_INCLUDES_DIR)/X11/xcms
 
 # Install additional links to libX11 that we include in our packages
-EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)/%)
+EXTRA_PROTO_LINKS = $(EXTRA_LINKS:%=$(PROTODIR)$(MODULE_FULLARCH_LIB_DIR)/%)
 
 $(EXTRA_PROTO_LINKS): $(INSTALL_DEPS)
 	@rm -f $@

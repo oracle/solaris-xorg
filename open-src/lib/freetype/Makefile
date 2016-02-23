@@ -2,7 +2,7 @@
 #
 # Freetype 2.x font rendering library
 #
-# Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -87,10 +87,6 @@ SOURCE_PATCHES= \
 	freetype-GS-conflict.patch,-p1 \
 	unix-cc.in.9.patch,-p1
 
-# Where to install freetype files
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
-
 # Additional command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS= \
 	--enable-biarch-config \
@@ -116,7 +112,7 @@ MODULE_ADD_INSTALL_TARGETS = install_freetype_docs install_freetype_links
 # an incremental rebuild.
 USE_DEFAULT_CONFIG_CPPFLAGS=no
 
-MODULE_INSTALL_MAKEFLAGS=bindir=$(MODULE_PREFIX)/bin$(ARCHLIBSUBDIR)
+MODULE_INSTALL_MAKEFLAGS=bindir=$(MODULE_BIN_DIR)$(ARCHLIBSUBDIR)
 
 # Don't touch apinames when running set-elf-comments or it will trigger
 # a rebuild during "make install" that loses the comments.
@@ -127,11 +123,9 @@ include ../Makefile.inc
 
 ### Rules specific to this directory:
 
-FT_libdir=$(MODULE_PREFIX)/lib$(ARCHLIBSUBDIR)
+install_freetype_links: $(PROTODIR)$(MODULE_FULLARCH_LIB_DIR)/libfreetype.so
 
-install_freetype_links: $(PROTODIR)$(FT_libdir)/libfreetype.so
-
-$(PROTODIR)$(FT_libdir)/libfreetype.so: default_install
+$(PROTODIR)$(MODULE_FULLARCH_LIB_DIR)/libfreetype.so: default_install
 	mkdir -p $(@D)
 	-rm -f $@
 	ln -s libfreetype.so.6 $@

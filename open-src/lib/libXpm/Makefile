@@ -2,7 +2,7 @@
 #
 # libXpm - library for handling XPM format images
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -70,7 +70,7 @@ FIX_PC_FILES=xpm.pc.in
 # - in 32-bit builds, only install library, not apps or headers
 # - install 64-bit apps in default directory, not 64-bit subdir
 MODULE_INSTALL_MAKEFLAGS_32 = -e SUBDIRS="src"
-MODULE_INSTALL_MAKEFLAGS_64 = bindir=$(MODULE_PREFIX)/bin
+MODULE_INSTALL_MAKEFLAGS_64 = bindir=$(MODULE_BIN_DIR)
 MODULE_INSTALL_MAKEFLAGS = $(MODULE_INSTALL_MAKEFLAGS_$(BUILD_TYPE))
 
 # Install docs & l10n files as well
@@ -85,7 +85,7 @@ MODULE_X11_LIBCOMPAT_LINKS = libXpm.so libXpm.so.4
 
 include ../Makefile.inc
 
-3LIB_MAN_DIR = $(X11_MAN_DIR)/man3lib
+3LIB_MAN_DIR = $(MODULE_MAN_DIR)/man3lib
 
 install-docs: $(PROTODIR)$(MODULE_DOC_DIR)/xpm.ps
 install-docs: $(PROTODIR)$(3LIB_MAN_DIR)/libXpm.3lib
@@ -99,8 +99,8 @@ $(PROTODIR)$(3LIB_MAN_DIR)/libXpm.3lib: $(INSTALL_DEPS) $(PROTODIR)$(3LIB_MAN_DI
 
 PO_FILES = $(BUILD_DIR)/cxpm/cxpm.po $(BUILD_DIR)/sxpm/sxpm.po
 
-install-po: $(INSTALL_DEPS) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
-	ginstall -m 0444 $(PO_FILES) $(PROTODIR)$(X11_LC_MESSAGES_DIR)
+install-po: $(INSTALL_DEPS) $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
+	ginstall -m 0444 $(PO_FILES) $(PROTODIR)$(MODULE_LC_MESSAGES_DIR)
 
-$(PROTODIR)$(3LIB_MAN_DIR) $(PROTODIR)$(X11_LC_MESSAGES_DIR):
+$(PROTODIR)$(3LIB_MAN_DIR) $(PROTODIR)$(MODULE_LC_MESSAGES_DIR):
 	mkdir -p $@

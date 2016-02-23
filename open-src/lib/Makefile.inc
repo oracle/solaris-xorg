@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules common to most X.Org library modules
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -75,7 +75,7 @@ MODTYPE_ADD_BUILD_TARGETS=set-elf-comments
 
 # Additional arguments to pass to make when running make install
 MODTYPE_INSTALL_MAKEFLAGS = \
-	libdir=$(MODULE_PREFIX)/lib$(MODULE_ADD_LIB_SUBDIR)$(ARCHLIBSUBDIR)
+	libdir=$(MODULE_FULLARCH_LIB_DIR)
 
 # Need to fix libtool interference with our linker flags, unless module overrides
 DELIBTOOLIZE_1 =	$(DELIBTOOLIZE:no=$(POUND_SIGN))

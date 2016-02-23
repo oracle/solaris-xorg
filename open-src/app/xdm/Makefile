@@ -60,11 +60,7 @@ AUTORECONF=yes
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=xdm.man.cpp
 MODULE_STABILITY=Committed
-MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_PREFIX)/sbin/
-
-# Where to install xdm files
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
+MODULE_SUNTOUCH_MAN_FLAGS= -p $(MODULE_SBIN_DIR)/
 
 # Additional configure script options
 # Only build shared greeter module, not static
@@ -76,7 +72,7 @@ MODULE_CONFIG_OPTS= \
 	--with-xdmconfigdir=/etc/X11/xdm \
 	--with-piddir=/var/run/xdm \
 	--with-authdir=/var/run/xdm \
-	--bindir=/usr/sbin \
+	--bindir=$(MODULE_SBIN_DIR) \
 	--with-xrdb='$(X11_BIN_DIR)/xrdb' \
 	--with-default-session=command='$(X11_BIN_DIR)/xterm -ls' \
 	DEF_SERVER='$(X11_BIN_DIR)/X' \

@@ -2,7 +2,7 @@
 #
 # xmakemap script to generate xmodmap files from current keyboard settings
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -67,10 +67,10 @@ include ../Makefile.inc
 DESTDIR=$(PROTODIR)
 
 install_xmakemap: $(SOURCE_TARGETS) $(INSTALL_DEPS)
-	mkdir -p $(DESTDIR)$(X11_BIN_DIR) \
-		$(DESTDIR)$(X11_MAN_DIR)/man1
+	mkdir -p $(DESTDIR)$(MODULE_BIN_DIR) \
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0555 $(SOURCE_DIR)/xmakemap \
-		$(DESTDIR)$(X11_BIN_DIR)
+		$(DESTDIR)$(MODULE_BIN_DIR)
 	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/xmakemap.man \
-		$(DESTDIR)$(X11_MAN_DIR)/man1/xmakemap.1
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1/xmakemap.1
 

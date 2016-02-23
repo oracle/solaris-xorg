@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1995, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,7 +53,7 @@ INSTALL_TARGETS_SET=yes
 include ../Makefile.inc
 
 DESTDIR=$(PROTODIR)
-INSTDIR=$(DESTDIR)$(X11_DIR)/share/patterns/
+INSTDIR=$(DESTDIR)$(MODULE_DATA_DIR)/patterns/
 
 PATTERN_FILES = \
 	attributes      \

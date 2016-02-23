@@ -57,10 +57,6 @@ MODULE_VERSION=1.3.4
 TARBALL_MD5  = 2c565afe5f920d363eef38dd97449b73
 TARBALL_SHA1 = 17b2dc2611974189ad0d54367b6c96b7932d9e32
 
-# Where to install synergy files
-MODULE_PREFIX=/usr
-MODULE_PREFIX_SET=yes
-
 # Source tarball
 SOURCE_TARBALL_NAME=synergy-plus-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
@@ -94,13 +90,8 @@ MODULE_CPPFLAGS = -DSYSAPI_UNIX=1 \
 		  -DWINAPI_XWINDOWS=1 \
 		  -I/usr/include/stdcxx4/ansi \
 		  -I/usr/include/stdcxx4/tr1 \
-		  -I/usr/include/stdcxx4 \
-		  -I$(PROTODIR)$(X11_INCLUDES_DIR) \
-		  -I$(PROTODIR)/usr/include \
-		  -I$(PROTODIR)/usr/include/freetype2
+		  -I/usr/include/stdcxx4
 MODULE_LDFLAGS = -L$(PROTODIR)/usr/lib$(ARCHLIBSUBDIR) \
-		 -L$(PROTODIR)$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
-		 -R$(X11_DIR)/lib$(ARCHLIBSUBDIR) \
 		 -KPIC -Bdynamic $(ZDISCARD_UNUSED_DEP) \
 		 -lstdcxx4 -lCrun
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
@@ -109,19 +100,12 @@ MODULE_MAKE=$(GNUMAKE)
 MODULE_MAKE_SET=yes
 
 MODULE_ENV = \
-	     SHELL="/bin/ksh93" \
-	     CC="$(CC)" \
-	     CXX="$(CXX)" \
-	     CXXFLAGS="$(CXXFLAGS) $(MODULE_CXXFLAGS)" \
-	     CPPFLAGS="$(MODULE_CPPFLAGS)" \
 	     CPP="$(CC) -E $(MODULE_CPPFLAGS) $(CPPFLAGS)" \
 	     CXXCPP="$(CXX) -E $(MODULE_CPPFLAGS) $(CPPFLAGS) $(CXXFLAGS)" \
 	     LDFLAGS="$(PROG_LDFLAGS) $(MODULE_LDFLAGS)" \
 	     LD="$(CXX) $(CXXFLAGS) $(LDFLAGS)" \
 	     CXXLD="$(CXX) $(MODULE_CXXFLAGS) $(CXXFLAGS) $(MODULE_LDFLAGS) $(LDFLAGS)" \
 	     INSTALL="$(INSTALL)" \
-	     MAKE=$(GNUMAKE) \
-	     GNUMAKE=$(GNUMAKE) \
 	     LD_OPTIONS="$(LD_OPTIONS)"
 
 MODULE_CONFIG_OPTS = --disable-debug

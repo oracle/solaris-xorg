@@ -2,7 +2,7 @@
 #
 # xcolor - utility to display used & available entries in PseudoColor colormaps
 #
-# Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,7 +59,7 @@ CONFIGURE_TARGETS_SET=yes
 REL_SOURCE_DIR = ../$(SOURCE_DIR)
 MODULE_MAKEFLAGS  = VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
 MODULE_BUILD_ENV  = $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_INSTALL_MAKEFLAGS = bindir=$(X11_BIN_DIR) mandir=$(X11_MAN_DIR)
+MODULE_INSTALL_MAKEFLAGS = bindir=$(MODULE_BIN_DIR) mandir=$(MODULE_MAN_DIR)
 
 # Allow linker to skip linking to libm if compiler inlined all math functions
 MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
