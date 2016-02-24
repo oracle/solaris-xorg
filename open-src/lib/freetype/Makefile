@@ -54,6 +54,8 @@ MODULE_ARC_CASES += LSARC/2007/662
 MODULE_ARC_CASES += PSARC/2010/342
 # PSARC/2015/148 FreeType 2.5.5
 MODULE_ARC_CASES += PSARC/2015/148
+# PSARC/2016/127 FreeType 2.6.3
+MODULE_ARC_CASES += PSARC/2016/127
 
 # Package metadata
 UPSTREAM		= The FreeType Project
@@ -64,19 +66,19 @@ GIT_URL_SET		= yes
 
 MODULE_LICENSE		= The FreeType Project License
 MODULE_LICENSE_SET	= yes
-ORACLE_TPNO		= 21936
+ORACLE_TPNO		= 26955
 MODULE_DESC		= the FreeType 2 font engine
 
 # Library name used in man pages & spec files
 LIBNAME=freetype
 
 # Version number (used in path names)
-MODULE_VERSION=2.5.5
+MODULE_VERSION=2.6.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2a7a314927011d5030903179cf183be0
-TARBALL_SHA1  = 7b7460ef51a8fdb17baae53c6658fc1ad000a1c2
-TARBALL_SHA256= 387bcc4b780b12484aa2ec9f7db1a55d8286eb5639f45fbc0fbba7a4e5a1afb9
+TARBALL_MD5   = 0037b25a8c090bc8a1218e867b32beb1
+TARBALL_SHA1  = 6c98bd5d0be313207c37ca23d25faf983486aee5
+TARBALL_SHA256= 371e707aa522acf5b15ce93f11183c725b8ed1ee8546d7b3af549863045863a2
 
 # Download site for source
 SOURCE_URL=http://download.savannah.gnu.org/releases/freetype/$(SOURCE_TARBALL_NAME)
@@ -88,10 +90,12 @@ SOURCE_PATCHES= \
 	unix-cc.in.9.patch,-p1
 
 # Additional command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS= \
-	--enable-biarch-config \
-	--with-zlib \
-	--with-pic
+MODULE_CONFIG_OPTS  = --enable-biarch-config
+MODULE_CONFIG_OPTS += --with-zlib --with-bzip2 --with-png
+MODULE_CONFIG_OPTS += --with-pic
+
+# Disable harfbuzz temporarily until package is on all the build machines
+MODULE_CONFIG_OPTS += --without-harfbuzz
 
 # pkg-config files that need to have -R added
 FIX_PC_FILES=builds/unix/freetype2.in

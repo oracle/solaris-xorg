@@ -129,7 +129,7 @@ depend type=require fmri=pkg:/file/gnu-coreutils \
 depend type=require fmri=pkg:/image/library/libjpeg \
     org.opensolaris.pkgdepend.resolve=true
 
-# app/xcursorgen links with libpng12
+# app/xcursorgen & lib/freetype link with libpng14
 depend type=require fmri=pkg:/image/library/libpng \
     org.opensolaris.pkgdepend.resolve=true
 
@@ -140,6 +140,9 @@ depend type=require fmri=pkg:/library/c++/stdcxx \
 # intel-gpu-tools links against libcairo
 $(i386_ONLY)depend type=require fmri=pkg:/library/desktop/cairo \
     org.opensolaris.pkgdepend.resolve=true
+
+# lib/freetype will use harfbuzz in future builds, start seeding build machines
+depend type=require fmri=pkg:/library/desktop/harfbuzz
 
 # lib/fontconfig links with libexpat
 depend type=require fmri=pkg:/library/expat \

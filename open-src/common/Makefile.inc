@@ -443,6 +443,9 @@ DEFAULT_CONFIG_ENV += XMKMF="false"
 # to use new xorg-macros with Solaris 12 man page section support
 DEFAULT_CONFIG_ENV += DRIVER_MAN_SUFFIX=4 FILE_MAN_SUFFIX=5
 DEFAULT_CONFIG_ENV += MISC_MAN_SUFFIX=7 ADMIN_MAN_SUFFIX=8
+# When using /usr/bin/*-config programs to get build flags, be sure to use
+# version matching build type
+DEFAULT_CONFIG_ENV += PATH="/usr/bin/$(SUBDIR$(BUILD_TYPE)):$(PATH)"
 
 $(USE_DEFAULT_CONFIG_ENV:no=$(POUND_SIGN)) CONFIG_ENV = $(DEFAULT_CONFIG_ENV) 
 $(WITH_PARFAIT) CONFIG_ENV += $(PARFAIT_ENV)
