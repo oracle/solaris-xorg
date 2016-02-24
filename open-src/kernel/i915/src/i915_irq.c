@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /* i915_irq.c -- IRQ support for the I915 -*- linux-c -*-
@@ -921,7 +921,7 @@ static irqreturn_t valleyview_irq_handler(DRM_IRQ_ARGS)
 	irqreturn_t ret = IRQ_NONE;
 	unsigned long irqflags;
 	int pipe;
-	u32 pipe_stats[I915_MAX_PIPES];
+	u32 pipe_stats[I915_MAX_PIPES] = { 0 };
 
 	atomic_inc(&dev_priv->irq_received);
 
@@ -2981,7 +2981,7 @@ static irqreturn_t i8xx_irq_handler(DRM_IRQ_ARGS)
 	struct drm_device *dev = (struct drm_device *) arg;
 	drm_i915_private_t *dev_priv = (drm_i915_private_t *) dev->dev_private;
 	u16 iir, new_iir;
-	u32 pipe_stats[2];
+	u32 pipe_stats[2] = { 0 };
 	unsigned long irqflags;
 	int pipe;
 	u16 flip_mask =
@@ -3155,7 +3155,7 @@ static irqreturn_t i915_irq_handler(DRM_IRQ_ARGS)
 	/* LINTED */
 	struct drm_device *dev = (struct drm_device *) arg;
 	drm_i915_private_t *dev_priv = (drm_i915_private_t *) dev->dev_private;
-	u32 iir, new_iir, pipe_stats[I915_MAX_PIPES];
+	u32 iir, new_iir, pipe_stats[I915_MAX_PIPES] = { 0 };
 	unsigned long irqflags;
 	u32 flip_mask =
 		I915_DISPLAY_PLANE_A_FLIP_PENDING_INTERRUPT |
@@ -3385,7 +3385,7 @@ static irqreturn_t i965_irq_handler(DRM_IRQ_ARGS)
 	struct drm_device *dev = (struct drm_device *) arg;
 	drm_i915_private_t *dev_priv = (drm_i915_private_t *) dev->dev_private;
 	u32 iir, new_iir;
-	u32 pipe_stats[I915_MAX_PIPES];
+	u32 pipe_stats[I915_MAX_PIPES] = { 0 };
 	unsigned long irqflags;
 	int irq_received;
 	int ret = IRQ_NONE, pipe;

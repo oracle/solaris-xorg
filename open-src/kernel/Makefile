@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,7 +66,7 @@ clean: clean-subdirs clean-obsolete-subdirs
 clean-subdirs:
 	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clean
 
-clobber: xref-clobber
+clobber: xref-clobber parfait-clobber
 	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=clobber
 
 subdirs: $(OS_SUBDIRS)
@@ -101,12 +101,18 @@ clean-obsolete-subdirs:
 	return 0
 
 # Build various x-ref's
+XREFDIRS	= Make* sys $(OS_SUBDIRS_i386) $(OS_SUBDIRS_sparc)
+
 xref: tags cscope.out
 
 xref-clobber: tags-clobber cscope-clobber
 
 cscope.files: ALWAYS_RUN
-	@find sys $(OS_SUBDIRS_i386) $(OS_SUBDIRS_sparc) -name "Make*" -o -name "*.[ch]" > $@
+	@echo "Building filelist"; \
+	find $(XREFDIRS) -name "Make*" -o -name "*.[ch]" > $@; \
+	if [[ -f gfxp_files ]]; then \
+		/usr/bin/cat -s gfxp_files >> $@; \
+	fi
 
 tags: cscope.files
 	@ctags -tw `cat cscope.files`
@@ -120,6 +126,29 @@ cscope.out: cscope.files
 cscope-clobber:
 	@rm -f cscope.files cscope.in.out cscope.out cscope.out.in cscope.out.po cscope.po.out
 	
+# Create local Parfait output
+XBUILD_HG_ID:sh=hg id -i
+PLOG			= parfait_log
+PARFAIT_MAX_JOBS	= 100%
+
+
+${PLOG}:
+	@if [[ ! -d $@ ]] ; then mkdir $@ ; fi ; \
+
+parfait: ALWAYS_RUN ${PLOG}
+	-@echo "Making Parfait" ; \
+	parfait -e all -c ${TOP}/open-src/common/X-parfait.conf \
+	   -z "${TOP}/open-src/kernel" -j "${PARFAIT_MAX_JOBS}" \
+	   -r "${XBUILD_HG_ID}" -o ${PLOG}/parfait.txt -g ${PLOG}/parfait \
+	   ${TOP}/open-src/kernel > ${PLOG}/parfait.out 2>&1 ; \
+	if [[ $$? != 0 ]]; \
+	  then echo "Parfait defects discovered, see ${PWD}/${PLOG}"; \
+	fi ; \
+	return 0
+
+parfait-clobber:
+	rm -rf ${PLOG}
+
 # Dummy target to force another target to always be run, even if a file
 # or directory with the same name already exists (as it will for subdirs)
 ALWAYS_RUN:

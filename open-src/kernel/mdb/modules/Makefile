@@ -41,10 +41,13 @@ KMOD	= i915
 MDBMOD	= i915.so
 MODULES	= $(KMOD) $(MDBMOD)
 
-CFLAGS		+= -v -K PIC -xdebugformat=stabs -xildoff
+CFLAGS		+= -v -xdebugformat=stabs  -xildoff
+CFLAGS		+= -std=c11
 CFLAGS		+= -D_ELF64 -DMDB_DEBUG -D_KERNEL -D_KMDB -g -m64
 CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I$(KERNEL)/sys -I/usr/include
-KMOD_LDFLAGS	= -dy -r -Nmisc/kmdbmod -Mmapfile
+KMOD_LDFLAGS	= -ztype=kmod -znodefs -Nmisc/kmdbmod -Mmapfile
+$(MDBMOD):= CFLAGS += -KPIC
+$(KMOD):= CFLAGS += -xmodel=kernel
 SO_LDFLAGS	= $(LDFLAGS) -Wl,-z,direct -Wl,-z,text -M mapfile
 SO_LDFLAGS	+= -Wl,-z,parent=/usr/bin$(ARCHLIBSUBDIR)/mdb
 CPPFLAGS	+= -xO3 -m64 -Ui386 -U__i386 -errtags=yes -errwarn=%all \

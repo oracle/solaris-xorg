@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -3387,7 +3387,7 @@ void i915_gem_free_object(struct drm_gem_object *gem_obj)
 	i915_gem_info_remove_obj(dev_priv, obj->base.size);
 
 	if (obj->bit_17 != NULL)
-		kfree(obj->bit_17, sizeof(BITS_TO_LONGS(obj->base.size >> PAGE_SHIFT) * sizeof(long)));
+		kfree(obj->bit_17, BITS_TO_LONGS(obj->base.size >> PAGE_SHIFT) * sizeof(long));
 	drm_gem_object_release(&obj->base);
 	kfree(obj, sizeof(*obj));
 }

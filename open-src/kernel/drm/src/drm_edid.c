@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -1503,9 +1503,11 @@ drm_mode_std(struct drm_connector *connector, struct edid *edid,
 	if (hsize == 1366 && vsize == 768 && vrefresh_rate == 60) {
 		mode = drm_cvt_mode(dev, 1366, 768, vrefresh_rate, 0, 0,
 				    false);
-		mode->hdisplay = 1366;
-		mode->hsync_start = mode->hsync_start - 1;
-		mode->hsync_end = mode->hsync_end - 1;
+		if (mode != NULL) {
+			mode->hdisplay = 1366;
+			mode->hsync_start = mode->hsync_start - 1;
+			mode->hsync_end = mode->hsync_end - 1;
+		}
 		return mode;
 	}
 

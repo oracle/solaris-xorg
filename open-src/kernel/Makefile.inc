@@ -109,36 +109,122 @@ CONFIG_ENV	+= MAKE="$(MODULE_MAKE)" CONFIG_SHELL="$(CONFIG_SHELL)"
 CONFIG_ENV	+= NM="/usr/gnu/bin/nm"
 CONFIG_ENV	+= POUND_SIGN="$(POUND_SIGN)"
 CONFIG_ENV	+= PROTOMETA="$(PROTOMETA)/$(MODULE_PKG)"
+$(LICENSE_FILE_DEFAULT) CONFIG_ENV += LICENSE_FILE="$(LICENSE_FILE)"
 
+
+###############################################################
 # Where to find the common include files
-DRM_INCL	= -I$(TOP)/open-src/kernel/sys/drm -I$(TOP)/open-src/kernel/sys
+# Search first in kernel/sys
+DRM_INCL	= -I$(TOP)/open-src/kernel/sys
+# sys/drm should be removed after all includes properly expand to <drm/...>
+DRM_INCL	+= -I$(TOP)/open-src/kernel/sys/drm
 
-#
+
+###############################################################
 # CFLAGS for modules in open-src/kernel
 #
-# Compiler flags for kernel modules
-KFLAGS		= -m64 -U$(MACH) -U__$(MACH) -xmodel=kernel -xvector=none \
-		-Wu,-save_args -v -xildoff -D_KERNEL -D_ELF64  -D_DDI_STRICT \
-		-Dsun -D__sun -D__SVR4 -D_SYSCALL32 -D_SYSCALL32_IMPL \
-		-D_ASM_INLINES -xspace -xdebugformat=stabs -errtags=yes \
-		-errwarn=%all -W0,-xglobalstatic
+# Standard defines needed for this driver on solaris independent of compiler
+KDEFINES	= -D_KERNEL -D_ELF64  -D_DDI_STRICT -Dsun -D__sun \
+		-D__SVR4 -D_SYSCALL32 -D_SYSCALL32_IMPL -D_ASM_INLINES
+
+# Don't use defines based on MACH.
+KDEFINES	+= -U$(MACH) -U__$(MACH)
+
+# Debug flags
+KDEFINES_DEBUG	+= -DDEBUG
+
+# Driver features.
+
+###############################################################
+# Studio flags
+# Note: KFLAGS without a "compiler" extension are common across
+# all compilers.
+# Use C11
+KFLAGS_suncc		+= -std=c11
+KFLAGS_suncc		+= -features=extensions
+
+# Create 64bit code
+KFLAGS_suncc		+= -m64
+
+# Be verbose
+KFLAGS_suncc            += -v
+
+# Use optimizer level 3
+KFLAGS_suncc		+= -xO3
+
+# Generate code for the "kernel" model
+KFLAGS_suncc            += -xmodel=kernel
+
+# Pass "save_args" to code generator
+KFLAGS_suncc            += -Wu,-save_args
+
+# Use STABS for debug tags (or mdb won't be useful).
+KFLAGS_suncc            += -xdebugformat=stabs
+
+# Don't use a vector library
+KFLAGS_suncc            += -xvector=none
+
+# Don't optimize if it increases size
+KFLAGS_suncc		+= -xspace
+
+# Error flags
+# Display the tag associated with the error
+KFLAGS_suncc		+= -errtags=yes
+
+# Exit on all warnings except specified
+# e.g.: KFLAGS_suncc	+= -errwarn=%all,no%E_PTR_TO_VOID_IN_ARITHMETIC
+KFLAGS_suncc		+= -errwarn=%all
+
+# Print only tags when displaying warnings
+KFLAGS_suncc		+= -errshort=tags
+
+# Errors/Warnings that can be ignored
+# e.g.: KFLAGS_suncc	+= -erroff=E_PTR_TO_VOID_IN_ARITHMETIC
+KFLAGS_suncc		+= -erroff=E_EMPTY_INITIALIZER
+KFLAGS_suncc		+= -erroff=E_ZERO_SIZED_STRUCT_UNION
 
 # Architecture specific flags
-# New flags for sunstudio12.4
-KFLAGS_i386	+= -W2,-xregs=no%float
-KFLAGS_i386	+= -Wu,-xregs=no%float
-KFLAGS_i386	+= -W0,-y-xregs=no%float
+# Do not allow float in passed args for kernel modules
+KFLAGS_suncc_i386	+= -W2,-xregs=no%float
+KFLAGS_suncc_i386	+= -Wu,-xregs=no%float
+KFLAGS_suncc_i386	+= -W0,-y-xregs=no%float
 
-# To make sure ctfconvert has CTF data
+# To make sure ctfconvert has STABS/Dwarf data and doesn't
+# "globalize"
 CTF_FLAGS	= -g
+CTF_FLAGS	+= -xglobalize=no
+
+
+###############################################################
+# Add GCC flags here.
+#
+KFLAGS_gcc	+= -std=gnu11
+KFLAGS_gcc	+= -m64
+KFLAGS_gcc	+= -FPIC
+KFLAGS_gcc	+= -mtune=generic
+KFLAGS_gcc	+= -mcmodel=kernel
+KFLAGS_gcc	+= -Werror
+KFLAGS_gcc	+= -Wfatal-errors
+KFLAGS_gcc	+= -gdwarf-2
+KFLAGS_gcc	+= -feliminate-unused-debug-symbols
+KFLAGS_gcc	+= -gno-strict-dwarf
+KFLAGS_gcc	+= -feliminate-dwarf2-dups
+
+###############################################################
 
 INC_PATH	= -I. $(DRM_INCL) -I/usr/include
 
-# Debug cflags - added in the "debug" path of the target makefile.
-MODTYPE_CFLAGS_DEBUG = -DDEBUG
+
+# Debug, anyone???
+PROG_FLAGS	+= $(KDEFINES_$(DEBUG)) $(KFLAGS_$(DEBUG))
+
+# KFLAGS based on compiler
+KFLAGS		+= $(KFLAGS_$(MODULE_COMPILER))
+#KFLAGS based on compiler and machine
+KFLAGS		+= $(KFLAGS_$(MODULE_COMPILER_$(MACH)))
 
 MODTYPE_CPPFLAGS = $(INC_PATH)
-MODTYPE_CFLAGS	= $(INC_PATH) $(KFLAGS) $(KFLAGS_$(MACH)) $(CTF_FLAGS) $(PROG_FLAGS)
+MODTYPE_CFLAGS	= $(INC_PATH) $(KDEFINES) $(KFLAGS) $(CTF_FLAGS) $(PROG_FLAGS)
 
 #
 # Define the MODTYPE environment

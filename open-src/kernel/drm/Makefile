@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -64,7 +64,7 @@ CONFIGURE_TARGETS_SET	= yes
 
 MODULE_MAKEFLAGS	= VPATH=$(REL_SOURCE_DIR) -f $(REL_SOURCE_DIR)/Makefile
 MODULE_BUILD_ENV	= $(CONFIG_ENV) PREFIX=$(MODULE_PREFIX)
-MODULE_LDFLAGS		= -r -dy -Nmisc/agpmaster -Nmisc/gfx_private
+MODULE_LDFLAGS		= -ztype=kmod -znodefs  -Nmisc/agpmaster -Nmisc/gfx_private
 
 #
 # License info

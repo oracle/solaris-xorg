@@ -1,7 +1,7 @@
 /*
  * file drm_os_solaris.h
  *
- * Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -109,7 +109,7 @@ typedef uint64_t drm_u64_t;
 #define	BUG_ON(a)
 #define	WARN_ON(a)
 #else
-#define BUG_ON(a)	ASSERT(a)
+#define BUG_ON(a)	ASSERT(!(a))
 #define WARN_ON(a)	do { \
 		if(a) drm_debug_print(CE_WARN, __func__, __LINE__, #a);\
 	} while (__lintzero)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -5789,6 +5789,8 @@ static int ironlake_crtc_mode_set(struct drm_crtc *crtc,
 		 * so pll should not be NULL from above call.
 		 */
 		BUG_ON(pll == NULL);
+		if (pll == NULL)
+			return -EINVAL;
 
 		I915_WRITE(PCH_DPLL(pll->id), dpll);
 
@@ -7189,7 +7191,8 @@ static void intel_crtc_destroy(struct drm_crtc *crtc)
 
 	drm_crtc_cleanup(crtc);
 
-	kfree(intel_crtc, sizeof (struct intel_crtc));
+	kfree(intel_crtc, sizeof (struct intel_crtc) +
+	    (INTELFB_CONN_LIMIT * sizeof(struct drm_connector *)));
 }
 
 static void intel_unpin_work_fn(struct work_struct *__work)
