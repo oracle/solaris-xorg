@@ -1,5 +1,5 @@
 ###############################################################################
-# Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,20 +21,6 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
-diff --git a/modules/im/ximcp/imImSw.c b/modules/im/ximcp/imImSw.c
-index 28b1725..327736e 100644
---- a/modules/im/ximcp/imImSw.c
-+++ b/modules/im/ximcp/imImSw.c
-@@ -48,7 +48,9 @@ _XimCheckIfDefault(
- }
- 
- XimImsportSW _XimImSportRec[] = {
-+#ifdef USE_R6_LOCALIM
-     { _XimCheckIfLocalProcessing, _XimLocalOpenIM, _XimLocalIMFree },
-+#endif
-     { _XimCheckIfThaiProcessing,	_XimThaiOpenIM,	 _XimThaiIMFree },
-     { _XimCheckIfDefault,         _XimProtoOpenIM, _XimProtoIMFree },
-     { NULL,                       NULL,		 NULL },
 diff --git a/modules/im/ximcp/imThaiFlt.c b/modules/im/ximcp/imThaiFlt.c
 index f134e84..898fc1f 100644
 --- a/modules/im/ximcp/imThaiFlt.c

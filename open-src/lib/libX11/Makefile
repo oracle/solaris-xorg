@@ -51,51 +51,28 @@ SOURCE_PATCHES = \
 	lc-ksc5601.1992-3.patch,-p1 \
 	lc-gb18030.patch,-p1 \
 	om-generic.patch,-p1 \
-	compose.dir.patch,-p1 \
-	compose-iso8859-1.patch,-p1 \
-	compose-iso8859-2.patch,-p1 \
-	compose-iso8859-5.patch,-p1 \
-	compose-iso8859-6.patch,-p1 \
-	compose-iso8859-7.patch,-p1 \
-	compose-iso8859-8.patch,-p1 \
-	compose-iso8859-9.patch,-p1 \
-	compose-iso8859-13.patch,-p1 \
-	compose-iso8859-15.patch,-p1 \
-	compose-el_GR.UTF-8.patch,-p1 \
-	compose-en_US.UTF-8.patch,-p1 \
-	compose-ja_JP.UTF-8.patch,-p1 \
-	compose-ko_KR.UTF-8.patch,-p1 \
-	compose-pt_BR.UTF-8.patch,-p1 \
-	compose-zh_CN.UTF-8.patch,-p1 \
-	compose-zh_HK.UTF-8.patch,-p1 \
-	compose-zh_TW.UTF-8.patch,-p1 \
 	locale.aliases.patch,-p1 \
 	locale.paths.patch,-p1 \
-	locale-C.patch,-p1 \
-	locale-iso8859-1.patch,-p1 \
 	locale-iso8859-6.patch,-p1 \
-	locale-iso8859-8.patch,-p1 \
 	locale-en_US.UTF-8.patch,-p1 \
 	locale-ja.SJIS.patch,-p1 \
 	locale-ja.patch,-p1 \
 	locale-ja_JP.UTF-8.patch,-p1 \
 	locale-ko.patch,-p1 \
 	locale-ko_KR.UTF-8.patch,-p1 \
-	locale-pt_BR.UTF-8.patch,-p1 \
 	locale-th_TH.UTF-8.patch,-p1 \
 	locale-zh_CN.UTF-8.patch,-p1 \
 	locale-zh_CN.gb18030.patch,-p1 \
 	locale-zh_HK.UTF-8.patch,-p1 \
 	locale-zh_TW.UTF-8.patch,-p1 \
-	locale-zh_TW.patch,-p1 \
-	locale-ru-RU.UTF-8.patch,-p1
+	locale-zh_TW.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11
 
 # Dates to show in Oracle copyright notice in pkg license file
 # Earliest & latest of the copyrights in the Oracle files in this pkg
-ORACLE_COPYRIGHT_YEARS = 1986, 2013
+ORACLE_COPYRIGHT_YEARS = 1986, 2016
 
 # ARC cases that covered this module
 # PSARC/1992/077 X11/R5 Xlib API
