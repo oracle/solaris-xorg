@@ -125,10 +125,19 @@ hwname=$(prtconf -b | nawk -F':[ \t]*' '/^banner-name:/ {print $2}')
 # Get the platform name that uses Xvnc instead of Xorg and clean it up. 
 VNCPLATFORM=$(echo ${VNCPLATFORM}| tr -d '\\')
 
+# Determine if this is a supported platform for VNC.
+ISVNCPLATFORM=false
+if [[ ("${hwname}" != "") ]]; then
+    echo "${VNCPLATFORM}" | fgrep "${hwname}" >/dev/null
+    if [[ $? -eq 0 ]] ; then
+        ISVNCPLATFORM=true
+    fi
+fi
+
 # Check if this is a platform that should use Xvnc or Xorg.
 if [[ "${XSERVER}" == "/usr/bin/Xorg" ]] ; then
     # Configure x11-server to run Xvnc instead of Xorg for ${VNCPLATFORM}
-    if [[ ("${hwname}" != "") && ("${hwname}" == "${VNCPLATFORM}") ]] ; then
+    if ${ISVNCPLATFORM} ; then
         XSERVER="/usr/bin/Xvnc"
         SERVERARGS="-SecurityTypes=TLSNone -DisconnectClients=false -NeverShared -IdleTimeout=3600 -interface 169.254.182.77 -screenlock"
         svccfg -s application/x11/x11-server setprop \
@@ -139,7 +148,7 @@ if [[ "${XSERVER}" == "/usr/bin/Xorg" ]] ; then
     fi
 else
     # This check is needed in case the system is booted from a cloned archive.
-    if [[ ("${hwname}" == "") || ("${hwname}" != "${VNCPLATFORM}") ]] ; then
+    if ! ${ISVNCPLATFORM} ; then
         XSERVER="/usr/bin/Xorg"
         SERVERARGS=""
         svccfg -s application/x11/x11-server setprop \
