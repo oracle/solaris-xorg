@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -42,7 +42,7 @@ TARBALL_SHA1  = 56acde359072d7ffc6627ffde5e2c698eb415ddc
 TARBALL_SHA256= e71ce1df82dcc51eb14be6f42171dcc6bdd11ef46c0c605d6da8af12bd73b74c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES=	consistent.ids.patch,-p1
 
 # doctools pkg-config file needs to have sgml path in share adjusted
 # so that xorg-docs and other parts of build can find it

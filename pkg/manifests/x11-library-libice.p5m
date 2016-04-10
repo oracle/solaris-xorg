@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,7 +45,15 @@ link path=usr/lib/libICE.so target=libICE.so.6
 file path=usr/lib/libICE.so.6
 file path=usr/lib/pkgconfig/ice.pc
 dir  path=usr/share/doc/libICE
+file path=usr/share/doc/libICE/ICElib.html
+file path=usr/share/doc/libICE/ICElib.html.db
+file path=usr/share/doc/libICE/ICElib.pdf.db
+file path=usr/share/doc/libICE/ICElib.txt
 file path=usr/share/doc/libICE/ICElib.xml
+file path=usr/share/doc/libICE/ice.html
+file path=usr/share/doc/libICE/ice.html.db
+file path=usr/share/doc/libICE/ice.pdf.db
+file path=usr/share/doc/libICE/ice.txt
 file path=usr/share/doc/libICE/ice.xml
 file path=usr/share/man/man1/iceauth.1
 legacy pkg=SUNWxwice \

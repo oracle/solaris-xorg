@@ -132,16 +132,6 @@ BUILD_TARGETS=$(XORGSERVER_BIN) build_mdb set-elf-comments \
 	$(BUILD_DIR)/mapfile-Xorg-externs
 BUILD_TARGETS_SET=yes
 
-# Need to convert dtrace docs from xml to text/html ourselves, since
-# Solaris doesn't bundle the xmlto tool used upstream
-MODULE_DOC_DIR  = $(MODULE_DATA_DIR)/doc/Xserver
-MODULE_DOC_DIR_SET=yes
-MODULE_XML_PATH = $(SOURCE_DIR)/doc
-DTRACE_DOC_DIR  = $(MODULE_XML_PATH)/dtrace
-DTRACE_DOCS     = $(DTRACE_DOC_DIR)/Xserver-DTrace.html
-DTRACE_DOCS    += $(DTRACE_DOC_DIR)/Xserver-DTrace.txt
-BUILD_TARGETS  += $(DTRACE_DOCS)
-
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes
 
@@ -398,13 +388,17 @@ install_mdb: $(INSTALLED_MDB_ALL)
 	$(INSTALL_SCRIPT) -c -m 0444 $(MDB_SOURCE_DIR)/README \
 		$(PROTODIR)$(MDB_SCRIPT_DIR)/
 
-## Dtrace docs rules
-$(DTRACE_DOC_DIR)/Xserver-DTrace.xml: $(AUTOCONF_TARGET)
+## Backwards compatibility for old doc path
+INSTALLED_DOC_LINK = $(PROTODIR)$(MODULE_DOC_DIR:$(MODULE_NAME)=Xserver)
 
+## IPS package release notes shown when upgrading
 $(PROTODIR)$(RELNOTES_DIR):
 	mkdir -p $@
 
-install_docs: $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR) $(PROTODIR)$(RELNOTES_DIR)
-	$(INSTALL_SCRIPT) -c -m 0444 $(DTRACE_DOCS) $(PROTODIR)$(MODULE_DOC_DIR)
+install_docs: $(PROTODIR)$(RELNOTES_DIR) $(INSTALLED_DOC_LINK)
 	$(INSTALL_SCRIPT) -c -m 0444 release-notes/*.txt \
 		$(PROTODIR)$(RELNOTES_DIR)
+
+$(INSTALLED_DOC_LINK): $(PROTODIR)$(MODULE_DOC_DIR)
+	@rm -f $@
+	ln -s $(MODULE_NAME) $@

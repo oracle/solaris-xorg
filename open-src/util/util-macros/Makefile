@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,7 +43,8 @@ TARBALL_SHA1  = 00cfc636694000112924198e6b9e4d72f1601338
 TARBALL_SHA256= 2835b11829ee634e19fa56517b4cfc52ef39acea0cd82e15f68096e27cbed0ba
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES += man-page-sections.patch,-p1
+SOURCE_PATCHES += xmlto-0.0.27.patch,-p1
 
 # Additional rules for generating sources
 MODULE_ADD_SOURCE_TARGETS=source_fix_pkgname

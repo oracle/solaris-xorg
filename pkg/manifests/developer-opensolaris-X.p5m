@@ -86,8 +86,6 @@ depend type=require fmri=pkg:/developer/debug/mdb
 depend type=require fmri=pkg:/developer/documentation-tool/asciidoc
 depend type=require fmri=pkg:/developer/documentation-tool/openjade
 depend type=require fmri=pkg:/developer/documentation-tool/opensp
-
-# adding xmlto since we want to use xmlto for docs instead of w3m or lynx eventually
 depend type=require fmri=pkg:/developer/documentation-tool/xmlto
 
 # Some modules use gcc to build (look for MODULE_COMPILER=gcc in Makefiles)
@@ -111,9 +109,6 @@ depend type=require fmri=pkg:/developer/macro/gnu-m4
 
 # Xserver build uses flex & bison
 depend type=require fmri=pkg:/developer/parser/bison
-
-# autopoint (from gnu gettext) requires CVS!
-depend type=require fmri=pkg:/developer/versioning/cvs
 
 # X gate source is kept in mercurial scm
 depend type=require fmri=pkg:/developer/versioning/mercurial

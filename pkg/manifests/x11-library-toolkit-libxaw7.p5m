@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -164,6 +164,10 @@ file path=usr/share/doc/libXaw/TextSource.xml
 file path=usr/share/doc/libXaw/Toggle.xml
 file path=usr/share/doc/libXaw/Tree.xml
 file path=usr/share/doc/libXaw/Viewport.xml
+file path=usr/share/doc/libXaw/libXaw.html
+file path=usr/share/doc/libXaw/libXaw.html.db
+file path=usr/share/doc/libXaw/libXaw.pdf.db
+file path=usr/share/doc/libXaw/libXaw.txt
 file path=usr/share/doc/libXaw/libXaw.xml
 file path=usr/share/man/man3lib/libXaw.3lib
 dir  path=usr/share/man/man3xaw

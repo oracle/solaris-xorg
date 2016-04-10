@@ -306,6 +306,8 @@ AUTOMAKE_PATH=/usr/bin/automake-$(AUTOMAKE_VERSION)
 AUTORECONF_ENV= ACLOCAL="$(ACLOCAL_PATH) $(ACLOCAL_INCLUDES)" \
 	AUTOMAKE="$(AUTOMAKE_PATH)"
 
+# XORG_WITH_XMLTO check below makes sure we're using a version of that macro
+# compatible with xmlto 0.0.27 & later, as provided in util-macros > 0.19.0
 $(PATCHED_TARGET): $(SOURCE_ADD_TARGET)
 	@ if [[ "$(SOURCE_PATCHES)" != "" ]] ; then \
 	    for p in $(SOURCE_PATCHES) x ; do \
@@ -321,7 +323,14 @@ $(PATCHED_TARGET): $(SOURCE_ADD_TARGET)
 		fi ; \
 	    done ; \
 	fi ; \
-	if [[ "$(AUTORECONF)" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \
+	autoreconf="$(AUTORECONF)" ; \
+	if grep -q XORG_WITH_XMLTO $(SOURCE_DIR)/configure.ac ; then \
+	    if ! grep -q 'xmlto 0\.0\.27' $(SOURCE_DIR)/configure ; then \
+		print '* Forcing autoreconf to apply xmlto macro fix' ; \
+		autoreconf="yes" ; \
+	    fi ; \
+	fi ; \
+	if [[ "$${autoreconf}" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \
 	     ($(START_CMD_ECHO) ; cd $(SOURCE_DIR) && \
 	      $(AUTORECONF_ENV) autoreconf -v --install --force) ; \
 	fi ; \
@@ -399,7 +408,7 @@ CONFIGURE_DEPS = $(SOURCE_TARGETS) $(BUILD_DIR) \
 
 # Command line options to GNU autoconf configure script
 DEFAULT_CONFIG_OPTS = --prefix=$(MODULE_PREFIX) \
-	--without-xmlto --with-asciidoc --without-fop \
+	--with-xmlto --with-asciidoc --without-fop --enable-specs \
 	--mandir='$${prefix}/share/man' --localstatedir=/var --sysconfdir=/etc
 
 CONFIG_OPTS = $(DEFAULT_CONFIG_OPTS) \
@@ -637,30 +646,6 @@ $(MODULE_PKG_MANIFEST): $(MANIFEST_TMP) $(PKG_MANIFEST_DIR)
 
 $(PKG_MANIFEST_DIR):
 	mkdir -p $(PKG_MANIFEST_DIR)
-
-### Doc tools
-
-# Convert DocBook/XML to HTML (since Solaris doesn't bundle the xmlto tool
-# used by most upstream code to do this)
-XML_TO_HTML  = /usr/bin/xsltproc --nonet --xinclude
-XML_TO_HTML += --stringparam html.stylesheet $(X11_SGML_DIR)/xorg.css
-XML_TO_HTML += --stringparam current.docid $(@F:.html=)
-XML_TO_HTML += --stringparam collect.xref.targets no
-XML_TO_HTML += --path "$(PROTODIR)$(X11_SGML_DIR) $(MODULE_XML_PATH)"
-XML_TO_HTML += $(TOP)/open-src/doc/xorg-sgml-doctools/xmltohtml.xsl
-
-# Convert HTML to text (also normally done by xmlto upstream)
-HTML_TO_TEXT = /usr/bin/lynx -dump
-
-.SUFFIXES: .xml .html .txt
-
-.xml.html:
-	$(XML_TO_HTML) $< > $@
-	@ if [[ ! -s $@ ]] ; then print "xml to html failed" ; exit 1 ; fi
-
-.html.txt:
-	$(HTML_TO_TEXT) $< > $@
-	@ if [[ ! -s $@ ]] ; then print "html to text failed" ; exit 1 ; fi
 
 ### Other tools/dependencies needed to build
 

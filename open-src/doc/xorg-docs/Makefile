@@ -75,10 +75,3 @@ $(MAN_DIR)/man7/XStandards.7: default_install
 $(MAN_DIR)/man7/X11.7:
 	mkdir -p $(MAN_DIR)/man7
 	$(INSTALL_SCRIPT) -m 0444 X11.7 $@
-
-default_install: install_preformatted
-
-install_preformatted:
-	mkdir -p $(PROTODIR)$(X11_DOC_DIR)
-	(cd preformatted && tar -cf - .) | \
-	 (cd $(PROTODIR)$(X11_DOC_DIR) && tar -xf - )

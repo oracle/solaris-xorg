@@ -34,13 +34,13 @@
 var/run
 
 # Documentation it doesn't make sense to ship in our packages
-usr/share/doc/X11/graphics/dps.xml
-usr/share/doc/X11/platforms/Darwin.xml
-usr/share/doc/X11/xext/lbxalg.xml
-usr/share/doc/X11/Xserver/XACE-Spec.xml
-usr/share/doc/X11/Xserver/appgroup.xml
-usr/share/doc/X11/Xserver/analysis.xml
-usr/share/doc/X11/Xserver/secint.xml
+usr/share/doc/X11/graphics/dps.*
+usr/share/doc/X11/platforms/Darwin.*
+usr/share/doc/X11/xext/lbxalg.*
+usr/share/doc/X11/Xserver/XACE-Spec.*
+usr/share/doc/X11/Xserver/appgroup.*
+usr/share/doc/X11/Xserver/analysis.*
+usr/share/doc/X11/Xserver/secint.*
 usr/share/doc/X11/MAINTAINERS
 
 # Obsolete man pages

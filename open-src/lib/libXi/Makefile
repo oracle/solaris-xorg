@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,8 +39,11 @@ TARBALL_SHA256= 2cffc2686618dc1803725636cd92b36342c512dc60a7a35cba34bf7192a42244
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1
 
-# Need to regen Makefile.in after man-fixme.patch changes Makefile.am
+# Need to regen Makefile.in after solaris-abi.patch changes Makefile.am
 AUTORECONF=yes
+
+# Don't regenerate man pages from sources after we've suntouched them
+MODULE_CONFIG_OPTS = --without-asciidoc
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xi

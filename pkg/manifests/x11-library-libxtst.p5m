@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,7 +39,15 @@ link path=usr/lib/libXtst.so target=libXtst.so.1
 file path=usr/lib/libXtst.so.1
 file path=usr/lib/pkgconfig/xtst.pc
 dir  path=usr/share/doc/libXtst
+file path=usr/share/doc/libXtst/recordlib.html
+file path=usr/share/doc/libXtst/recordlib.html.db
+file path=usr/share/doc/libXtst/recordlib.pdf.db
+file path=usr/share/doc/libXtst/recordlib.txt
 file path=usr/share/doc/libXtst/recordlib.xml
+file path=usr/share/doc/libXtst/xtestlib.html
+file path=usr/share/doc/libXtst/xtestlib.html.db
+file path=usr/share/doc/libXtst/xtestlib.pdf.db
+file path=usr/share/doc/libXtst/xtestlib.txt
 file path=usr/share/doc/libXtst/xtestlib.xml
 dir  path=usr/share/man/man3xtst
 file path=usr/share/man/man3xtst/XTestCompareCurrentCursorWithWindow.3xtst

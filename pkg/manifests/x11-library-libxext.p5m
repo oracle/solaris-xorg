@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,10 +56,30 @@ file path=usr/lib/libXext.so.0
 file path=usr/lib/llib-lXext.ln
 file path=usr/lib/pkgconfig/xext.pc
 dir  path=usr/share/doc/libXext
+file path=usr/share/doc/libXext/dbelib.html
+file path=usr/share/doc/libXext/dbelib.html.db
+file path=usr/share/doc/libXext/dbelib.pdf.db
+file path=usr/share/doc/libXext/dbelib.txt
 file path=usr/share/doc/libXext/dbelib.xml
+file path=usr/share/doc/libXext/dpmslib.html
+file path=usr/share/doc/libXext/dpmslib.html.db
+file path=usr/share/doc/libXext/dpmslib.pdf.db
+file path=usr/share/doc/libXext/dpmslib.txt
 file path=usr/share/doc/libXext/dpmslib.xml
+file path=usr/share/doc/libXext/shapelib.html
+file path=usr/share/doc/libXext/shapelib.html.db
+file path=usr/share/doc/libXext/shapelib.pdf.db
+file path=usr/share/doc/libXext/shapelib.txt
 file path=usr/share/doc/libXext/shapelib.xml
+file path=usr/share/doc/libXext/synclib.html
+file path=usr/share/doc/libXext/synclib.html.db
+file path=usr/share/doc/libXext/synclib.pdf.db
+file path=usr/share/doc/libXext/synclib.txt
 file path=usr/share/doc/libXext/synclib.xml
+file path=usr/share/doc/libXext/xtest1.html
+file path=usr/share/doc/libXext/xtest1.html.db
+file path=usr/share/doc/libXext/xtest1.pdf.db
+file path=usr/share/doc/libXext/xtest1.txt
 file path=usr/share/doc/libXext/xtest1.xml
 dir  path=usr/share/man/man3xext
 file path=usr/share/man/man3xext/DBE.3xext

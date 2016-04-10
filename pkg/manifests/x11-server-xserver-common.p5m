@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -51,10 +51,13 @@ file path=usr/demo/Xserver/mdb/list_Xserver_servergrab_client mode=0555
 file path=usr/lib/mdb/proc/$(ARCH64)/Xserver.so
 dir  path=usr/lib/xorg
 file path=usr/lib/xorg/protocol.txt
-dir  path=usr/share/doc/Xserver
-file path=usr/share/doc/Xserver/Xserver-DTrace.html
-file path=usr/share/doc/Xserver/Xserver-DTrace.txt
-file path=usr/share/doc/Xserver/Xserver-DTrace.xml
+link path=usr/share/doc/Xserver target=xorg-server
+dir  path=usr/share/doc/xorg-server
+file path=usr/share/doc/xorg-server/Xserver-DTrace.html
+file path=usr/share/doc/xorg-server/Xserver-DTrace.html.db
+file path=usr/share/doc/xorg-server/Xserver-DTrace.pdf.db
+file path=usr/share/doc/xorg-server/Xserver-DTrace.txt
+file path=usr/share/doc/xorg-server/Xserver-DTrace.xml
 file path=usr/share/man/man1/Xnest.1
 file path=usr/share/man/man1/Xserver.1
 # Xserver script runs /usr/bin/readlink (from GNU coreutils)
