@@ -93,8 +93,8 @@ DEALINGS IN THE SOFTWARE.
                	<propval name='config_file' type='astring' value='' />
                 <property name='vncplatform' type='astring'>
                     <astring_list>
-                        <value_node value='SPARC SN-1' />
-                        <value_node value='SPARC SN-2' />
+                        <value_node value='SPARC S7-2' />
+                        <value_node value='SPARC S7-2L' />
                         <value_node value='SPARC SN-C' />
                     </astring_list>
                 </property>
