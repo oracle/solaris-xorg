@@ -45,7 +45,7 @@ default_target: install
 
 # High level dependencies
 proto/x11proto: util/util-macros doc/xorg-sgml-doctools
-proto: proto/x11proto util/util-macros util/build-tools doc/xorg-sgml-doctools
+proto: proto/x11proto util/util-macros util/lndir util/build-tools doc/xorg-sgml-doctools
 util/lndir: proto/x11proto
 lib: proto font/util util
 util: proto font/util util/lndir
