@@ -1,4 +1,4 @@
-#! /usr/perl5/5.20/bin/perl
+#! /usr/perl5/5.22/bin/perl
 #
 # Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #

@@ -369,11 +369,11 @@ fixed_pc: $(FIXED_PC_TARGET)
 # First, make warnings about missing files into fatal errors
 FIX_PC_OPS  = $(PERL_MISSING_FILES_ERROR)
 # Remove -L flags for libraries in the default library path (/usr/lib{/64})
-FIX_PC_OPS += -e 's|-L\$${libdir}|| if "$(MODULE_ADD_LIB_SUBDIR)" eq "";'
+FIX_PC_OPS += -e 's|-L\$$\{libdir}|| if "$(MODULE_ADD_LIB_SUBDIR)" eq "";'
 # Add -R flags for libraries in non-default library paths
-FIX_PC_OPS += -e 's|-L\$${libdir}|-L\$${libdir} -R\$${libdir}|;'
+FIX_PC_OPS += -e 's|-L\$$\{libdir}|-L\$$\{libdir} -R\$$\{libdir}|;'
 # Remove duplicate -R flags if upstream already provided one
-FIX_PC_OPS += -e 's|-R\$${libdir}( .*)? -R\$${libdir}|-R\$${libdir}$$1|g;'
+FIX_PC_OPS += -e 's|-R\$$\{libdir}( .*)? -R\$$\{libdir}|-R\$$\{libdir}$$1|g;'
 # Allow modules to add their own operations
 FIX_PC_OPS += $(MODTYPE_FIX_PC_FLAGS) $(MODULE_FIX_PC_FLAGS)
 
@@ -545,7 +545,7 @@ UNINSTALLED_PC_OPS += -e 'BEGIN {use Cwd; $$protodir=Cwd::realpath("$(PROTODIR)"
 # Prepend $protodir to paths for includes, libraries to link against, etc.
 UNINSTALLED_PC_OPS += -e 's|(-[LI]\s*)\$$|$$1$$protodir\$$|g;'
 UNINSTALLED_PC_OPS += -e 's|^sdkdir=|sdkdir=$$protodir|g;'
-UNINSTALLED_PC_OPS += -e 's|$$protodir\$${sdkdir}|\$${sdkdir}|g;'
+UNINSTALLED_PC_OPS += -e 's|$$protodir\$$\{sdkdir}|\$$\{sdkdir}|g;'
 # Allow modules to add their own operations
 UNINSTALLED_PC_OPS += $(MODTYPE_ADD_UNINSTALLED_PC_OPS)
 UNINSTALLED_PC_OPS += $(MODULE_ADD_UNINSTALLED_PC_OPS)
