@@ -71,6 +71,9 @@ DELIBTOOLIZE_FLAGS = \
 
 MODULE_LD_SHARED_OPTIONS = -z gnu-version-script-compat
 
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT = no
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = doxyfile.patch,-p1
 

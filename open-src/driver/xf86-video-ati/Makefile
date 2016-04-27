@@ -2,7 +2,7 @@
 #
 # xf86-video-ati Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -49,6 +49,9 @@ MODULE_STABILITY=Volatile
 # AtomBios code won't build with Sun compiler
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
+
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
 
 # Extra flags to pass to configure script
 MODULE_CONFIG_OPTS=--disable-kms --disable-glamor

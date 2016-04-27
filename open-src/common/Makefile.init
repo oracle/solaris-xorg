@@ -130,7 +130,7 @@ C_VERSION_FLAGS_suncc		= -std=c11 -xlang=c11
 CXX_VERSION_FLAGS_suncc		= -std=c++11 -xlang=c99
 
 ## GNU Compilers
-GCC_VERSION        		= 4.8 
+GCC_VERSION        		= 5.3
 GCC				= /usr/gcc/$(GCC_VERSION)/bin/gcc
 GXX				= /usr/gcc/$(GCC_VERSION)/bin/g++
 CC_gcc				= $(GCC)

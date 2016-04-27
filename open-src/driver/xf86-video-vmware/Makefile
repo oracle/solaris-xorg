@@ -2,7 +2,7 @@
 #
 # xf86-video-vmware driver for guests inside VMWare hypervisors
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,6 +40,9 @@ TARBALL_SHA256= c8ba3d2cead3620dba2cbf5defb7f1759b2b96f4fe209f4bf6976832b6763c54
 SOURCE_PATCHES = solaris-port.patch
 
 AUTORECONF = yes
+
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
 
 # Merge in additional sources from sun-src directory
 ADDITIONAL_SOURCE_DIR=sun-src

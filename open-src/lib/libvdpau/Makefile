@@ -78,5 +78,8 @@ MODULE_MAKE_SET=yes
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
+
 ### Include common rulesets
 include ../Makefile.inc

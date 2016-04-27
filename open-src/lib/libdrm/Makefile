@@ -63,6 +63,9 @@ MODULE_COMPILER_SET=yes
 # Command line options to GNU autoconf configure script
 MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
 
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT = no
+
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man
 MODULE_STABILITY = Volatile

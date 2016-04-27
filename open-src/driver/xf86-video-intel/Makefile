@@ -67,13 +67,16 @@ INSTALL_TARGETS_SET=yes
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
+
 MODULE_CFLAGS = -DHAVE_DRI1
 
 # Extra flags to pass to configure script
 # --libdir is needed to set path for XvMC libraries
 MODULE_CONFIG_OPTS=--enable-dri2 --enable-dri3 \
 	  	   --libdir='$(MODULE_FULLARCH_LIB_DIR)' \
-		   --enable-sna --enable-uxa --with-default-accel=uxa \
+		   --enable-sna --enable-uxa --with-default-accel='uxa' \
 		   --disable-udev
 
 # echo is set to workaround configure/libtool strangeness in 2.15.0 that

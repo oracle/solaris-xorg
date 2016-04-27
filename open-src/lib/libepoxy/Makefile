@@ -2,7 +2,7 @@
 #
 # libepoxy - library for handling OpenGL function pointers
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -62,6 +62,9 @@ SOURCE_PATCHES = disable-egl.patch
 # Need to build with gcc
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
+
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
 
 # regenerate configure
 AUTORECONF = yes

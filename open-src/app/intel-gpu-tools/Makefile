@@ -2,7 +2,7 @@
 #
 # intel-gpu-tools - Intel graphics driver debug tools
 #
-# Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2013, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,6 +53,9 @@ MODULE_CONFIG_OPTS = --disable-nouveau
 
 MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
+
+# Cos of 23185711 - disable parfait temporarily
+USE_PARFAIT=no
 
 # Different programs need different libraries, but upstream links them all in
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)
