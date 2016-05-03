@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,7 +41,9 @@ SOURCE_PATCHES = \
 		libraries.patch,-p1 \
 		g200se_pilot3_offscreen.patch,-p1 \
 		sparc.patch,-p1 \
-		rom_map.patch,-p1
+		rom_map.patch,-p1 \
+		22993389.patch,-p1 \
+		22993744.patch,-p1
 
 # Regenerate Makefile after libraries.patch patches src/Makefile.am
 AUTORECONF=yes
