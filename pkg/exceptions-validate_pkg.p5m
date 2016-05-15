@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -95,6 +95,7 @@ dir  path=usr/share/man/man4
 $(i386_ONLY)dir path=usr/share/man/man4d
 dir  path=usr/share/man/man5
 dir  path=usr/share/man/man7
+$(sparc_ONLY)dir path=usr/share/man/man8
 dir  path=usr/share/pixmaps
 dir  path=usr/share/pkgconfig
 dir  path=usr/share/sgml

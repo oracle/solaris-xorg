@@ -1,5 +1,5 @@
 #
-# Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1999, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,5 +56,6 @@ install: all
 	-mkdir -p $(INSTALL_BIN_DIR)
 	$(INSTALL) -m 0555 $(BIN) $(INSTALL_BIN_DIR)
 	$(INSTALL) -m 0444 exec_attr $(DESTDIR)/etc/security/exec_attr.d/fbconfig
+	$(INSTALL) -m 0444 fbconfig.8 $(DESTDIR)/usr/share/man/man8/fbconfig.8
 
 # End of Makefile
