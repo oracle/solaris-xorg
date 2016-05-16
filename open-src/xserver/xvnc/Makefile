@@ -67,7 +67,7 @@ SOURCE_URL=$(SF_DOWNLOADS_URL)/tigervnc/tigervnc/1.1.0/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver117.patch,'-p0 -d unix'
+SOURCE_PATCHES += $(SOURCE_DIR)/unix/xserver118.patch,'-p0 -d unix'
 SOURCE_PATCHES += tigervnc11-xorg111.patch,-p1
 SOURCE_PATCHES += tigervnc11-xorg112.patch,'-p0 -d unix'
 SOURCE_PATCHES += tigervnc11-xorg117.patch,'-p0 -d unix'

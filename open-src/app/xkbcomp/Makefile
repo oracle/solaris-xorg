@@ -2,7 +2,7 @@
 #
 # xkbcomp - XKB keyboard layout parser/compiler
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,12 @@ MODULE_PKGNAME=x11/keyboard/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.3.0
+MODULE_VERSION=1.3.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 0012a8e3092cddf7f87b250f96bb38c5
-TARBALL_SHA1  = 113c93679c9245141b5899240f59fcc8227d8dc1
-TARBALL_SHA256= cfac973778fabf5216121ad60b7af8ab74ce7513af0f9260cf8c5309e1622b2a
+TARBALL_MD5   = a4d8353daf6cb0a9c47379b7413c42c6
+TARBALL_SHA1  = 0295b57a4c4087b7a4d8d0ce6764039c24efb98c
+TARBALL_SHA256= 0304dc9e0d4ac10831a9ef5d5419722375ddbc3eac3ff4413094d57bc1f1923d
 
 # ARC cases that covered this module
 # PSARC/2015/221 X11 application updates

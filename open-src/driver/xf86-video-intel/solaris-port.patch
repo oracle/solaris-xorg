@@ -146,3 +146,16 @@
  
  intel_drv_la_SOURCES = \
  	backlight.c \
+--- src/compat-api.h	Tue Apr 26 16:19:10 2016
++++ src/compat-api.h	Tue Apr 26 16:20:11 2016
+@@ -175,6 +175,10 @@
+ }
+ #endif
+ 
++#if XORG_VERSION_CURRENT >= XORG_VERSION_NUMERIC(1,17,99,0,0)
++#define PixmapSyncDirtyHelper(d, dd) PixmapSyncDirtyHelper(d)
++#endif
++
+ #if !HAS_DIXREGISTERPRIVATEKEY
+ #define dixPrivateKeyRegistered(key__) (*(key__) != 0)
+ #endif

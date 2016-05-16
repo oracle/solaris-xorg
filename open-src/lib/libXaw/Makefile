@@ -29,12 +29,12 @@
 MODULE_NAME=libXaw
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.12
+MODULE_VERSION=1.0.13
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 7446f5fba888672aad068b29c0928ba3
-TARBALL_SHA1  = 6919476379accaf21f2331004e5cfa7939a6786b
-TARBALL_SHA256= 96fc314874fce9979556321d1d6ee00b5baf32fb333b7278853b4983bc3cdbf6
+TARBALL_MD5   = e5e06eb14a608b58746bdd1c0bd7b8e3
+TARBALL_SHA1  = 15f891fb88aae966b3064dcc1510790a0ebc75a0
+TARBALL_SHA256= 8ef8067312571292ccc2bbe94c41109dcf022ea5a4ec71656a83d8cce9edb0cd
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

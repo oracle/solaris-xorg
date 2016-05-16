@@ -37,9 +37,9 @@ GIT_URL_SET = yes
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 397e405566651150490ff493e463f1ad
-TARBALL_SHA1  = 56ac29a82b99bcf4c7ba2fca41a44cfa18748262
-TARBALL_SHA256= f61120612728f2c5034671d0ca3e2273438c60aba93b3dda4a8aa40e6a257993
+TARBALL_MD5   = 043d720bf2472a65bb8f0daa97f83dfa
+TARBALL_SHA1  = b3d8818bb3e1deeeb8f02d741c1223a72182e63c
+TARBALL_SHA256= ea739c22517cdbe2b5f7c0a5fd05fe8a10ac0629003e71c0c7862f4bb60142cd
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -91,6 +91,8 @@ MODULE_ARC_CASES += PSARC/2012/320
 MODULE_ARC_CASES += PSARC/2013/091
 # PSARC/2015/251 Xorg server 1.17
 MODULE_ARC_CASES += PSARC/2015/251
+# PSARC/2015/251 Xorg server 1.18
+MODULE_ARC_CASES += PSARC/2016/293
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
@@ -141,6 +143,7 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
         --enable-dmx \
         --enable-builddocs \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
+	--disable-systemd-logind \
 	MKFONTDIR="$(MKFONTDIR)" \
 	MKFONTSCALE="$(MKFONTSCALE)"
 

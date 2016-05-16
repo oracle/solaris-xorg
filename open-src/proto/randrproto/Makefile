@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,12 +27,12 @@
 MODULE_NAME=randrproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.4.1
+MODULE_VERSION=1.5.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 51ff4d45dbe8e1098740d384971805ee
-TARBALL_SHA1 = 7cd1daf5c56336079303d675b5a6788c90204016 
-TARBALL_SHA256 = 543dcb2ebb0622d8a506dcef6470c6dd066f3e3f866552a5060b91ab6129e1dc
+TARBALL_MD5  = a46765c8dcacb7114c821baf0df1e797
+TARBALL_SHA1 = bc420745dc4af011988e9dcabdadf8829cbc2374
+TARBALL_SHA256 = 4c675533e79cd730997d232c8894b6692174dce58d3e207021b8f860be498468
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	
@@ -46,6 +46,8 @@ MODULE_ARC_CASES += PSARC/2007/430
 MODULE_ARC_CASES += PSARC/2009/269
 # PSARC/2012/318 X Resize, Rotate and Reflect (RandR) 1.4
 MODULE_ARC_CASES += PSARC/2012/318
+# PSARC/2016/252 X Resize, Rotate and Reflect (RandR) 1.5
+MODULE_ARC_CASES += PSARC/2016/252
 
 # Package metadata
 MODULE_DESC = headers & documentation for RANDR extension to the X11 protocol

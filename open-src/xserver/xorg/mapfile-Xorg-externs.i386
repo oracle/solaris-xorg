@@ -801,6 +801,7 @@ SYMBOL_SCOPE {
 		ResizeGlyphHash                          { FLAGS = EXTERN };
 		ResizeGlyphSet                           { FLAGS = EXTERN };
 		ResizeVisualArray                        { FLAGS = EXTERN };
+		ResourceClientBits                       { FLAGS = EXTERN };
 		ResourceStateCallback                    { FLAGS = EXTERN };
 		RunFromSigStopParent                     { FLAGS = EXTERN };
 		SAllocColorCellsReply                    { FLAGS = EXTERN };
@@ -1129,6 +1130,7 @@ SYMBOL_SCOPE {
 		XNFalloc                                 { FLAGS = EXTERN };
 		XNFasprintf                              { FLAGS = EXTERN };
 		XNFcalloc                                { FLAGS = EXTERN };
+		XNFcallocarray                           { FLAGS = EXTERN };
 		XNFprintf                                { FLAGS = EXTERN };
 		XNFrealloc                               { FLAGS = EXTERN };
 		XNFstrdup                                { FLAGS = EXTERN };
@@ -1929,7 +1931,9 @@ SYMBOL_SCOPE {
 		xf86OutputFindClosestMode                { FLAGS = EXTERN };
 		xf86OutputGetEDID                        { FLAGS = EXTERN };
 		xf86OutputGetEDIDModes                   { FLAGS = EXTERN };
+		xf86OutputParseKMSTile                   { FLAGS = EXTERN };
 		xf86OutputRename                         { FLAGS = EXTERN };
+		xf86OutputSetTile                        { FLAGS = EXTERN };
 		xf86OutputSetEDID                        { FLAGS = EXTERN };
 		xf86OutputUseScreenMonitor               { FLAGS = EXTERN };
 		xf86PMConfirmEventToOs                   { FLAGS = EXTERN };
@@ -2176,4 +2180,5 @@ SYMBOL_SCOPE {
 		xorgHWAccess                             { FLAGS = EXTERN };
 		xorg_backtrace                           { FLAGS = EXTERN };
 		xorg_symbols                             { FLAGS = EXTERN };
+		xreallocarray                            { FLAGS = EXTERN };
 };

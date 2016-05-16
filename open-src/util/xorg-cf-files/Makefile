@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ GIT_URL     = $(XORG_GIT_URL)/util/cf
 GIT_URL_SET = yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.5
+MODULE_VERSION=1.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4a9cd7fc995ebf8f3cdad5395f9d8eba
-TARBALL_SHA1  = ae22eb81d56d018f0b3b149f70965ebfef2385fd
-TARBALL_SHA256= ed23b85043edecc38fad4229e0ebdb7ff80b570e746bc03a7c8678d601be7ed4
+TARBALL_MD5   = 28649f34fa23143f1945aa2750e1472a
+TARBALL_SHA1  = 9b6ed71c74a83181a47eb180787e9ab9a5efdfa2
+TARBALL_SHA256= 4dcf5a9dbe3c6ecb9d2dd05e629b3d373eae9ba12d13942df87107fdc1b3934d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

@@ -21,7 +21,7 @@
 
 --- a/os/utils.c
 +++ b/os/utils.c
-@@ -523,8 +523,10 @@
+@@ -558,8 +558,10 @@
      ErrorF("-ls int                limit stack space to N Kb\n");
  #endif
  #ifdef LOCK_SERVER
@@ -29,10 +29,10 @@
      ErrorF("-nolock                disable the locking mechanism\n");
  #endif
 +#endif
+     ErrorF("-maxclients n          set maximum number of clients (power of two)\n");
      ErrorF("-nolisten string       don't listen on protocol\n");
-     ErrorF("-noreset               don't reset after last client exists\n");
-     ErrorF("-background [none]     create root window with no background\n");
-@@ -768,6 +770,7 @@
+     ErrorF("-listen string         listen on protocol\n");
+@@ -855,6 +857,7 @@
          }
  #endif
  #ifdef LOCK_SERVER
@@ -40,11 +40,11 @@
          else if (strcmp(argv[i], "-nolock") == 0) {
  #if !defined(WIN32) && !defined(__CYGWIN__)
              if (getuid() != 0)
-@@ -778,6 +781,7 @@
+@@ -865,6 +868,7 @@
                  nolock = TRUE;
          }
  #endif
 +#endif
- #ifdef SUNSOFT
-         else if (strcmp(argv[i], "-nobanner") == 0) {
-           /* ignore - just maintaining compatibility with Xsun CLI */
+ 	else if ( strcmp( argv[i], "-maxclients") == 0)
+ 	{
+ 	    if (++i < argc) {

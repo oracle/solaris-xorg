@@ -453,15 +453,15 @@ UNPACK_TARGET = $(SOURCE_DIR)/$(UNPACK_FILE)
 # referenced in multiple places, so it's kept here for easy sharing.
 # 
 # Current Xorg server source tarball to use sources from:
-XORGSERVER_VERS=1.17.2
+XORGSERVER_VERS=1.18.3
 # Minimum Xorg server version that we expect to be ABI compatible with.
 # Usually .99 of the previous minor release series, as that's the convention
 # for the development snapshots of the next release series.
-MIN_XSERVER_VERS=1.16.99
+MIN_XSERVER_VERS=1.17.99
 # Next highest Xorg server version that we expect to be ABI incompatible with.
 # Usually .99 of the current release series, as Xorg tends to break ABI's
 # in each minor release train (1.8, 1.9, etc.)
-NEXT_XSERVER_VERS=1.18.99
+NEXT_XSERVER_VERS=1.19.99
 
 # Version of pkgfmt output rules to apply
 PKGFMT_OUTPUT=v2

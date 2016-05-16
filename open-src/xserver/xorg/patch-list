@@ -1,4 +1,3 @@
-upstream-manpage.patch,-p1
 osaudit.patch,-p1
 sun-paths.patch,-p1
 sun-extramodes.patch,-p1
@@ -29,7 +28,6 @@ add-input-dev-in-multi-session.patch,-p1
 sparc-multisession.patch,-p1
 glx-mesa.patch,-p1
 20395984.patch,-p1
-autoconf-269.patch,-p1
-117-port.patch,-p1
+118-port.patch,-p1
 21206921.patch,-p1
 

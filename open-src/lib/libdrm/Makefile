@@ -29,15 +29,16 @@ MODULE_NAME=libdrm
 UPSTREAM	= Direct Rendering Infrastructure project
 UPSTREAM_URL	= http://dri.freedesktop.org/
 UPSTREAM_SET	= yes
+# update to 2.4.67 covered by X mass TPNO
 ORACLE_TPNO	= 22887
 
 # Version number (used in path names)
-MODULE_VERSION=2.4.60
+MODULE_VERSION=2.4.67
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 13e35a7a1cf38b4c9c0fa0f8c9be6b93
-TARBALL_SHA1 = 4e041a5ff22b2b9132b216eb0574638bf252b7a9
-TARBALL_SHA256 = 99575fc6c8e31f59193f5320fd4db7a5478e2641b5266147caab9aa875b59889
+TARBALL_MD5  = b844c6af34e613ebf52f80b3cd8d7055
+TARBALL_SHA1 = 21d43437219ddd1e409fb4b7d77254cd129e8075
+TARBALL_SHA256 = ee5b71e1113be37544d0752681c12f040c01f782e2933df7d7bc21fd0d10cebe
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=drm
@@ -49,7 +50,7 @@ GIT_URL=$(FDO_GIT_URL)/mesa/drm
 GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += solaris-drm-port.patch,-p1
+SOURCE_PATCHES += solaris-drm-port.patch
 SOURCE_PATCHES += atomic.patch
 
 # Need to use GNU Make to build
@@ -61,10 +62,13 @@ MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
 # Command line options to GNU autoconf configure script
-MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau
+MODULE_CONFIG_OPTS = --enable-libkms --disable-nouveau \
+		--disable-amdgpu
 
 # Cos of 23185711 - disable parfait temporarily
 USE_PARFAIT = no
+
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 #SUNTOUCHED_MANPAGES=*.man

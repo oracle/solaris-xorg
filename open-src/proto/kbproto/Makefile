@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,12 +27,12 @@
 MODULE_NAME=kbproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 677ea8523eec6caca86121ad2dca0b71
-TARBALL_SHA1  = a2cc82357c22a1f4d6243017982c32703c95575c
-TARBALL_SHA256= 037cac0aeb80c4fccf44bf736d791fccb2ff7fd34c558ef8f03ac60b61085479
+TARBALL_MD5   = 94afc90c1f7bef4a27fdd59ece39c878
+TARBALL_SHA1  = bc9c0fa7d39edf4ac043e6eeaa771d3e245ac5b2
+TARBALL_SHA256= f882210b76376e3fa006b11dbd890e56ec0942bc56e65d1249ff4af86f90b857
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	5077065.patch

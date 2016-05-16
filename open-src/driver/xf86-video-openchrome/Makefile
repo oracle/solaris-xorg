@@ -40,17 +40,16 @@ GIT_URL		= $(FDO_GIT_URL)/openchrome/xf86-video-openchrome
 GIT_URL_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.3
+MODULE_VERSION=0.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = f21abcdf87f73b5b547491281e894c87
-TARBALL_SHA1 = 1f7b23d4ed53417eda5c6730486b36812f469295
-TARBALL_SHA256 = e49e2f1e5dac86408e5a74b87038cc4082d2c3fba4e0579823161991432412ed
+TARBALL_MD5  = eff2ca08a530c67144531466500af8cb
+TARBALL_SHA1 = 8889aa051acfd2007c4bbd8d5efbaf6f3d39db51
+TARBALL_SHA256 = 73e7966d01d0d644d3b9204e8bfc106cb99069c58e981626e7352f2693e3e927
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += ldflags.patch,-p1
 SOURCE_PATCHES += disable-xvmc.patch,-p1
-SOURCE_PATCHES += via_regs.patch,-p1
 
 # Extra rules to run when unpacking upstream source
 CLEAN_LINEFEED_TARGET = $(SOURCE_DIR)/.source.clean.done

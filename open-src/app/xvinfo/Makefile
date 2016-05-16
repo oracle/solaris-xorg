@@ -2,7 +2,7 @@
 #
 # xvinfo - utility to display X-Video extension adaptor information
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,11 +29,12 @@
 MODULE_NAME=xvinfo
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 1fbd65e81323a8c0a4b5e24db0058405
-TARBALL_SHA1 = cc2a8d8585450ae0a8c259c90cf6bfdb85eb7d86
+TARBALL_MD5  = 558360176b718dee3c39bc0648c0d10c 
+TARBALL_SHA1 = 08ff744f7735317fd2fe1b0d2feba8c34cc2e5eb
+TARBALL_SHA256 = 9fba8b68daf53863e66d5004fa9c703fcecf69db4d151ea2d3d885d621e6e5eb
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

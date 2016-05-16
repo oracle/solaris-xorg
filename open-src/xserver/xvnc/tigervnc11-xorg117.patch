@@ -436,3 +436,25 @@
  #endif
  
  using namespace rdr;
+--- xserver/hw/vnc/xorg-version.h	Tue Apr 26 09:46:22 2016
++++ xserver/hw/vnc/xorg-version.h	Tue Apr 26 09:46:50 2016
+@@ -48,6 +48,8 @@
+ #define XORG 116
+ #elif XORG_VERSION_CURRENT < ((1 * 10000000) + (17 * 100000) + (99 * 1000))
+ #define XORG 117
++#elif XORG_VERSION_CURRENT < ((1 * 10000000) + (18 * 100000) + (99 * 1000))
++#define XORG 118
+ #else
+ #error "X.Org newer than 1.10 is not supported"
+ #endif
+--- xserver/hw/vnc/Input.cc	Tue Apr 26 10:11:02 2016
++++ xserver/hw/vnc/Input.cc	Tue Apr 26 10:17:14 2016
+@@ -332,7 +332,7 @@
+ 	n = GetKeyboardEvents(eventq, dev, action, kc, NULL);
+ 	enqueueEvents(dev, n);
+ #else
+-	QueueKeyboardEvents(dev, action, kc, NULL);
++	QueueKeyboardEvents(dev, action, kc);
+ #endif
+ }
+ 

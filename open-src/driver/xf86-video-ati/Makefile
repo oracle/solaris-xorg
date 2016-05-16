@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=7.3.0
+MODULE_VERSION=7.7.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = f36383c590d56a9304e5cab4813a6653
-TARBALL_SHA1  = 946bcfcb892088a9ffecc00856a1c8e6bd47a088
-TARBALL_SHA256= 107c072c4919a996e04f47afdb53d5946a3ad574f270b8c560ef8b3a032046fe
+TARBALL_MD5   = 59bfe0feba875c5cd28b03766aaa3b98
+TARBALL_SHA1  = 75621e6d41d0958d95dcd9b742bff3b81e853f8f
+TARBALL_SHA256= 844d1c577b145c90dc8ef027678f0c27f554363f782cd696a3aea26415b2c1c3
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-port.patch disable-kms.patch

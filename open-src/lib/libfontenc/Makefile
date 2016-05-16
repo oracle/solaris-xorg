@@ -2,7 +2,7 @@
 #
 # libfontenc - font encoding table parser & mapping library
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,12 +32,12 @@ MODULE_NAME=libfontenc
 MODULE_DESC = the libfontenc font encoding table parser & mapping library
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.2
+MODULE_VERSION=1.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = ad2919764933e075bb0361ad5caa3d19
-TARBALL_SHA1  = 2beffa0e9260c479b49f90f789318c7f9db2d41d
-TARBALL_SHA256= a9a4efed3359b2e80161bb66b65038fac145137fa134e71335264cbc23b02f62
+TARBALL_MD5   = 0920924c3a9ebc1265517bdd2f9fde50
+TARBALL_SHA1  = 312116f5156d6a8a2404c59560b60d53ddf1a09f
+TARBALL_SHA256= 70588930e6fc9542ff38e0884778fbc6e6febf21adbab92fd8f524fe60aefd21
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

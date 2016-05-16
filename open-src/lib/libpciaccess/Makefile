@@ -28,12 +28,12 @@
 MODULE_NAME=libpciaccess
 
 # Version number (used in path names)
-MODULE_VERSION=0.13.3
+MODULE_VERSION=0.13.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 1f65be5ffc55641c1846c2f41d180d00
-TARBALL_SHA1  = 74e16b6d9a1d9d28279754010d2c4c4636b72e35
-TARBALL_SHA256= 6cd76ccae4e06eee47d3ead84a118740e9406e2a9b7adc9b08e92c69ce89c2e3
+TARBALL_MD5   = ace78aec799b1cf6dfaea55d3879ed9f
+TARBALL_SHA1  = 99e791fe20924b9da29bf7c7ed9438739c4f2930
+TARBALL_SHA256= 07f864654561e4ac8629a0ef9c8f07fbc1f8592d1b6c418431593e9ba2cf2fcf
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = scanpci.man.patch,-p1 \

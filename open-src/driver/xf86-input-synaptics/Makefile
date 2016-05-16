@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-input-synaptics
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.8
+MODULE_VERSION=1.8.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 4279611b096e17865912c6f91b86a648
-TARBALL_SHA1  = 6c18b4858bd4322922f8a8ce612c552845949fa7
-TARBALL_SHA256= 14e7d54f81c2a2503f8acbe5e265dc336a0f2b30d007657d7afbeff979821c11
+TARBALL_MD5   = 4e3c8bed1ab4a67db2160c2c3d7e2a34
+TARBALL_SHA1  = aaeb19837e63f3c82dc202ece0abff20f98ceb1a
+TARBALL_SHA256= d39f100c74f3673778b53f17bab7690161925e25dd998a15dd8cc69b52e83f01
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=

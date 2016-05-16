@@ -84,3 +84,8 @@ usr/share/man/man4/modesetting.4
  
 # No need to deliver any udev stuff
 usr/lib/udev                                  i386
+
+# No need to deliver amdgpu or vc4  header files at the moment 
+# without driver support for it
+usr/include/libdrm/amdgpu_drm.h
+usr/include/libdrm/vc4_drm.h

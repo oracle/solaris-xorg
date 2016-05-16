@@ -490,6 +490,9 @@ SYMBOL_SCOPE {
 		PictureWindowPrivateKeyRec               { FLAGS = EXTERN };
 		PixmapShareToSlave			 { FLAGS = EXTERN };
 		PixmapWidthPaddingInfo                   { FLAGS = EXTERN };
+		PixmapStartDirtyTracking                 { FLAGS = EXTERN };
+		PixmapSyncDirtyHelper                    { FLAGS = EXTERN };
+		PixmapStopDirtyTracking	                 { FLAGS = EXTERN };
 		PointInWindowIsVisible                   { FLAGS = EXTERN };
 		PointerBarrierType                       { FLAGS = EXTERN };
 		PointerConfinedToScreen                  { FLAGS = EXTERN };
@@ -688,6 +691,7 @@ SYMBOL_SCOPE {
 		ResizeGlyphHash                          { FLAGS = EXTERN };
 		ResizeGlyphSet                           { FLAGS = EXTERN };
 		ResizeVisualArray                        { FLAGS = EXTERN };
+		ResourceClientBits                       { FLAGS = EXTERN };
 		ResourceStateCallback                    { FLAGS = EXTERN };
 		RunFromSigStopParent                     { FLAGS = EXTERN };
 		SAllocColorCellsReply                    { FLAGS = EXTERN };
@@ -1013,6 +1017,7 @@ SYMBOL_SCOPE {
 		XNFalloc                                 { FLAGS = EXTERN };
 		XNFasprintf                              { FLAGS = EXTERN };
 		XNFcalloc                                { FLAGS = EXTERN };
+		XNFcallocarray                           { FLAGS = EXTERN };
 		XNFprintf                                { FLAGS = EXTERN };
 		XNFrealloc                               { FLAGS = EXTERN };
 		XNFstrdup                                { FLAGS = EXTERN };
@@ -1791,6 +1796,8 @@ SYMBOL_SCOPE {
 		xf86OutputGetEDIDModes                   { FLAGS = EXTERN };
 		xf86OutputRename                         { FLAGS = EXTERN };
 		xf86OutputSetEDID                        { FLAGS = EXTERN };
+		xf86OutputParseKMSTile            	 { FLAGS = EXTERN }; 
+		xf86OutputSetTile                 	 { FLAGS = EXTERN };
 		xf86OutputUseScreenMonitor               { FLAGS = EXTERN };
 		xf86PMConfirmEventToOs                   { FLAGS = EXTERN };
 		xf86PMGetEventFromOs                     { FLAGS = EXTERN };
@@ -2056,4 +2063,5 @@ SYMBOL_SCOPE {
 		xorgGetVersion                           { FLAGS = EXTERN };
 		xorgHWAccess                             { FLAGS = EXTERN };
 		xorg_backtrace                           { FLAGS = EXTERN };
+		xreallocarray                            { FLAGS = EXTERN };
 };

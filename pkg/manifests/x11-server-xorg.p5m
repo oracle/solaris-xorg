@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -58,6 +58,7 @@ file path=usr/include/xorg/damage.h
 file path=usr/include/xorg/damagestr.h
 file path=usr/include/xorg/dbestruct.h
 file path=usr/include/xorg/dgaproc.h
+file path=usr/include/xorg/displaymode.h
 file path=usr/include/xorg/dix.h
 file path=usr/include/xorg/dixaccess.h
 file path=usr/include/xorg/dixevents.h
@@ -111,6 +112,7 @@ file path=usr/include/xorg/misyncfd.h
 file path=usr/include/xorg/misyncshm.h
 file path=usr/include/xorg/misyncstr.h
 file path=usr/include/xorg/mizerarc.h
+file path=usr/include/xorg/nonsdk_extinit.h
 file path=usr/include/xorg/opaque.h
 file path=usr/include/xorg/optionstr.h
 file path=usr/include/xorg/os.h
@@ -144,14 +146,11 @@ file path=usr/include/xorg/shmint.h
 file path=usr/include/xorg/site.h
 $(i386_ONLY)file path=usr/include/xorg/solaris-amd64.il facet.devel=true
 $(sparc_ONLY)file path=usr/include/xorg/solaris-sparcv8plus.il facet.devel=true
-file path=usr/include/xorg/swaprep.h
-file path=usr/include/xorg/swapreq.h
 file path=usr/include/xorg/syncsdk.h
 file path=usr/include/xorg/validate.h
 file path=usr/include/xorg/vbe.h
 file path=usr/include/xorg/vbeModes.h
 file path=usr/include/xorg/vgaHW.h
-file path=usr/include/xorg/vidmodeproc.h
 file path=usr/include/xorg/wfbrename.h
 file path=usr/include/xorg/window.h
 file path=usr/include/xorg/windowstr.h
@@ -189,7 +188,6 @@ file path=usr/include/xorg/xf86str.h
 file path=usr/include/xorg/xf86xv.h
 file path=usr/include/xorg/xf86xvmc.h
 file path=usr/include/xorg/xf86xvpriv.h
-file path=usr/include/xorg/xfixes.h
 file path=usr/include/xorg/xisb.h
 file path=usr/include/xorg/xkbfile.h
 file path=usr/include/xorg/xkbrules.h

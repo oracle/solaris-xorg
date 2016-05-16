@@ -2,7 +2,7 @@
 #
 # xf86-video-cirrus 1.x Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-cirrus
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.2
+MODULE_VERSION=1.5.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 91fd6b677d62027cd3001debb587a6a6
-TARBALL_SHA1  = 722800029e816f453031a851bf4a816c796d7bde
-TARBALL_SHA256= 3361e1a65d9b84c464752fd612bdf6087622c6dd204121715366a170e5c3ccd7
+TARBALL_MD5   = 7d7dfd4cdc42aa8b6e923510fa00ad2b
+TARBALL_SHA1  = 545cbedb42e5a5ce6bdf0b9bc30a826908f284e5
+TARBALL_SHA256= edc87b20a55259126b5239b5c1ef913419eab7ded0ed12ae9ae989460d7351ab
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = mapfiles.patch solaris-port.patch

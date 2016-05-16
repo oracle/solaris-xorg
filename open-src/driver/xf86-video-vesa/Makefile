@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-vesa
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.3
+MODULE_VERSION=2.3.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 3690a5356ed121b1a7dfb59a6dcf4bf9
-TARBALL_SHA1  = 762da8131738a7b2d3da07a83a12ba812941fef4
-TARBALL_SHA256  = ce8b75e5a40e9dae76f2ac9e2880f7f73a848653ca2eed5880f52dc2c0d3aef8
+TARBALL_MD5   = a893c37c589f7a31cea929a5d896a0e2
+TARBALL_SHA1  = 88e74ccc5c11fdb60539bd474ba978eeb4f28a23
+TARBALL_SHA256 = 7bddf4d879dd6f67088ecb203a31e12334aab980174bd0909930a21f32e251c1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = vesa_xorg72.patch,-p1

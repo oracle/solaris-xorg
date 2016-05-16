@@ -2,7 +2,7 @@
 #
 # libxkbfile - library for parsing & handling of XKB data files
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,17 @@
 MODULE_NAME=libxkbfile
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.8
+MODULE_VERSION=1.0.9
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 19e6533ae64abba0773816a23f2b9507
-TARBALL_SHA1  = 05139829837c26e3a14a40a700f058c018bc71f5
-TARBALL_SHA256= 8aa94e19c537c43558f30906650cea6e15fa012591445d9f927658c3b32a8f3a
+TARBALL_MD5   = 4a4cfeaf24dab1b991903455d6d7d404
+TARBALL_SHA1  = d708d3415212febbc67d4d996d02d7e3218e13ad
+TARBALL_SHA256= 51817e0530961975d9513b773960b4edd275f7d5c72293d5a151ed4f42aeb16a
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = soversion.patch
+SOURCE_PATCHES =
+
+DELIBTOOLIZE_FLAGS = --shared libxkbfile.so.5
 
 # Library name
 LIBNAME=xkbfile

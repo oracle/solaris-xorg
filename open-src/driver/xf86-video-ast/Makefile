@@ -30,16 +30,15 @@
 MODULE_NAME=xf86-video-ast
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.1
+MODULE_VERSION=1.1.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 63ac98d6526e3e27e290e1836a229059
-TARBALL_SHA1  = 446a446dc5b4f3de305ae2662a48910f1067880b
-TARBALL_SHA256= e778f1824f5eed7e3197f00f39418de1525e310fd78e0335f6178c26b9b0495b
+TARBALL_MD5   = 4f85febe48d51e53624550a96fc9e9ee
+TARBALL_SHA1  = 34a610e506079f32b240335520200457aa72d4c2
+TARBALL_SHA256= 1edbbc55d47d3fd71dec99b15c2483e22738c642623a0fb86ef4a81a9067a2de
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += sparc-ast.patch,-p1 \
-		16448336.patch,-p1 \
 		16027951.patch,-p1 \
 		17907916.patch,-p1 \
 		20816358-disable-DP501.patch,-p1 \
