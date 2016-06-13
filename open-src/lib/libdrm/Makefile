@@ -51,6 +51,7 @@ GIT_URL_SET=yes
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-drm-port.patch
+SOURCE_PATCHES += includes.patch,-p1
 SOURCE_PATCHES += atomic.patch
 
 # Need to use GNU Make to build

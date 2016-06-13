@@ -32,8 +32,15 @@
 /* Only Solaris builds should be here */
 #if defined(__sun)
 
+/* A couple of "hints" definitions not needed for Solaris drivers */
 #ifndef	__user
 #define	__user
+#endif
+#ifndef __force
+#define	__force
+#endif
+#ifndef __must_check
+#define	__must_check
 #endif
 
 typedef uint64_t drm_u64_t;
@@ -45,21 +52,11 @@ typedef uint64_t drm_u64_t;
 /* Reverse ioctl command lookup. */
 #define	_IOC_NR(nr)	(((nr) >> _IOC_NRSHIFT) & _IOC_NRMASK)
 
-/* These values come from constants in ioccom.h, and shouldn't change */
-#define	_IOC_NRBITS	8
-#define	_IOC_TYPEBITS   8
-#define	_IOC_SIZEBITS   13
-#define	_IOC_DIRBITS    3
-
+/* Mask values that would otherwise not be in drm.h or ioccom.h */
 #define	_IOC_NRMASK	((1 << _IOC_NRBITS)-1)
 #define	_IOC_TYPEMASK   ((1 << _IOC_TYPEBITS)-1)
 #define	_IOC_SIZEMASK   ((1 << _IOC_SIZEBITS)-1)
 #define	_IOC_DIRMASK    ((1 << _IOC_DIRBITS)-1)
-
-#define	_IOC_NRSHIFT    0
-#define	_IOC_TYPESHIFT  (_IOC_NRSHIFT+_IOC_NRBITS)
-#define	_IOC_SIZESHIFT  (_IOC_TYPESHIFT+_IOC_TYPEBITS)
-#define	_IOC_DIRSHIFT   (_IOC_SIZESHIFT+_IOC_SIZEBITS)
 
 /* Solaris uses a bit for none, but calls it IOC_VOID */
 #define	_IOC_NONE	1U

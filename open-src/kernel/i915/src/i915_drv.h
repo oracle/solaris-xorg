@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /* i915_drv.h -- Private header for the I915 driver -*- linux-c -*-
@@ -1425,6 +1425,12 @@ struct drm_i915_file_private {
 
 	struct i915_ctx_hang_stats hang_stats;
 };
+
+#if defined(__sun)
+/* These definitions conflict with those in x86_archext.h */
+#undef IS_IVYBRIDGE
+#undef IS_HASWELL
+#endif
 
 #define INTEL_INFO(dev)	(((struct drm_i915_private *) (dev)->dev_private)->info)
 

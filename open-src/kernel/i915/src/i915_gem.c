@@ -30,8 +30,6 @@
  *
  */
 
-#include <sys/x86_archext.h>
-#include <sys/vfs_opreg.h>
 #include "drmP.h"
 #include "drm.h"
 #include "drm_mm.h"

@@ -58,6 +58,7 @@ data: app
 FONTAPPS = app/bdftopcf app/mkfontscale app/mkfontdir
 font: $(FONTAPPS) font/util util/lndir
 $(FONTAPPS): lib
+kernel: lib
 
 OS_SUBDIRS_common = \
 	util/util-macros \

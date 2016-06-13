@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -32,7 +32,9 @@
 #ifndef _I915_DRM_H_
 #define _I915_DRM_H_
 
-#include "drm.h"
+#include <drm/drm.h>
+/* Need to make sure we have this included before going on */
+#include <drm/drm_os_solaris.h>
 
 /* Please note that modifications to all structs defined here are
  * subject to backwards-compatibility constraints.

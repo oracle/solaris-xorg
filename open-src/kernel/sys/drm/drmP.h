@@ -1,7 +1,5 @@
-/* BEGIN CSTYLED */
-
 /*
- * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -60,6 +58,7 @@
 #include <sys/fm/protocol.h>
 #include <sys/fm/util.h>
 #include <sys/fm/io/ddi.h>
+#include <drm/drm.h>
 #include <drm/drm_os_solaris.h>
 #include "drm_atomic.h"
 #include <sys/queue.h>

@@ -101,15 +101,15 @@ clean-obsolete-subdirs:
 	return 0
 
 # Build various x-ref's
-XREFDIRS	= Make* sys $(OS_SUBDIRS_i386) $(OS_SUBDIRS_sparc)
+XREFDIRS	= Make* sys $(OS_SUBDIRS_i386) $(OS_SUBDIRS_sparc) $(PROTODIR)/usr/include/drm
 
 xref: tags cscope.out
 
 xref-clobber: tags-clobber cscope-clobber
 
 cscope.files: ALWAYS_RUN
-	@echo "Building filelist"; \
-	find $(XREFDIRS) -name "Make*" -o -name "*.[ch]" > $@; \
+	@echo "Building filelist from $(XREFDIRS)"; \
+	find $(XREFDIRS) -follow -name "Make*" -o -name "*.[ch]" > $@; \
 	if [[ -f gfxp_files ]]; then \
 		/usr/bin/cat -s gfxp_files >> $@; \
 	fi

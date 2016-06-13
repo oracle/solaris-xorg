@@ -44,7 +44,12 @@ MODULES	= $(KMOD) $(MDBMOD)
 CFLAGS		+= -v -xdebugformat=stabs  -xildoff
 CFLAGS		+= -std=c11
 CFLAGS		+= -D_ELF64 -DMDB_DEBUG -D_KERNEL -D_KMDB -g -m64
-CPPFLAGS	+= -I$(KERNEL) -I$(KERNEL)/sys/drm -I$(KERNEL)/sys -I/usr/include
+CPPFLAGS	+= -I$(KERNEL)
+CPPFLAGS	+= -I$(KERNEL)/sys/drm
+CPPFLAGS	+= -I$(KERNEL)/sys
+CPPFLAGS	+= -I$(PROTODIR)/usr/include
+CPPFLAGS	+= -I$(PROTODIR)/usr/include/drm
+CPPFLAGS	+= -I/usr/include
 KMOD_LDFLAGS	= -ztype=kmod -znodefs -Nmisc/kmdbmod -Mmapfile
 $(MDBMOD):= CFLAGS += -KPIC
 $(KMOD):= CFLAGS += -xmodel=kernel

@@ -118,6 +118,9 @@ $(LICENSE_FILE_DEFAULT) CONFIG_ENV += LICENSE_FILE="$(LICENSE_FILE)"
 DRM_INCL	= -I$(TOP)/open-src/kernel/sys
 # sys/drm should be removed after all includes properly expand to <drm/...>
 DRM_INCL	+= -I$(TOP)/open-src/kernel/sys/drm
+# Point to the build PROTODIR
+DRM_INCL	+= -I$(PROTODIR)/usr/include
+DRM_INCL	+= -I$(PROTODIR)/usr/include/drm
 
 
 ###############################################################

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -86,7 +86,7 @@ typedef struct drm_buf_desc_32 {
 	int size;		/* Size in bytes */
 	int low_mark;		/* Low water mark */
 	int high_mark;		/* High water mark */
-	enum drm_buf_flag flags;
+	drm_buf_flag flags;
 	uint32_t agp_start;
 } drm_buf_desc_32_t;
 
