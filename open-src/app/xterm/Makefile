@@ -71,6 +71,7 @@ SOURCE_TARBALL_NAME_SET=yes
 SOURCE_PATCHES = desktop-icon.patch,-p1
 SOURCE_PATCHES += solaris-ia.patch,-p1
 SOURCE_PATCHES += xpg-open.patch,-p1
+SOURCE_PATCHES += 22177995.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=koi8rxterm.man resize.man uxterm.man xterm.man

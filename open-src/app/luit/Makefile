@@ -2,7 +2,7 @@
 #
 # luit - character set encoding filter for terminal emulators like xterm
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ TARBALL_SHA256= 30b0e787cb07a0f504b70f1d6123930522111ce9d4276f6683a69b322b49c636
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += solaris-man.patch,-p1
 SOURCE_PATCHES += 6824625.patch,-p1
+SOURCE_PATCHES += 22177995.patch,-p1
 
 # Need to rebuild configure after patching configure.ac in remove-zlib.patch
 AUTORECONF=yes
