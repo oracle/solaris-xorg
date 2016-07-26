@@ -324,10 +324,12 @@ $(PATCHED_TARGET): $(SOURCE_ADD_TARGET)
 	    done ; \
 	fi ; \
 	autoreconf="$(AUTORECONF)" ; \
-	if grep -q XORG_WITH_XMLTO $(SOURCE_DIR)/configure.ac ; then \
-	    if ! grep -q 'xmlto 0\.0\.27' $(SOURCE_DIR)/configure ; then \
-		print '* Forcing autoreconf to apply xmlto macro fix' ; \
-		autoreconf="yes" ; \
+	if [[ -f '$(SOURCE_DIR)/configure.ac' ]] ; then \
+	    if grep -q XORG_WITH_XMLTO $(SOURCE_DIR)/configure.ac ; then \
+	      if ! grep -q 'xmlto 0\.0\.27' $(SOURCE_DIR)/configure ; then \
+		    print '* Forcing autoreconf to apply xmlto macro fix' ; \
+		    autoreconf="yes" ; \
+	            fi ; \
 	    fi ; \
 	fi ; \
 	if [[ "$${autoreconf}" = "yes" || "$(MODULE_VERSION)" = "git" ]] ; then \

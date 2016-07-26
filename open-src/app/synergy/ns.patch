@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,15 +19,37 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
-set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
-set name=pkg.description \
-    value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
-file path=usr/bin/synergyc
-file path=usr/bin/synergys
-file path=usr/lib/synergy/plugins/libns.so
-file path=usr/man/man1/synergys.1
-file path=usr/man/man1/synergyc.1
-legacy pkg=SUNWsynergy \
-    desc="Synergy permits sharing Xorg Mouse/Keyboard across several networked desktops including Windows and MacOS" \
-    name="Synergy Mouse/Keyboard sharing"
+
+--- src/lib/arch/unix/ArchPluginUnix.cpp.orig	Thu Jul 14 16:11:25 2016
++++ src/lib/arch/unix/ArchPluginUnix.cpp	Thu Jul 14 17:21:11 2016
+@@ -48,6 +48,22 @@
+ void
+ ArchPluginUnix::load()
+ {
++#if __sun
++#ifdef sparc
++#define LIBNS "/lib/synergy/sparcv9/libns.so"
++#else
++#define LIBNS "/lib/synergy/amd64/libns.so"
++#endif
++               LOG((CLOG_DEBUG "loading plugin: %s", LIBNS));
++               void* handle = dlopen(LIBNS, RTLD_LAZY);
++               if (handle == NULL) {
++                       LOG((CLOG_ERR "failed to load plugin '%s', error: %s",
++                               LIBNS, dlerror()));
++                       return;
++               }
++               LOG((CLOG_DEBUG "plugin loaded: %s",
++                       LIBNS));
++#else
+ 	String pluginsDir = getPluginsDir();
+ 	LOG((CLOG_DEBUG "plugins dir: %s", pluginsDir.c_str()));
+ 
+@@ -108,6 +124,7 @@
+ 
+ 		m_pluginTable.insert(std::make_pair(name, handle));
+ 	}
++#endif /* __sun */
+ }
+ 
+ void

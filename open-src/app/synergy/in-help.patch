@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,15 +19,16 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
-set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
-set name=pkg.description \
-    value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
-file path=usr/bin/synergyc
-file path=usr/bin/synergys
-file path=usr/lib/synergy/plugins/libns.so
-file path=usr/man/man1/synergys.1
-file path=usr/man/man1/synergyc.1
-legacy pkg=SUNWsynergy \
-    desc="Synergy permits sharing Xorg Mouse/Keyboard across several networked desktops including Windows and MacOS" \
-    name="Synergy Mouse/Keyboard sharing"
+
+--- src/lib/synergy/App.h	Tue Jul 12 17:48:16 2016
++++ src/lib/synergy/App.h.orig	Tue Jul 12 17:48:09 2016
+@@ -163,7 +163,8 @@
+ 	"*     --restart            restart the server automatically if it fails.\n" \
+ 	"  -l  --log <file>         write log messages to file.\n" \
+ 	"      --no-tray            disable the system tray icon.\n" \
+-	"      --enable-drag-drop   enable file drag & drop.\n"
++	"      --enable-drag-drop   enable file drag & drop.\n" \
++	"      --enable-crypto      encrypt all mouse and keyboard traffic. \n"
+ 
+ #define HELP_COMMON_INFO_2 \
+ 	"  -h, --help               display this help and exit.\n" \

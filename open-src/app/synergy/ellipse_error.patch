@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -19,15 +19,26 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 #
-set name=pkg.fmri value=pkg:/desktop/synergy@__version:synergy__
-set name=pkg.summary value="Synergy: Mouse and Keyboard Sharing"
-set name=pkg.description \
-    value="Synergy lets you easily share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware.  It's intended for users with multiple computers on their desk since each system uses its own display."
-file path=usr/bin/synergyc
-file path=usr/bin/synergys
-file path=usr/lib/synergy/plugins/libns.so
-file path=usr/man/man1/synergys.1
-file path=usr/man/man1/synergyc.1
-legacy pkg=SUNWsynergy \
-    desc="Synergy permits sharing Xorg Mouse/Keyboard across several networked desktops including Windows and MacOS" \
-    name="Synergy Mouse/Keyboard sharing"
+
+--- src/lib/ipc/IpcServerProxy.cpp	2016-07-22 12:36:51.027072880 -0700
++++ src/lib/ipc/IpcServerProxy.cpp.new	2016-07-22 12:22:02.654151110 -0700
+@@ -95,7 +95,7 @@
+ 	case kIpcCommand: {
+ 		const IpcCommandMessage& cm = static_cast<const IpcCommandMessage&>(message);
+ 		String command = cm.command();
+-		ProtocolUtil::writef(&m_stream, kIpcMsgCommand, &command);
++		ProtocolUtil::writef(&m_stream, kIpcMsgCommand, command);
+ 		break;
+ 	}
+ 
+--- src/lib/ipc/IpcClientProxy.cpp	2016-07-22 12:43:40.238963610 -0700
++++ src/lib/ipc/IpcClientProxy.cpp.new	2016-07-22 12:44:12.211321330 -0700
+@@ -147,7 +147,7 @@
+ 	case kIpcLogLine: {
+ 		const IpcLogLineMessage& llm = static_cast<const IpcLogLineMessage&>(message);
+ 		String logLine = llm.logLine();
+-		ProtocolUtil::writef(&m_stream, kIpcMsgLogLine, &logLine);
++		ProtocolUtil::writef(&m_stream, kIpcMsgLogLine, logLine);
+ 		break;
+ 	}
+ 			
