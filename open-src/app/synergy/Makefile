@@ -113,18 +113,18 @@ include ../Makefile.inc
 DESTDIR=$(PROTODIR)
 
 install_synergy: $(BUILD_TARGETS)
-	mkdir -p $(PROTODIR)/usr/lib/synergy/plugins$(ARCHLIBSUBDIR) \
-		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR) \
-		$(PROTODIR)/usr/share/man/man1 
+	mkdir -p $(PROTODIR)/usr/lib/synergy/plugins \
+		$(PROTODIR)/usr/bin \
+		$(PROTODIR)/$(MODULE_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0755 $(BUILD_DIR)/bin/synergyc \
 		$(BUILD_DIR)/bin/synergys \
-		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
+		$(PROTODIR)/usr/bin
 	$(INSTALL_SCRIPT) -m 0444 \
-		$(BUILD_DIR)/bin/plugins/libns.so \
-		$(PROTODIR)/usr/lib/synergy/plugins$(ARCHLIBSUBDIR)
+		$(BUILD_DIR)/bin/plugins/libns.so  \
+		$(PROTODIR)/usr/lib/synergy/plugins
 	$(INSTALL_SCRIPT) -m 0444 \
 		$(BUILD_DIR)/doc/synergys.man \
-		$(PROTODIR)/usr/share/man/man1/synergys.1
+		$(PROTODIR)/$(MODULE_MAN_DIR)/man1/synergys.1
 	$(INSTALL_SCRIPT) -m 0444 \
 		$(BUILD_DIR)/doc/synergyc.man \
-		$(PROTODIR)/usr/share/man/man1/synergyc.1
+		$(PROTODIR)/$(MODULE_MAN_DIR)/man1/synergyc.1

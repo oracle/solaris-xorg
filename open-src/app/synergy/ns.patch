@@ -20,18 +20,15 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
---- src/lib/arch/unix/ArchPluginUnix.cpp.orig	Thu Jul 14 16:11:25 2016
-+++ src/lib/arch/unix/ArchPluginUnix.cpp	Thu Jul 14 17:21:11 2016
-@@ -48,6 +48,22 @@
+--- src/lib/arch/unix/ArchPluginUnix.cpp.orig	Tue Mar 15 12:03:49 2016
++++ src/lib/arch/unix/ArchPluginUnix.cpp	Wed Jul 27 11:22:25 2016
+@@ -48,6 +48,19 @@
  void
  ArchPluginUnix::load()
  {
 +#if __sun
-+#ifdef sparc
-+#define LIBNS "/lib/synergy/sparcv9/libns.so"
-+#else
-+#define LIBNS "/lib/synergy/amd64/libns.so"
-+#endif
++#define LIBNS "/usr/lib/synergy/plugins/libns.so"
++
 +               LOG((CLOG_DEBUG "loading plugin: %s", LIBNS));
 +               void* handle = dlopen(LIBNS, RTLD_LAZY);
 +               if (handle == NULL) {
@@ -45,7 +42,7 @@
  	String pluginsDir = getPluginsDir();
  	LOG((CLOG_DEBUG "plugins dir: %s", pluginsDir.c_str()));
  
-@@ -108,6 +124,7 @@
+@@ -108,6 +121,7 @@
  
  		m_pluginTable.insert(std::make_pair(name, handle));
  	}
