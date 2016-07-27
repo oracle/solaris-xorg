@@ -129,8 +129,7 @@ print "-------------------------------------------------------------------------
 /bin/rm -rf "proto/root_${MACH}" "proto/metadata_${MACH}" \
     "proto/pkg_${MACH}" "proto/tools_${MACH}"
 
-echo  "============         DO NOT CLOBBER      ==========="
-# ${XMAKE} clobber
+${XMAKE} clobber
 mkdir -p proto
 
 # Generate source release while tree is in clean state, but ensure we have all
