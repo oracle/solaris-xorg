@@ -119,7 +119,7 @@ install_synergy: $(BUILD_TARGETS)
 	$(INSTALL_SCRIPT) -m 0755 $(BUILD_DIR)/bin/synergyc \
 		$(BUILD_DIR)/bin/synergys \
 		$(PROTODIR)/usr/bin
-	$(INSTALL_SCRIPT) -m 0444 \
+	$(INSTALL_SCRIPT) -m 0555 \
 		$(BUILD_DIR)/bin/plugins/libns.so  \
 		$(PROTODIR)/usr/lib/synergy/plugins
 	$(INSTALL_SCRIPT) -m 0444 \

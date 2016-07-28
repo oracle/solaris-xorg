@@ -120,6 +120,10 @@ $(i386_ONLY)depend type=require fmri=pkg:/driver/graphics/agpgart
 depend type=require fmri=pkg:/file/gnu-coreutils \
     org.opensolaris.pkgdepend.resolve=true
 
+# libvdpau depends on graphviz commands
+depend type=require fmri=pkg:/image/graphviz \
+    org.opensolaris.pkgdepend.resolve=true
+
 # tigervnc links with libjpg
 depend type=require fmri=pkg:/image/library/libjpeg \
     org.opensolaris.pkgdepend.resolve=true
@@ -162,6 +166,10 @@ depend type=require fmri=pkg:/library/ncurses
 
 # Mesa 7.10.2 requires libxml2 python module
 depend type=require fmri=pkg:/library/python/libxml2-$(PYTHON_PKG_VERSION)
+
+# Synergy links against OpenSSL libraries
+depend type=require fmri=pkg:/library/security/openssl \
+    org.opensolaris.pkgdepend.resolve=true
 
 # freetype, libXfont & libfontenc link with libz
 depend type=require fmri=pkg:/library/zlib \
