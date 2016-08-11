@@ -2,7 +2,7 @@
 #
 # Deja Vu Fonts Makefile
 #
-# Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,14 +38,15 @@ GIT_URL_SET	= yes
 MODULE_LICENSE          = Bitstream Vera Fonts License
 MODULE_LICENSE_SET      = yes
 MODULE_DESC		= the DejaVu fonts
-ORACLE_TPNO		= 18005
+ORACLE_TPNO		= 30836
 
 # Version number (used in path names)
-MODULE_VERSION=2.33
+MODULE_VERSION=2.37
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 8b601e91725b6d69141b0fcf527948c0
-TARBALL_SHA1 = 4459d6adc3d5cfeb08e5fbe7a4310da96a58f752
+TARBALL_MD5  = d0efec10b9f110a32e9b8f796e21782c
+TARBALL_SHA1 = 7fa15e7b9676fc3915338c41e76ad454c344fff5
+TARBALL_SHA256 = fa9ca4d13871dd122f61258a80d01751d603b4d3ee14095d65453b4e846e17d7
 
 # Download site for source
 SOURCE_URL=$(SF_DOWNLOADS_URL)/dejavu/dejavu/$(MODULE_VERSION)/$(SOURCE_TARBALL_NAME)
@@ -78,6 +79,8 @@ TTF_SOURCE_SUBDIR=ttf/
 include ../Makefile.ttf
 
 ### Rules specific to this directory:
+$(SOURCE_DIR)/README: $(SOURCE_TARGETS)
+	grep -v travis-ci.org $(SOURCE_DIR)/README.md > $@
 
 install_fonts_conf: $(SOURCE_TARGETS)
 	mkdir -p $(FONTCONF_DEST_DIR)/conf.avail \

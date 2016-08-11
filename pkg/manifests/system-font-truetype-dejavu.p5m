@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,6 +47,7 @@ link path=etc/fonts/conf.d/57-dejavu-serif.conf \
 link path=usr/X11/lib/X11/fonts/TrueType target=../../../../share/fonts/TrueType
 dir  path=usr/share/fonts/TrueType
 dir  path=usr/share/fonts/TrueType/dejavu
+file path=usr/share/fonts/TrueType/dejavu/DejaVuMathTeXGyre.ttf
 file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-Bold.ttf
 file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-BoldOblique.ttf
 file path=usr/share/fonts/TrueType/dejavu/DejaVuSans-ExtraLight.ttf
