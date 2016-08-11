@@ -1,6 +1,8 @@
---- a/conf.d/40-nonlatin.conf	Mon Jan 20 00:14:19 2014
-+++ b/conf.d/40-nonlatin.conf	Wed Jun 17 14:47:39 2015
-@@ -42,6 +42,50 @@
+diff --git a/conf.d/40-nonlatin.conf b/conf.d/40-nonlatin.conf
+index c900fd4..135dc57 100644
+--- a/conf.d/40-nonlatin.conf
++++ b/conf.d/40-nonlatin.conf
+@@ -42,6 +42,42 @@
  		<default><family>serif</family></default>
  	</alias>
  	<alias>
@@ -17,14 +19,6 @@
 +	</alias>
 +	<alias>
 +		<family>IPAMincho</family>
-+		<default><family>serif</family></default>
-+	</alias>
-+	<alias>
-+		<family>Sazanami Mincho</family>
-+		<default><family>serif</family></default>
-+	</alias>
-+	<alias>
-+		<family>Sazanami Gothic</family>
 +		<default><family>serif</family></default>
 +	</alias>
 +	<alias>
@@ -51,7 +45,7 @@
  		<family>Kochi Mincho</family>
  		<default><family>serif</family></default>
  	</alias>
-@@ -129,6 +173,42 @@
+@@ -129,6 +165,38 @@
  		<default><family>sans-serif</family></default>
  	</alias>
  	<alias>
@@ -68,10 +62,6 @@
 +	</alias>
 +	<alias>
 +		<family>IPAGothic</family>
-+		<default><family>sans-serif</family></default>
-+	</alias>
-+	<alias>
-+		<family>Sazanami Gothic</family>
 +		<default><family>sans-serif</family></default>
 +	</alias>
 +	<alias>
@@ -94,7 +84,7 @@
  		<family>Kochi Gothic</family>
  		<default><family>sans-serif</family></default>
  	</alias>
-@@ -180,6 +260,10 @@
+@@ -180,6 +248,10 @@
    Monospace faces
   -->
  	<alias>
@@ -105,43 +95,47 @@
  		<family>NSimSun</family>
  		<default><family>monospace</family></default>
  	</alias>
---- a/conf.d/45-latin.conf	Wed Jun 17 14:57:49 2015
-+++ b/conf.g/45-latin.conf	Wed Jun 17 14:58:57 2015
-@@ -10,6 +10,10 @@
-   Serif faces
-  -->
+diff --git a/conf.d/45-latin.conf b/conf.d/45-latin.conf
+index 5228945..105ef75 100644
+--- a/conf.d/45-latin.conf
++++ b/conf.d/45-latin.conf
+@@ -42,6 +42,10 @@
+ 		<default><family>serif</family></default>
+ 	</alias>
  	<alias>
 +		<family>Lucida Bright</family>
 +		<default><family>serif</family></default>
 +	</alias>
 +	<alias>
- 		<family>Bitstream Vera Serif</family>
+ 		<family>Luxi Serif</family>
  		<default><family>serif</family></default>
  	</alias>
-@@ -65,6 +69,10 @@
-   Sans-serif faces
-  -->
+@@ -149,6 +153,10 @@
+ 		<default><family>sans-serif</family></default>
+ 	</alias>
  	<alias>
-+		<family>Lucida Sans Typewriter</family>
++		<family>Lucida Sans</family>
 +		<default><family>sans-serif</family></default>
 +	</alias>
 +	<alias>
- 		<family>Bitstream Vera Sans</family>
+ 		<family>Luxi Sans</family>
  		<default><family>sans-serif</family></default>
  	</alias>
-@@ -116,6 +124,10 @@
-   Monospace faces
-  -->
-  	<alias>
+@@ -216,6 +224,10 @@
+ 		<default><family>monospace</family></default>
+ 	</alias>
+ 	<alias>
 +		<family>Lucida Sans Typewriter</family>
 +		<default><family>monospace</family></default>
 +	</alias>
-+ 	<alias>
- 		<family>Bitstream Vera Sans Mono</family>
++	<alias>
+ 		<family>Luxi Mono</family>
  		<default><family>monospace</family></default>
  	</alias>
---- a/conf.d/65-nonlatin.conf	Wed Jun 17 14:59:41 2015
-+++ b/conf.d/65-nonlatin.conf	Thu Jun 18 08:54:54 2015
+diff --git a/conf.d/65-nonlatin.conf b/conf.d/65-nonlatin.conf
+index 9306f74..f726170 100644
+--- a/conf.d/65-nonlatin.conf
++++ b/conf.d/65-nonlatin.conf
 @@ -4,6 +4,7 @@
  	<alias>
  		<family>serif</family>

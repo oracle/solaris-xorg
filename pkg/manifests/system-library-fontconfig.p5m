@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,6 +27,10 @@ set name=pkg.description \
 dir  path=etc/fonts
 dir  path=etc/fonts/conf.avail
 file path=etc/fonts/conf.avail/10-autohint.conf
+file path=etc/fonts/conf.avail/10-hinting-full.conf
+file path=etc/fonts/conf.avail/10-hinting-medium.conf
+file path=etc/fonts/conf.avail/10-hinting-none.conf
+file path=etc/fonts/conf.avail/10-hinting-slight.conf
 file path=etc/fonts/conf.avail/10-no-sub-pixel.conf
 file path=etc/fonts/conf.avail/10-scale-bitmap-fonts.conf
 file path=etc/fonts/conf.avail/10-sub-pixel-bgr.conf
@@ -59,6 +63,8 @@ file path=etc/fonts/conf.avail/80-delicious.conf
 file path=etc/fonts/conf.avail/90-sun-prefer-bitmap.conf
 file path=etc/fonts/conf.avail/90-synthetic.conf
 dir  path=etc/fonts/conf.d
+link path=etc/fonts/conf.d/10-hinting-slight.conf \
+    target=../conf.avail/10-hinting-slight.conf
 link path=etc/fonts/conf.d/10-scale-bitmap-fonts.conf \
     target=../conf.avail/10-scale-bitmap-fonts.conf
 link path=etc/fonts/conf.d/20-indic.conf target=../conf.avail/20-indic.conf

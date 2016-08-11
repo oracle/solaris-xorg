@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -70,3 +70,10 @@
 # All files in kernel/ subdirs are reboot-needed.
 #
 <transform file path=.*kernel/.+ -> default reboot-needed true>
+
+#
+# All files in i86 & sparcv7 directories are intentionally 32-bit, so
+# tell pkglint not to worry about them.
+#
+<transform file path=usr/bin/$(ARCH32)/ -> \
+    default pkg.linted.pkglint.action014.1 True>

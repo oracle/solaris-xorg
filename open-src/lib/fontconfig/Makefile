@@ -63,19 +63,15 @@ UPSTREAM_URL	= http://fontconfig.org/
 UPSTREAM_SET	= yes
 GIT_URL		= $(FDO_GIT_URL)/fontconfig
 GIT_URL_SET	= yes
-ORACLE_TPNO	= 23955
+ORACLE_TPNO	= 30873
 
 # Version number (used in path names)
-MODULE_VERSION=2.11.94
+MODULE_VERSION=2.12.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 479be870c7f83f15f87bac085b61d641
-TARBALL_SHA1 = 3748d8a2b9cf8052dbd003f524d829157f1ead83
-TARBALL_SHA256 = 73f6d323c7bcfbde25d78397675191d55b8f4139132c6a9444410f3a2d8a9a95
-
-# Source tarball
-SOURCE_TARBALL_NAME=fontconfig-$(MODULE_VERSION).tar.gz
-SOURCE_TARBALL_NAME_SET=yes
+TARBALL_MD5  = b5af5a423ee3b5cfc34846838963c058
+TARBALL_SHA1 = 30d832b754fb10a3b70ebac750a38a0275438ad8
+TARBALL_SHA256 = b449a3e10c47e1d1c7a6ec6e2016cca73d3bd68fbbd4f0ae5cc6b573f7d6c7f3
 
 # Download site for source
 SOURCE_URL=http://fontconfig.org/release/$(SOURCE_TARBALL_NAME)
@@ -88,9 +84,7 @@ SOURCE_PATCHES = \
 		Makefile.am.0.patch \
 		bitmap-hacks.patch,-p1 \
 		6447517.patch,-p1 \
-		6770058.patch \
 		7026635.patch,-p1 \
-		7058808.patch \
 		font-links.patch
 
 # Library name (used for specfiles/mapfiles)
