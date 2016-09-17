@@ -49,6 +49,7 @@ SERVERARGS=""
 XSERVER="/usr/bin/Xorg"
 CONSOLE=""
 CONFIG_FILE=""
+MDESC="/dev/mdesc"
 
 
 while getopts :c: opt; do
@@ -129,6 +130,13 @@ VNCPLATFORM=$(echo ${VNCPLATFORM}| tr -d '\\')
 ISVNCPLATFORM=false
 if [[ ("${hwname}" != "") ]]; then
     echo "${VNCPLATFORM}" | fgrep "${hwname}" >/dev/null
+    if [[ $? -eq 0 ]] ; then
+        ISVNCPLATFORM=true
+    fi
+fi
+
+if [[ ("${ISVNCPLATFORM}" != "true") && (-e "${MDESC}") ]]; then
+    strings "${MDESC}" | fgrep vnc-supported >/dev/null
     if [[ $? -eq 0 ]] ; then
         ISVNCPLATFORM=true
     fi
