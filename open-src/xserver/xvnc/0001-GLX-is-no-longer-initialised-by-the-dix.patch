@@ -1,0 +1,51 @@
+From 87524d2c77702d247228f11f801518eb8f6e865b Mon Sep 17 00:00:00 2001
+From: Pierre Ossman <ossman@cendio.se>
+Date: Tue, 9 Apr 2013 14:50:15 +0000
+Subject: [PATCH] GLX is no longer initialised by the dix. Patch originally by
+ Adam Tkac for Fedora.
+
+git-svn-id: svn://svn.code.sf.net/p/tigervnc/code/trunk@5067 3789f03b-4d11-0410-bbf8-ca57d06f2519
+---
+ unix/xserver/hw/vnc/xvnc.cc | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/unix/xserver/hw/vnc/xvnc.cc b/unix/xserver/hw/vnc/xvnc.cc
+index 9bd8171..a52c945 100644
+--- a/unix/xserver/hw/vnc/xvnc.cc
++++ b/unix/xserver/hw/vnc/xvnc.cc
+@@ -1563,6 +1563,18 @@ vfbScreenInit(ScreenPtr pScreen, int argc, char **argv)
+ static void vfbClientStateChange(CallbackListPtr*, pointer, pointer) {
+   dispatchException &= ~DE_RESET;
+ }
++ 
++#if XORG >= 113
++#ifdef GLXEXT
++extern "C" void GlxExtensionInit(void);
++
++static ExtensionModule glxExt = {
++    GlxExtensionInit,
++    "GLX",
++    &noGlxExtension
++};
++#endif
++#endif
+ 
+ void
+ InitOutput(ScreenInfo *screenInfo, int argc, char **argv)
+@@ -1573,6 +1585,13 @@ InitOutput(ScreenInfo *screenInfo, int argc, char **argv)
+     int i;
+     int NumFormats = 0;
+ 
++#if XORG >= 113
++#ifdef GLXEXT
++    if (serverGeneration == 1)
++        LoadExtension(&glxExt, TRUE);
++#endif
++#endif
++
+     /* initialize pixmap formats */
+ 
+     /* must have a pixmap depth to match every screen depth */
+-- 
+2.7.4
+
