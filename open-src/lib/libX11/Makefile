@@ -36,6 +36,8 @@ TARBALL_SHA256= cf31a7c39f2f52e8ebd0db95640384e63451f9b014eed2bb7f5de03e8adc8111
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
+	CVE-2016-7942.patch,-p1 \
+	CVE-2016-7943.patch,-p1 \
 	1234757.patch,-p1 \
 	4010755.patch,-p1 \
 	4614834.patch,-p1 \

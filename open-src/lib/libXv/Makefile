@@ -2,7 +2,7 @@
 #
 # libXv - Xlib-based client library for XVideo extension protocol
 #
-# Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,7 @@ TARBALL_SHA256= 55fe92f8686ce8612e2c1bfaf58c057715534419da700bda8d517b1d97914525
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = lintlib.patch,-p1
+SOURCE_PATCHES += CVE-2016-5407.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after applying lintlib.patch
 AUTORECONF=yes

@@ -37,7 +37,8 @@ TARBALL_SHA1  = 31bf63dfb4fcb82a6db73abe98df87cb50c17176
 TARBALL_SHA256= fc2fe57980a14092426dffcd1f2d9de0987b9d40adea663bd70d6342c0e9be1a
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES += CVE-2016-7949.patch,-p1
+SOURCE_PATCHES += CVE-2016-7950.patch,-p1
 
 # Library name
 LIBNAME=Xrender

@@ -37,7 +37,7 @@ TARBALL_SHA1  = 79538220e567318c6fb3c5b9a0075184ad6e001f
 TARBALL_SHA256= 6f864959b7fc35db11754b270d71106ef5b5cf363426aa58589cb8ac8266de58
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES =
+SOURCE_PATCHES += CVE-2016-7947+CVE-2016-7948.patch,-p1
 
 # Library name
 LIBNAME=Xrandr
