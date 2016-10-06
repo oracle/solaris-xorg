@@ -43,6 +43,7 @@
 # to do such aliasing in C. C++ is different: The compiler generates aliases
 # for implementation reasons, and the mangled names used to encode argument
 # and return value types are difficult to handle well in mapfiles.
+NOSYMSORT	usr/lib/synergy/plugins/libns.so
 NOSYMSORT	usr/bin/synergyc
 NOSYMSORT	usr/bin/synergys
 NOSYMSORT	usr/bin/Xvnc
@@ -58,7 +59,7 @@ NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/i915_dri\.so
 NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/r200_dri\.so
 NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/radeon_dri\.so
 NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/swrast_dri\.so
-
+NOSYMSORT	usr/lib/xorg/modules/MACH(dri)/kms_swrast_dri\.so
 # Loadable modules without dependencies on other modules may have no direct
 # bindings
 NODIRECT        ^usr/lib/mesa/modules/.*$

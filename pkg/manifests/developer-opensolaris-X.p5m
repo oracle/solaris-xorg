@@ -103,6 +103,9 @@ depend type=require fmri=pkg:/developer/java/jdk-8
 # Various modules need flex to generate lexers
 depend type=require fmri=pkg:/developer/lexer/flex
 
+# we are adding llvm (pipe) to mesa for 3d support on gnome3 
+depend type=require fmri=pkg:/developer/llvm/llvm org.opensolaris.pkgdepend.resolve=true
+
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
 depend type=require fmri=pkg:/developer/macro/gnu-m4

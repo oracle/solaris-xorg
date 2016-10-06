@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -43,6 +43,7 @@ link path=usr/include/GL/glu.h target=../mesa/glu.h
 dir  path=usr/include/GL/internal
 link path=usr/include/GL/internal/dri_interface.h \
     target=../../mesa/internal/dri_interface.h
+file path=usr/include/GL/mesa_glinterop.h
 link path=usr/include/GL/osmesa.h target=../mesa/osmesa.h
 dir  path=usr/include/mesa
 file path=usr/include/mesa/gl.h
@@ -57,7 +58,6 @@ dir  path=usr/include/mesa/internal
 file path=usr/include/mesa/internal/dri_interface.h
 file path=usr/include/mesa/osmesa.h
 file path=usr/include/mesa/wglext.h
-file path=usr/include/mesa/wmesa.h
 link path=usr/lib/$(ARCH64)/libGL.so target=libGL.so.1
 link path=usr/lib/$(ARCH64)/libGL.so.1 target=../GL/$(ARCH64)/libGL.so.1
 link path=usr/lib/$(ARCH64)/libGLU.so target=libGLU.so.1

@@ -1,0 +1,13 @@
+#! /usr/bin/expect --
+
+log_user 0
+set pid [eval spawn -noecho /usr/bin/llvm-config [lrange $argv 0 end]]
+expect {
+    "*\r" {
+	set buf $expect_out(buffer)
+    }
+}
+wait $pid
+foreach line [split $buf "\n"] {
+    puts [string trim $line]
+}

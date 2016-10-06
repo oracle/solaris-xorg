@@ -126,7 +126,8 @@ SUNTOUCH_MAN_FLAGS_vncviewer = -o '{Availability, $(VNCVIEWER_PKGNAME)}' \
 	-o '{Interface Stability, Path: Committed, Options: Volatile}'
 
 # Compiler to use
-MODULE_COMPILER=suncc
+
+MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 
 # Make command to use
