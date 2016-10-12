@@ -75,6 +75,11 @@ usr/lib/xorg/libdrm_radeon.so.1	     		sparc
 usr/lib/xorg/sparcv9/libdrm_radeon.so	     	sparc
 usr/lib/xorg/sparcv9/libdrm_radeon.so.1	     	sparc
 
+# Not delivering kms_swrast_dri.so (not needed for now)
+usr/lib/xorg/modules/dri/kms_swrast_dri.so
+usr/lib/xorg/modules/dri/sparcv9/kms_swrast_dri.so	sparc	
+usr/lib/xorg/modules/dri/amd64/kms_swrast_dri.so	i386
+
 # Deliver it once the driver provides the correct plumbing for use on solaris
 usr/bin/intel_gpu_abrt				i386
 
