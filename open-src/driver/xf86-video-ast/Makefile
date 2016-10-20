@@ -39,6 +39,7 @@ TARBALL_SHA256= 1edbbc55d47d3fd71dec99b15c2483e22738c642623a0fb86ef4a81a9067a2de
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += sparc-ast.patch,-p1 \
+		sparc.patch,-p1 \
 		16027951.patch,-p1 \
 		17907916.patch,-p1 \
 		20816358-disable-DP501.patch,-p1 \
