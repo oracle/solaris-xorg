@@ -68,7 +68,6 @@ SOURCE_TARBALL_NAME=$(MODULE_NAME)-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = desktop-icon.patch,-p1
 SOURCE_PATCHES += solaris-ia.patch,-p1
 SOURCE_PATCHES += xpg-open.patch,-p1
 SOURCE_PATCHES += 22177995.patch,-p1
