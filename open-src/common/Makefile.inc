@@ -178,7 +178,7 @@ clean-checksums:
 
 
 # Submit a tarball to the archive
-ARCHIVE_SUBMIT=/ws/x11/tarballs/bin/archive-tarballs
+ARCHIVE_SUBMIT=/import/xserver-hg-gates/tarballs/bin/archive-tarballs
 
 archive-tarball:
 	@case '$(MAKEFLAGS)' in *[ik]*) set +e;; esac; \

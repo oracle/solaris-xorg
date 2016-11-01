@@ -57,6 +57,9 @@ PASSDOWN_VARS = V="$(V)" TOP="$(TOP)" CDEBUGFLAGS="$(CDEBUGFLAGS)"
 .DEFAULT:
 	$(MAKE) -e $(MAKEFLAGS) $(PASSDOWN_VARS) subdirs OS_TARGET=$@
 
+# No tarballs to archive
+archive-tarball:
+
 # debug isn't working quite right yet.
 # World: clean all debug install
 World: clean all install lint
