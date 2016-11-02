@@ -91,6 +91,7 @@ SOURCE_PATCHES += gnutls-3.patch,-p1
 SOURCE_PATCHES += gnutls-drop-ecdh.patch,-p1
 SOURCE_PATCHES += screenlock.patch,-p1
 SOURCE_PATCHES += signed-unsigned-mismatches.patch,-p1
+SOURCE_PATCHES += 25022410.patch,-p1
 
 # Need to regenerate autoconf/automake files after patching
 AUTORECONF=yes

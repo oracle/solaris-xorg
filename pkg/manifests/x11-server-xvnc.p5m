@@ -56,8 +56,14 @@ legacy pkg=SUNWxvnc \
 depend type=group fmri=pkg:/desktop/window-manager/twm
 depend type=group fmri=pkg:/terminal/xterm
 
+# vnclock.sh requires xdg-utils
+depend type=require fmri=pkg:/desktop/xdg/xdg-utils
+
 # Xvnc depends on xscreensaver
 depend type=require fmri=pkg:/desktop/xscreensaver
+
+# We need ck-launch-session for VNC/gnome3
+depend type=require fmri=pkg:/library/xdg/consolekit
 
 # vncserver script requires xdpyinfo
 depend type=require fmri=pkg:/x11/diagnostic/x11-info-clients
