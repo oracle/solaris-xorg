@@ -59,8 +59,9 @@ depend type=group fmri=pkg:/terminal/xterm
 # vnclock.sh requires xdg-utils
 depend type=require fmri=pkg:/desktop/xdg/xdg-utils
 
-# Xvnc depends on xscreensaver
-depend type=require fmri=pkg:/desktop/xscreensaver
+# Xvnc depends on xscreensaver.  However, it will still work without the
+# xscreensaver functionality so it is not a strict requirement.
+depend type=group fmri=pkg:/desktop/xscreensaver
 
 # We need ck-launch-session for VNC/gnome3
 depend type=require fmri=pkg:/library/xdg/consolekit
