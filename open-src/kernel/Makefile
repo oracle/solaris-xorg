@@ -78,7 +78,7 @@ debug:
 	@ set +e; \
 	cd $@ ; \
 	print "## making debug" $(OS_TARGET) "in open-src/kernel/$(DIRNAME)$@..."; \
-	$(MAKE) $(MAKEFLAGS) $(PASSDOWN_VARS) $(DEBUGPASSDOWN) $(OS_TARGET)
+	$(MAKE) DEBUG=DEBUG $(MAKEFLAGS) $(PASSDOWN_VARS) $(DEBUGPASSDOWN) $(OS_TARGET)
 
 $(OS_SUBDIRS): ALWAYS_RUN
 	@case '${MAKEFLAGS}' in *[ik]*) set +e;; esac; \

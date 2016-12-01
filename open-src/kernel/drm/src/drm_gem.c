@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -431,6 +431,22 @@ drm_gem_handle_delete(struct drm_file *filp, u32 handle)
 }
 
 /**
+ * drm_gem_dumb_destroy - dumb fb callback helper for gem based drivers
+ * @file: drm file-private structure to remove the dumb handle from
+ * @dev: corresponding drm_device
+ * @handle: the dumb handle to remove
+ *      
+ * This implements the ->dumb_destroy kms driver callback for drivers which use
+ * gem to manage their backing storage.
+ */
+int drm_gem_dumb_destroy(struct drm_file *file,
+			struct drm_device *dev,
+			uint32_t handle)
+{       
+	return drm_gem_handle_delete(file, handle);
+}       
+
+/**
  * Create a handle for this object. This adds a handle reference
  * to the object, which includes a regular reference count. Callers
  * will likely want to dereference the object afterwards.
@@ -746,9 +762,23 @@ drm_gem_object_handle_free(struct drm_gem_object *obj)
 
 }
 
+/*
+ * XXXX FIXME - we shouldn't be alloc'ing space here for gtt_map_kaddr.  If
+ * this element is actually needed, it should be part of a global GTT mapping,
+ * and should only need "loading" at best.
+ */
 int
 drm_gem_create_mmap_offset(struct drm_gem_object *obj)
 {
+	/*
+	 * if already have a map, return.
+	 */
+	if (obj->gtt_map_kaddr != NULL)
+		return 0;
+
+	/*
+	 * Otherwise, get us some kernel space.
+	 */
 	obj->gtt_map_kaddr = gfxp_alloc_kernel_space(obj->real_size);
 	if (obj->gtt_map_kaddr == NULL) {
 		return -ENOMEM;

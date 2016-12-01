@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -917,6 +917,9 @@ static struct drm_driver driver = {
 	.gem_free_object = i915_gem_free_object,
 	/*.gem_vm_ops = &i915_gem_vm_ops,*/
 	.gem_fault = i915_gem_fault,
+	.dumb_create = i915_gem_dumb_create,
+	.dumb_map_offset = i915_gem_mmap_gtt,
+	.dumb_destroy = drm_gem_dumb_destroy,
 	.ioctls = i915_ioctls,
 
 	.id_table = pciidlist,

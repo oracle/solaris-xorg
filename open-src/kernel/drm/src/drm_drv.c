@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /*
@@ -364,6 +364,9 @@ int drm_ioctl(dev_t dev_id, struct drm_file *file_priv,
 	char stack_kdata[128];
 	char *kdata = NULL;
 	unsigned int usize, asize;
+#ifdef DEBUG
+	const char *ioc_name = NULL;
+#endif
 
 	atomic_inc(&dev->ioctl_count);
 	atomic_inc(&dev->counts[_DRM_STAT_IOCTLS]);
@@ -390,6 +393,11 @@ int drm_ioctl(dev_t dev_id, struct drm_file *file_priv,
 	/* is there a local override? */
 	if ((nr == DRM_IOCTL_NR(DRM_IOCTL_DMA)) && dev->driver->dma_ioctl)
 		func = dev->driver->dma_ioctl;
+
+#ifdef DEBUG
+	if (ioctl->name != NULL)
+		ioc_name = ioctl->name;
+#endif
 
 	if (!func) {
 		DRM_DEBUG("no function\n");
@@ -456,8 +464,13 @@ err_i1:
 	if (kdata && (kdata != stack_kdata))
 		kfree(kdata, asize);
 	atomic_dec(&dev->ioctl_count);
+#ifdef DEBUG
 	if (retcode)
-		DRM_DEBUG("ret = %d\n", -retcode);
+		if (ioc_name == NULL)
+			DRM_DEBUG("ioccmd: 0x%x, ret = %d\n", cmd, -retcode);
+		else
+			DRM_DEBUG("IOC %s: ret = %d\n", ioc_name, -retcode);
+#endif
 	return retcode;
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  */
 
 /**
@@ -342,6 +342,9 @@ int drm_addmap_ioctl(DRM_IOCTL_ARGS)
 	struct drm_map *map = data;
 	struct drm_map_list *maplist;
 	int err;
+
+	DRM_DEBUG_DRIVER("adding map of type %d, offset: %0x, size: %0x\n", 
+		map->type, map->offset,map->size);
 
 	if (!(DRM_SUSER(credp) || map->type == _DRM_AGP || map->type == _DRM_SHM))
 		return -EPERM;

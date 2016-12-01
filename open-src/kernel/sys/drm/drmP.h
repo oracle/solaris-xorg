@@ -458,7 +458,7 @@ typedef struct drm_ioctl_desc {
 	[DRM_IOCTL_NR(ioctl)] = {.cmd = ioctl, .flags = _flags, .func = _func, .copyin32 = _copyin32, .copyout32 = _copyout32}
 #else
 #define DRM_IOCTL_DEF(ioctl, _func, _flags, _copyin32, _copyout32) \
-	[DRM_IOCTL_NR(ioctl)] = {.cmd = ioctl, .flags = _flags, .func = _func, .copyin32 = NULL, .copyout32 = NULL}
+	[DRM_IOCTL_NR(ioctl)] = {.cmd = ioctl, .flags = _flags, .func = _func, .copyin32 = NULL, .copyout32 = NULL, .name = ##_func}
 #endif
 
 typedef struct drm_magic_entry {
@@ -601,6 +601,7 @@ struct drm_gem_object {
 	struct drm_device *dev;
 
 	/* Mapping info for this object */
+	/* Not used in this driver, should remove to prevent confusion */
 	struct drm_map_list map_list;
 
 	/*
@@ -641,6 +642,7 @@ struct drm_gem_object {
 	caddr_t kaddr;
 	size_t real_size;	/* real size of memory */
 	pfn_t *pfnarray;
+	/* Obsolete?  Probably should be using the kaddr value above? */
 	caddr_t gtt_map_kaddr;
 
 	struct gfxp_pmem_cookie	mempool_cookie;
@@ -1580,6 +1582,10 @@ drm_gem_object_handle_unreference_unlocked(struct drm_gem_object *obj);
 struct drm_gem_object *drm_gem_object_lookup(struct drm_device *dev,
 					     struct drm_file *filp,
 					     u32 handle);
+int drm_gem_dumb_destroy(struct drm_file *file,
+                         struct drm_device *dev,
+                         uint32_t handle);
+
 int drm_gem_close_ioctl(DRM_IOCTL_ARGS);
 int drm_gem_flink_ioctl(DRM_IOCTL_ARGS);
 int drm_gem_open_ioctl(DRM_IOCTL_ARGS);

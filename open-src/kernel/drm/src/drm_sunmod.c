@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -99,9 +99,14 @@ drm_devmap_map(devmap_cookie_t dhc, dev_t dev_id, uint_t flags,
 	mutex_enter(&dev->struct_mutex);
 	dhp = (devmap_handle_t *)dhc;
 	cp = (struct ddi_umem_cookie *)dhp->dh_cookie;
+#ifdef DEBUG
+	if (cp->cook_refcnt != 0)
+		DRM_DEBUG_DRIVER("cookie is not zero: %d\n", cp->cook_refcnt);
+#endif
 	cp->cook_refcnt = 1;
 	mutex_exit(&dev->struct_mutex);
 
+	DRM_DEBUG_DRIVER("created mapping, handle: 0x%08x\n", dhp);
 	*new_priv = dev;
 	return (0);
 }
@@ -116,6 +121,7 @@ drm_devmap_dup(devmap_cookie_t dhc, void *pvtp, devmap_cookie_t new_dhc,
 	devmap_handle_t *dhp;
 	struct ddi_umem_cookie *cp;
 
+	DRM_DEBUG_DRIVER("duping mapping, cookie: 0x%08x\n", dhc);
 	mutex_enter(&dev->struct_mutex);
 	dhp = (devmap_handle_t *)dhc;
 	cp = (struct ddi_umem_cookie *)dhp->dh_cookie;
@@ -146,6 +152,7 @@ drm_devmap_unmap(devmap_cookie_t dhc, void *pvtp, offset_t off, size_t len,
 
 	cp = (struct ddi_umem_cookie *)dhp->dh_cookie;
 	if (new_dhp1 != NULL) {
+		DRM_DEBUG_DRIVER("new devmap_handle 1: 0x%08x\n", new_dhp1);
 		ndhp = (devmap_handle_t *)new_dhp1;
 		ncp = (struct ddi_umem_cookie *)ndhp->dh_cookie;
 		ncp->cook_refcnt++;
@@ -154,6 +161,7 @@ drm_devmap_unmap(devmap_cookie_t dhc, void *pvtp, offset_t off, size_t len,
 	}
 
 	if (new_dhp2 != NULL) {
+		DRM_DEBUG_DRIVER("new devmap_handle 2: 0x%08x\n", new_dhp2);
 		ndhp = (devmap_handle_t *)new_dhp2;
 		ncp = (struct ddi_umem_cookie *)ndhp->dh_cookie;
 		ncp->cook_refcnt++;
@@ -161,14 +169,16 @@ drm_devmap_unmap(devmap_cookie_t dhc, void *pvtp, offset_t off, size_t len,
 		ASSERT(ncp == cp);
 	}
 
-	/* FIXME: dh_cookie should not be released here. */
-#if 0
+	ASSERT(cp->cook_refcnt > 0);
 	cp->cook_refcnt--;
 	if (cp->cook_refcnt == 0) {
-		gfxp_umem_cookie_destroy(dhp->dh_cookie);
-		dhp->dh_cookie = NULL;
-	}
+		DRM_DEBUG_DRIVER("last unmap of dh_cookie:0x%08x\n", cp);
+#if 0
+		/* FIXME: dh_cookie should not be released here. */
+		// gfxp_umem_cookie_destroy(dhp->dh_cookie);
+		// dhp->dh_cookie = NULL;
 #endif
+	}
 
 	mutex_exit(&dev->struct_mutex);
 }
@@ -632,15 +642,19 @@ drm_sun_devmap(dev_t dev_id, devmap_cookie_t dhp, offset_t offset,
 	switch (map->type) {
 	case _DRM_FRAME_BUFFER:
 	case _DRM_REGISTERS:
+		DRM_DEBUG_DRIVER("mapping of type %d, len %x\n", map->type, len);
 		return (__devmap_general(dev, dhp, map, len, maplen));
 
 	case _DRM_SHM:
+		DRM_DEBUG_DRIVER("mapping of type SHM, len %x\n", len);
 		return (__devmap_shm(dev, dhp, map, len, maplen));
 
 	case _DRM_AGP:
+		DRM_DEBUG_DRIVER("mapping of type AGP, len %x\n", len);
 		return (__devmap_agp(dev, dhp, map, len, maplen));
 
 	case _DRM_SCATTER_GATHER:
+		DRM_DEBUG_DRIVER("mapping of type SCATTER_GATHER, len %x\n", len);
 		return (__devmap_sg(dev, dhp, map, len, maplen));
 
 	case _DRM_GEM:

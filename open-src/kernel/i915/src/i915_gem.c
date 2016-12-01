@@ -764,7 +764,7 @@ static int __wait_seqno(struct intel_ring_buffer *ring, u32 seqno,
 		if (reset_counter != atomic_read(&dev_priv->gpu_error.reset_counter))
 			ret = -EAGAIN;
 
-		/* ... but upgrade the -EGAIN to an -EIO if the gpu is truely
+		/* ... but upgrade the -EGAIN to an -EIO if the gpu is truly
 		 * gone. */
 		end = i915_gem_check_wedge(&dev_priv->gpu_error, interruptible);
 		if (end)
@@ -1090,6 +1090,14 @@ unlock:
 	mutex_unlock(&dev->struct_mutex);
 }
 
+/*
+ * FIXME - this tunable allows for the behavior of the original code
+ * to overload the umem_cookie.  This *can* cause race conditions where
+ * released memory can have bad cookie values.  By default, we set it to
+ * 0, but is useful for testing.
+ */
+int __overload_umem_cookie = 0;
+
 /**
  * i915_gem_create_mmap_offset - create a fake mmap offset for an object
  * @obj: obj in question
@@ -1107,6 +1115,12 @@ i915_gem_create_mmap_offset(struct drm_i915_gem_object *obj)
 	struct ddi_umem_cookie *umem_cookie = obj->base.maplist.map->umem_cookie;
 	int ret;
 
+	/*
+	 * Not sure that we should still be using the gtt_map_kaddr interface.
+	 * as it causes a drm object to have two different memory allocations
+	 * (not to mention some ugly overloading of the umem_cookie).  But maybe
+	 * this is something to fix with the VMA code in the next driver.
+	 */
 	if (obj->base.gtt_map_kaddr == NULL) {
 		ret = drm_gem_create_mmap_offset(&obj->base);
 		if (ret) {
@@ -1115,7 +1129,8 @@ i915_gem_create_mmap_offset(struct drm_i915_gem_object *obj)
 		}
 	}
 
-	umem_cookie->cvaddr = obj->base.gtt_map_kaddr;
+	if (__overload_umem_cookie != 0)
+		umem_cookie->cvaddr = obj->base.gtt_map_kaddr;
 
 	/* user_token is the fake offset 
 	 * which create in drm_map_handle at alloc time 
@@ -1329,6 +1344,12 @@ i915_gem_object_get_pages_gtt(struct drm_i915_gem_object *obj)
 	pgcnt_t np = btop(obj->base.size);
 	caddr_t va;
 	long i;
+
+	/*
+	 * Don't leak; make sure that we haven't previously setup a pagelist
+	 */
+	if (obj->page_list != NULL)
+		return 0;
 
 	obj->page_list = kmem_zalloc(np * sizeof(caddr_t), KM_SLEEP);
 	if (obj->page_list == NULL) {
