@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 /*
- * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -464,7 +464,7 @@ i915_obj_list(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 
 	if (list_flag == 0) {
 		int mdb_track = 0;
-		if (mdb_readvar(&mdb_track, "mdb_track_enable") == -1) {
+		if (mdb_readsym(&mdb_track, sizeof(mdb_track), "mdb_track_enable") == -1) {
 			mdb_warn("failed to read mdb_track");
 			mdb_track = 0;
 		}
@@ -885,7 +885,7 @@ i915_obj_history(uintptr_t addr, uint_t flags, int argc, const mdb_arg_t *argv)
 		goto err;
 	}
 
-	if (mdb_readvar(&mdb_track, "mdb_track_enable") == -1) {
+	if (mdb_readsym(&mdb_track, sizeof(mdb_track), "mdb_track_enable") == -1) {
 		mdb_warn("failed to read mdb_track");
 		mdb_track = 0;
 	}
@@ -963,7 +963,7 @@ i915_batch_history(uintptr_t addr, uint_t flags, int argc,
 		goto err;
 	}
 
-	if (mdb_readvar(&mdb_track, "mdb_track_enable") == -1) {
+	if (mdb_readsym(&mdb_track, sizeof(mdb_track), "mdb_track_enable") == -1) {
 		mdb_warn("failed to read mdb_track");
 		mdb_track = 0;
 	}
