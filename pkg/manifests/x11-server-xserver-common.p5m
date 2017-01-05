@@ -53,11 +53,12 @@ dir  path=usr/lib/xorg
 file path=usr/lib/xorg/protocol.txt
 link path=usr/share/doc/Xserver target=xorg-server
 dir  path=usr/share/doc/xorg-server
-file path=usr/share/doc/xorg-server/Xserver-DTrace.html
-file path=usr/share/doc/xorg-server/Xserver-DTrace.html.db
-file path=usr/share/doc/xorg-server/Xserver-DTrace.pdf.db
-file path=usr/share/doc/xorg-server/Xserver-DTrace.txt
-file path=usr/share/doc/xorg-server/Xserver-DTrace.xml
+# Re-deliver these once 25247220 is fixed
+#file path=usr/share/doc/xorg-server/Xserver-DTrace.html
+#file path=usr/share/doc/xorg-server/Xserver-DTrace.html.db
+#file path=usr/share/doc/xorg-server/Xserver-DTrace.pdf.db
+#file path=usr/share/doc/xorg-server/Xserver-DTrace.txt
+#file path=usr/share/doc/xorg-server/Xserver-DTrace.xml
 file path=usr/share/man/man1/Xnest.1
 file path=usr/share/man/man1/Xserver.1
 # Xserver script runs /usr/bin/readlink (from GNU coreutils)

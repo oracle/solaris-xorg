@@ -60,6 +60,7 @@ XSERVER_CONFIG_OPTS_COMMON = \
 	--enable-glx --enable-dri2 \
 	--disable-xsdl --disable-xwin --disable-xnest \
 	--disable-install-setuid \
+	--without-dtrace \
 	--with-vendor-name='$(VENDOR_NAME)' \
 	--with-vendor-web='$(VENDOR_SUPPORT_URL)' \
 	--with-builderstring='Solaris ABI: $(BUILD_TYPE)-bit' \
