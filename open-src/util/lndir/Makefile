@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,7 +47,10 @@ TARBALL_SHA1  = fc71a6ff2cc0a1065cfb608796ffd6b4f0ce76fe
 TARBALL_SHA256= 49f4fab0de8d418db4ce80dad34e9b879a4199f3e554253a8e1ab68f7c7cb65d
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=	
+SOURCE_PATCHES=
+
+# Regenerate configure to avoid freedesktop.org bug 50741
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=*.man

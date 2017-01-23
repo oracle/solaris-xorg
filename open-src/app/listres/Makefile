@@ -2,7 +2,7 @@
 #
 # listres - Xt toolkit resource list utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -45,6 +45,9 @@ TARBALL_SHA256= c3d71e9a01650e3fd470189a749cd0202ef03d9e399350a7a7443d7595ed478e
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# Regenerate configure to avoid freedesktop.org bug 50741
+AUTORECONF=yes
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/listres.man

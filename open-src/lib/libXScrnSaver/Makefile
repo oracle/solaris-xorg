@@ -2,7 +2,7 @@
 #
 # libXScrnSaver - Xlib-based client library for MIT-SCREEN-SAVER extension
 #
-# Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,6 +38,9 @@ TARBALL_SHA256= 8ff1efa7341c7f34bcf9b17c89648d6325ddaae22e3904e091794e0b4426ce1d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 
+
+# Regenerate configure to avoid freedesktop.org bug 50741
+AUTORECONF=yes
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=Xss
