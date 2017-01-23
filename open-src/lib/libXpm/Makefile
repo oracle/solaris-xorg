@@ -2,7 +2,7 @@
 #
 # libXpm - library for handling XPM format images
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,8 @@ TARBALL_SHA1  = 77b95dd1c8cd9bc00b3b834b53d824409202acbb
 TARBALL_SHA256= c5bdafa51d1ae30086fac01ab83be8d47fe117b238d3437f8e965434090e041c
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = setuid.patch
+SOURCE_PATCHES = setuid.patch \
+		 25433554.patch,-p1
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2001/060
