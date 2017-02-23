@@ -2,18 +2,6 @@ Start delivering modesetting driver and use it instead of the intel driver
 This is hopefully a stop-gap arrangement for intel/gnome3 issues we are seeing
 in 24957951
 
-
---- a/hw/xfree86/common/xf86AutoConfig.c	2016-11-23 13:43:11.296630988 -0800
-+++ b/hw/xfree86/common/xf86AutoConfig.c	2016-11-29 12:30:27.169057559 -0800
-@@ -249,7 +249,7 @@
-         i += xf86PciMatchDriver(&matches[i], nmatches - i);
- #endif
- 
--#if defined(__linux__)
-+#if defined(__linux__) || defined(__sun)
-     matches[i++] = xnfstrdup("modesetting");
- #endif
- 
 --- a/hw/xfree86/common/xf86pciBus.c	2016-11-23 13:43:11.296988337 -0800
 +++ b/hw/xfree86/common/xf86pciBus.c	2016-11-29 16:01:15.432926626 -0800
 @@ -1222,7 +1222,7 @@
