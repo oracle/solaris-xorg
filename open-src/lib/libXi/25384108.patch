@@ -1,0 +1,63 @@
+--- a/src/XListDev.c.orig	Tue Mar  7 01:27:41 2017
++++ b/src/XListDev.c	Tue Mar  7 01:42:27 2017
+@@ -74,17 +74,18 @@
+ }
+ 
+ static size_t
+-SizeClassInfo(xAnyClassPtr *any, size_t len, int num_classes)
++SizeClassInfo(xAnyClassPtr *any, size_t len, int num_classes, size_t *size)
+ {
+-    int size = 0;
+     int j;
++    size_t sz = 0;
++
+     for (j = 0; j < num_classes; j++) {
+         switch ((*any)->class) {
+             case KeyClass:
+-                size += pad_to_xid(sizeof(XKeyInfo));
++                sz += pad_to_xid(sizeof(XKeyInfo));
+                 break;
+             case ButtonClass:
+-                size += pad_to_xid(sizeof(XButtonInfo));
++                sz += pad_to_xid(sizeof(XButtonInfo));
+                 break;
+             case ValuatorClass:
+                 {
+@@ -91,9 +92,9 @@
+                     xValuatorInfoPtr v;
+ 
+                     if (len < sizeof(v))
+-                        return 0;
++                        return 1;
+                     v = (xValuatorInfoPtr) *any;
+-                    size += pad_to_xid(sizeof(XValuatorInfo) +
++                    sz += pad_to_xid(sizeof(XValuatorInfo) +
+                         (v->num_axes * sizeof(XAxisInfo)));
+                     break;
+                 }
+@@ -101,11 +102,13 @@
+                 break;
+         }
+         if ((*any)->length > len)
+-            return 0;
++            return 1;
+         *any = (xAnyClassPtr) ((char *)(*any) + (*any)->length);
+     }
+ 
+-    return size;
++    *size = sz;
++    
++    return 0;
+ }
+ 
+ static void
+@@ -220,8 +223,7 @@
+ 	sav_any = any;
+ 	end = (char *)list + rlen;
+ 	for (i = 0; i < *ndevices; i++, list++) {
+-            s = SizeClassInfo(&any, end - (char *)any, (int)list->num_classes);
+-            if (!s)
++	     if(SizeClassInfo(&any, end - (char *)any, (int)list->num_classes, &s))
+                 goto out;
+             size += s;
+ 	}

@@ -2,7 +2,7 @@
 #
 # libXi Makefile
 #
-# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,7 @@ TARBALL_SHA256= 1f32a552cec0f056c0260bdb32e853cec0673d2f40646ce932ad5a9f0205b7ac
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1
 SOURCE_PATCHES += CVE-2016-7945+CVE-2016-7946.patch,-p1
+SOURCE_PATCHES += 25384108.patch,-p1
 
 # Need to regen Makefile.in after solaris-abi.patch changes Makefile.am
 AUTORECONF=yes
