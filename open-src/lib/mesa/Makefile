@@ -1,6 +1,6 @@
 ############################################################################### 
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -83,7 +83,7 @@ DRI_DRIVER_LIST_sparc=
 DRI_DRIVER_LIST_i386=i915 i965 radeon r200
 DRI_DRIVER_LIST= $(DRI_DRIVER_LIST_$(MACH)) swrast
 
-MODULE_CXXFLAGS += -std=c++11 -D_GLIBCXX_USE_CXX11_ABI=0
+MODULE_CXXFLAGS += -std=c++11
 
 # Command line options to GNU autoconf configure script
 
