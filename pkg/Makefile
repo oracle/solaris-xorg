@@ -2,7 +2,7 @@
 #
 # Makefile for X Consolidation packages
 #
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -415,9 +415,7 @@ $(PDIR)/checkmf: $(PDIR)/gendeps $(DEP_SYNTH_PKGS) $(DEP_PKGS)
 
 ### Repo setup
 
-# Default in developer builds is "xnv-devel"
-# X RE cronjob build scripts override to "xnv-nightly"
-PKGPUBLISHER = xnv-devel
+PKGPUBLISHER = nightly
 
 # Initialize the empty on-disk repositories
 $(PKGDEST):
