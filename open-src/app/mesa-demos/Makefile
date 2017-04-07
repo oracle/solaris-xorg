@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -48,6 +48,11 @@ SOURCE_URL=ftp://ftp.freedesktop.org/pub/mesa/demos/$(MODULE_VERSION)/$(SOURCE_T
 SOURCE_URL_SET=yes
 GIT_URL=$(FDO_GIT_URL)/mesa/demos
 GIT_URL_SET=yes
+
+# Man pages to apply Sun footer to & attributes to list
+SUNTOUCHED_MANPAGES= man/glxgears.1 man/glxinfo.1
+MODULE_STABILITY= Volatile
+MODULE_SUNTOUCH_MAN_FLAGS = -r '{__xorgversion__, "$(MODULE_NAME) $(MODULE_VERSION)"}'
 
 # Binaries built in tree
 DEMOS_DIR=$(BUILD_DIR)/src/xdemos
@@ -110,10 +115,20 @@ BINSUBDIR_64    = # None
 
 install_demos: $(INSTALL_DEPS)
 	mkdir -p $(DESTDIR)$(MODULE_BIN_DIR)$(BINSUBDIR)
-	cp -pf $(GLXGEARS_BIN) $(GLXINFO_BIN) $(DESTDIR)$(MODULE_BIN_DIR)$(BINSUBDIR)
+	$(INSTALL_SCRIPT) -m 0755 $(GLXGEARS_BIN) $(GLXINFO_BIN) \
+		$(DESTDIR)$(MODULE_BIN_DIR)$(BINSUBDIR)
 
-install_man: 
+FIXED_MAN_PAGES = $(SUNTOUCHED_MANPAGES:%=$(SOURCE_DIR)/%)
+
+$(SOURCE_ADD_TARGET): $(FIXED_MAN_PAGES)
+
+$(SOURCE_DIR)/man/%: $(SOURCE_DIR)/man
+	ln -sf ../../$(@F) $@
+
+$(SOURCE_DIR)/man: $(SOURCE_INIT_TARGET)
+	mkdir -p $@
+
+install_man: $(FIXED_MAN_TARGET)
 	mkdir -p $(DESTDIR)$(MODULE_MAN_DIR)/man1
-	cp -pf glxgears.1 glxinfo.1 $(DESTDIR)$(MODULE_MAN_DIR)/man1
-
-
+	$(INSTALL_SCRIPT) -m 0444 $(FIXED_MAN_PAGES) \
+		$(DESTDIR)$(MODULE_MAN_DIR)/man1

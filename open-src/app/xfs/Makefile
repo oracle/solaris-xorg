@@ -2,7 +2,7 @@
 #
 # xfs - X11 font server
 #
-# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,7 +41,7 @@ SOURCE_PATCHES += smf-manpage.patch,-p1
 SOURCE_PATCHES += config-warning.patch
 
 # Man pages to apply Sun footer to & attributes to list
-SUNTOUCHED_MANPAGES=man/xfs.man
+SUNTOUCHED_MANPAGES=man/xfs.man man/fsadmin.1
 MODULE_STABILITY=Committed
 
 # pkg(5) name we deliver the files in (override default)
@@ -89,11 +89,17 @@ install_smf: check_smf
 	mkdir -p $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 	$(INSTALL_SCRIPT) -m 0444 xfs.xml $(PROTODIR)$(X11_SMF_MANIFEST_DIR)
 
-install_fsadmin:
+$(SOURCE_ADD_TARGET): $(SOURCE_DIR)/man/fsadmin.1
+
+$(SOURCE_DIR)/man/fsadmin.1: $(SOURCE_INIT_TARGET)
+	ln -sf ../../fsadmin.1 $@
+
+install_fsadmin: $(FIXED_MAN_TARGET)
 	mkdir -p $(PROTODIR)$(MODULE_SBIN_DIR) \
 		$(PROTODIR)$(MODULE_MAN_DIR)/man1
 	$(INSTALL_SCRIPT) -m 0755 fsadmin $(PROTODIR)$(MODULE_SBIN_DIR)/fsadmin
-	$(INSTALL_SCRIPT) -m 0444 fsadmin.1 $(PROTODIR)$(MODULE_MAN_DIR)/man1/
+	$(INSTALL_SCRIPT) -m 0444 $(SOURCE_DIR)/man/fsadmin.1 \
+		$(PROTODIR)$(MODULE_MAN_DIR)/man1/
 
 # Special compatibility link from /usr/X11/bin/fsadmin to /usr/sbin/fsadmin
 install: $(X11_BINCOMPAT_DIR)/fsadmin

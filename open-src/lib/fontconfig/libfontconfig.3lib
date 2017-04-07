@@ -1,5 +1,5 @@
 '\" t
-.\" Copyright (c) 2003, 2015, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 2003, 2017, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 .\"
 .\" This man page created by Sun to document stability level & license
 .\"
-.TH libfontconfig 3lib "2 Jul 2010"
+.TH libfontconfig 3lib "5 Apr 2017"
 .SH NAME
 libfontconfig \- font configuration API
 .SH SYNOPSIS
@@ -155,7 +155,7 @@ Developer and user documentation in other formats
 .PD
 .SH ATTRIBUTES
 See
-.BR attributes (5)
+.BR attributes (7)
 for descriptions of the following attributes:
 .sp
 .TS
