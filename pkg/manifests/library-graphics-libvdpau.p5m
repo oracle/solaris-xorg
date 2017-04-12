@@ -1,4 +1,4 @@
-# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,8 +38,6 @@ link path=usr/lib/vdpau/libvdpau_trace.so target=libvdpau_trace.so.1
 file path=usr/lib/vdpau/libvdpau_trace.so.1
 file path=usr/share/doc/libvdpau/html/_formulas.tex
 file path=usr/share/doc/libvdpau/html/annotated.html
-file path=usr/share/doc/libvdpau/html/arrowdown.png
-file path=usr/share/doc/libvdpau/html/arrowright.png
 file path=usr/share/doc/libvdpau/html/bc_s.png
 file path=usr/share/doc/libvdpau/html/bdwn.png
 file path=usr/share/doc/libvdpau/html/classes.html
@@ -181,6 +179,8 @@ file path=usr/share/doc/libvdpau/html/group__versioning.md5
 file path=usr/share/doc/libvdpau/html/group__versioning.png
 file path=usr/share/doc/libvdpau/html/index.html
 file path=usr/share/doc/libvdpau/html/jquery.js
+file path=usr/share/doc/libvdpau/html/menu.js
+file path=usr/share/doc/libvdpau/html/menudata.js
 file path=usr/share/doc/libvdpau/html/modules.html
 file path=usr/share/doc/libvdpau/html/nav_f.png
 file path=usr/share/doc/libvdpau/html/nav_g.png

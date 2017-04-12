@@ -1,4 +1,4 @@
-# Copyright (c) 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2016, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -47,8 +47,6 @@ file path=usr/lib/pkgconfig/xkbcommon-x11.pc
 file path=usr/lib/pkgconfig/xkbcommon.pc
 dir  path=usr/share/doc/libxkbcommon
 file path=usr/share/doc/libxkbcommon/annotated.html
-file path=usr/share/doc/libxkbcommon/arrowdown.png
-file path=usr/share/doc/libxkbcommon/arrowright.png
 file path=usr/share/doc/libxkbcommon/bc_s.png
 file path=usr/share/doc/libxkbcommon/bdwn.png
 file path=usr/share/doc/libxkbcommon/classes.html
@@ -84,6 +82,8 @@ file path=usr/share/doc/libxkbcommon/index.html
 file path=usr/share/doc/libxkbcommon/jquery.js
 file path=usr/share/doc/libxkbcommon/md_doc_compat.html
 file path=usr/share/doc/libxkbcommon/md_doc_quick-guide.html
+file path=usr/share/doc/libxkbcommon/menu.js
+file path=usr/share/doc/libxkbcommon/menudata.js
 file path=usr/share/doc/libxkbcommon/modules.html
 file path=usr/share/doc/libxkbcommon/nav_f.png
 file path=usr/share/doc/libxkbcommon/nav_g.png
