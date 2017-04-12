@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -67,7 +67,8 @@ SOURCE_PATCHES = \
 	locale-zh_CN.gb18030.patch,-p1 \
 	locale-zh_HK.UTF-8.patch,-p1 \
 	locale-zh_TW.UTF-8.patch,-p1 \
-	locale-zh_TW.patch,-p1
+	locale-zh_TW.patch,-p1 \
+	19154747.patch,-p1
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11

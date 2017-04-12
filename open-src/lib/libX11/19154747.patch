@@ -1,0 +1,722 @@
+From a72d2d06c002b644b7040a0a9936c8525e092ba8 Mon Sep 17 00:00:00 2001
+From: Christian Linhart <chris@demorecorder.com>
+Date: Mon, 7 Sep 2015 17:17:32 +0200
+Subject: fix for Xlib 32-bit request number issues
+
+Make use of the new 64-bit sequence number API in XCB 1.11.1 to avoid
+the 32-bit sequence number wrap in libX11.
+
+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=71338
+Signed-off-by: Christian Linhart <chris@demorecorder.com>
+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+Reviewed-by: Adam Jackson <ajax@redhat.com>
+
+diff --git a/configure.ac b/configure.ac
+index 92b791c..14ad543 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -68,8 +68,8 @@ AC_SUBST(LDFLAGS_FOR_BUILD)
+ # Checks for pkg-config packages
+ 
+ # Always required
+-X11_REQUIRES='xproto >= 7.0.17 xextproto xtrans xcb >= 1.1.92'
+-X11_EXTRA_DEPS="xcb >= 1.1.92"
++X11_REQUIRES='xproto >= 7.0.17 xextproto xtrans xcb >= 1.11'
++X11_EXTRA_DEPS="xcb >= 1.11"
+ 
+ PKG_PROG_PKG_CONFIG()
+ 
+diff --git a/src/ClDisplay.c b/src/ClDisplay.c
+index bddd773..aa904e5 100644
+--- a/src/ClDisplay.c
++++ b/src/ClDisplay.c
+@@ -65,7 +65,7 @@ XCloseDisplay (
+ 		    (*ext->close_display)(dpy, &ext->codes);
+ 	    }
+ 	    /* if the closes generated more protocol, sync them up */
+-	    if (dpy->request != dpy->last_request_read)
++	    if (X_DPY_GET_REQUEST(dpy) != X_DPY_GET_LAST_REQUEST_READ(dpy))
+ 		XSync(dpy, 1);
+ 	}
+ 	xcb_disconnect(dpy->xcb->connection);
+diff --git a/src/Font.c b/src/Font.c
+index 650bc6f..a73f9b1 100644
+--- a/src/Font.c
++++ b/src/Font.c
+@@ -105,7 +105,7 @@ XFontStruct *XLoadQueryFont(
+       return font_result;
+     LockDisplay(dpy);
+     GetReq(OpenFont, req);
+-    seq = dpy->request;
++    seq = dpy->request; /* Can't use extended sequence number here */
+     nbytes = req->nbytes  = name ? strlen(name) : 0;
+     req->fid = fid = XAllocID(dpy);
+     req->length += (nbytes+3)>>2;
+diff --git a/src/GetAtomNm.c b/src/GetAtomNm.c
+index 32de50d..d7f06e3 100644
+--- a/src/GetAtomNm.c
++++ b/src/GetAtomNm.c
+@@ -87,8 +87,8 @@ char *XGetAtomName(
+ }
+ 
+ typedef struct {
+-    unsigned long start_seq;
+-    unsigned long stop_seq;
++    uint64_t start_seq;
++    uint64_t stop_seq;
+     Atom *atoms;
+     char **names;
+     int idx;
+@@ -107,10 +107,11 @@ Bool _XGetAtomNameHandler(
+     register _XGetAtomNameState *state;
+     xGetAtomNameReply replbuf;
+     register xGetAtomNameReply *repl;
++    uint64_t last_request_read = X_DPY_GET_LAST_REQUEST_READ(dpy);
+ 
+     state = (_XGetAtomNameState *)data;
+-    if (dpy->last_request_read < state->start_seq ||
+-	dpy->last_request_read > state->stop_seq)
++    if (last_request_read < state->start_seq ||
++	last_request_read > state->stop_seq)
+ 	return False;
+     while (state->idx < state->count && state->names[state->idx])
+ 	state->idx++;
+@@ -152,7 +153,7 @@ XGetAtomNames (
+     int missed = -1;
+ 
+     LockDisplay(dpy);
+-    async_state.start_seq = dpy->request + 1;
++    async_state.start_seq = X_DPY_GET_REQUEST(dpy) + 1;
+     async_state.atoms = atoms;
+     async_state.names = names_return;
+     async_state.idx = 0;
+@@ -165,7 +166,7 @@ XGetAtomNames (
+     for (i = 0; i < count; i++) {
+ 	if (!(names_return[i] = _XGetAtomName(dpy, atoms[i]))) {
+ 	    missed = i;
+-	    async_state.stop_seq = dpy->request;
++	    async_state.stop_seq = X_DPY_GET_REQUEST(dpy);
+ 	}
+     }
+     if (missed >= 0) {
+diff --git a/src/GetWAttrs.c b/src/GetWAttrs.c
+index c10824c..0f5f7bb 100644
+--- a/src/GetWAttrs.c
++++ b/src/GetWAttrs.c
+@@ -30,8 +30,8 @@ in this Software without prior written authorization from The Open Group.
+ #include "Xlibint.h"
+ 
+ typedef struct _WAttrsState {
+-    unsigned long attr_seq;
+-    unsigned long geom_seq;
++    uint64_t attr_seq;
++    uint64_t geom_seq;
+     XWindowAttributes *attr;
+ } _XWAttrsState;
+ 
+@@ -47,10 +47,11 @@ _XWAttrsHandler(
+     xGetWindowAttributesReply replbuf;
+     register xGetWindowAttributesReply *repl;
+     register XWindowAttributes *attr;
++    uint64_t last_request_read = X_DPY_GET_LAST_REQUEST_READ(dpy);
+ 
+     state = (_XWAttrsState *)data;
+-    if (dpy->last_request_read != state->attr_seq) {
+-	if (dpy->last_request_read == state->geom_seq &&
++    if (last_request_read != state->attr_seq) {
++	if (last_request_read == state->geom_seq &&
+ 	    !state->attr &&
+ 	    rep->generic.type == X_Error &&
+ 	    rep->error.errorCode == BadDrawable)
+@@ -99,7 +100,7 @@ _XGetWindowAttributes(
+ 
+     GetResReq(GetWindowAttributes, w, req);
+ 
+-    async_state.attr_seq = dpy->request;
++    async_state.attr_seq = X_DPY_GET_REQUEST(dpy);
+     async_state.geom_seq = 0;
+     async_state.attr = attr;
+     async.next = dpy->async_handlers;
+@@ -109,7 +110,7 @@ _XGetWindowAttributes(
+ 
+     GetResReq(GetGeometry, w, req);
+ 
+-    async_state.geom_seq = dpy->request;
++    async_state.geom_seq = X_DPY_GET_REQUEST(dpy);
+ 
+     if (!_XReply (dpy, (xReply *)&rep, 0, xTrue)) {
+ 	DeqAsyncHandler(dpy, &async);
+diff --git a/src/IntAtom.c b/src/IntAtom.c
+index 3042b65..d9c6c58 100644
+--- a/src/IntAtom.c
++++ b/src/IntAtom.c
+@@ -188,8 +188,8 @@ XInternAtom (
+ }
+ 
+ typedef struct {
+-    unsigned long start_seq;
+-    unsigned long stop_seq;
++    uint64_t start_seq;
++    uint64_t stop_seq;
+     char **names;
+     Atom *atoms;
+     int count;
+@@ -208,10 +208,12 @@ Bool _XIntAtomHandler(
+     register int i, idx = 0;
+     xInternAtomReply replbuf;
+     register xInternAtomReply *repl;
++    uint64_t last_request_read = X_DPY_GET_LAST_REQUEST_READ(dpy);
+ 
+     state = (_XIntAtomState *)data;
+-    if (dpy->last_request_read < state->start_seq ||
+-	dpy->last_request_read > state->stop_seq)
++
++    if (last_request_read < state->start_seq ||
++	last_request_read > state->stop_seq)
+ 	return False;
+     for (i = 0; i < state->count; i++) {
+ 	if (state->atoms[i] & 0x80000000) {
+@@ -252,7 +254,7 @@ XInternAtoms (
+     xInternAtomReply rep;
+ 
+     LockDisplay(dpy);
+-    async_state.start_seq = dpy->request + 1;
++    async_state.start_seq = X_DPY_GET_REQUEST(dpy) + 1;
+     async_state.atoms = atoms_return;
+     async_state.names = names;
+     async_state.count = count - 1;
+@@ -266,7 +268,7 @@ XInternAtoms (
+ 					     &sig, &idx, &n))) {
+ 	    missed = i;
+ 	    atoms_return[i] = ~((Atom)idx);
+-	    async_state.stop_seq = dpy->request;
++	    async_state.stop_seq = X_DPY_GET_REQUEST(dpy);
+ 	}
+     }
+     if (missed >= 0) {
+diff --git a/src/OpenDis.c b/src/OpenDis.c
+index 636860e..8272357 100644
+--- a/src/OpenDis.c
++++ b/src/OpenDis.c
+@@ -197,8 +197,8 @@ XOpenDisplay (
+ 	dpy->idlist_alloc = _XAllocIDs;
+ 	dpy->synchandler = NULL;
+ 	dpy->savedsynchandler = NULL;
+-	dpy->request = 0;
+-	dpy->last_request_read = 0;
++	X_DPY_SET_REQUEST(dpy, 0);
++	X_DPY_SET_LAST_REQUEST_READ(dpy, 0);
+ 	dpy->default_screen = iscreen;  /* Value returned by ConnectDisplay */
+ 	dpy->last_req = (char *)&_dummy_request;
+ 
+diff --git a/src/PutImage.c b/src/PutImage.c
+index de085bc..13cbba3 100644
+--- a/src/PutImage.c
++++ b/src/PutImage.c
+@@ -602,7 +602,7 @@ static int const HalfOrderWord[12] = {
+ 
+ #define UnGetReq(name)\
+     dpy->bufptr -= SIZEOF(x##name##Req);\
+-    dpy->request--
++    X_DPY_REQUEST_DECREMENT(dpy)
+ 
+ static void
+ SendXYImage(
+diff --git a/src/XlibAsync.c b/src/XlibAsync.c
+index eb2b819..d62000e 100644
+--- a/src/XlibAsync.c
++++ b/src/XlibAsync.c
+@@ -32,6 +32,18 @@ from The Open Group.
+ #include <X11/Xlibint.h>
+ #include <X11/Xos.h>
+ 
++/*
++ * Xlib's _XAsyncErrorState sequence number may wrap in 32bit
++ * and we cannot use 64bit as it's public API.
++ */
++#ifdef LONG64
++#define _XLIB_ASYNC_SEQUENCE_CMP(a,op,b)     ((a == 0) || (a op b))
++#else /* !LONG64 */
++#define _XLIB_ASYNC_SEQUENCE_CMP(a,op,b)     ((a == 0) || \
++                                              (((a op b) && (b - a op (UINT32_MAX >> 1))) || \
++                                               ((b op a) && ((UINT32_MAX >> 1) op a - b))))
++#endif /* !LONG64 */
++
+ /*ARGSUSED*/
+ Bool
+ _XAsyncErrorHandler(
+@@ -51,10 +63,8 @@ _XAsyncErrorHandler(
+ 	 rep->error.majorCode == state->major_opcode) &&
+ 	(!state->minor_opcode ||
+ 	 rep->error.minorCode == state->minor_opcode) &&
+-	(!state->min_sequence_number ||
+-	 (state->min_sequence_number <= dpy->last_request_read)) &&
+-	(!state->max_sequence_number ||
+-	 (state->max_sequence_number >= dpy->last_request_read))) {
++	(_XLIB_ASYNC_SEQUENCE_CMP(state->min_sequence_number,<=,dpy->last_request_read)) &&
++	(_XLIB_ASYNC_SEQUENCE_CMP(state->max_sequence_number,>=,dpy->last_request_read))) {
+ 	state->last_error_received = rep->error.errorCode;
+ 	state->error_count++;
+ 	return True;
+diff --git a/src/XlibInt.c b/src/XlibInt.c
+index bbc5c82..7296948 100644
+--- a/src/XlibInt.c
++++ b/src/XlibInt.c
+@@ -167,8 +167,12 @@ void _XPollfdCacheDel(
+ 
+ static int sync_hazard(Display *dpy)
+ {
+-    unsigned long span = dpy->request - dpy->last_request_read;
+-    unsigned long hazard = min((dpy->bufmax - dpy->buffer) / SIZEOF(xReq), 65535 - 10);
++    /*
++     * "span" and "hazard" need to be signed such that the ">=" comparision
++     * works correctly in the case that hazard is greater than 65525
++     */
++    int64_t span = X_DPY_GET_REQUEST(dpy) - X_DPY_GET_LAST_REQUEST_READ(dpy);
++    int64_t hazard = min((dpy->bufmax - dpy->buffer) / SIZEOF(xReq), 65535 - 10);
+     return span >= 65535 - hazard - 10;
+ }
+ 
+@@ -194,7 +198,7 @@ void _XSeqSyncFunction(
+     xGetInputFocusReply rep;
+     register xReq *req;
+ 
+-    if ((dpy->request - dpy->last_request_read) >= (65535 - BUFSIZE/SIZEOF(xReq))) {
++    if ((X_DPY_GET_REQUEST(dpy) - X_DPY_GET_LAST_REQUEST_READ(dpy)) >= (65535 - BUFSIZE/SIZEOF(xReq))) {
+ 	GetEmptyReq(GetInputFocus, req);
+ 	(void) _XReply (dpy, (xReply *)&rep, 0, xTrue);
+ 	sync_while_locked(dpy);
+@@ -276,9 +280,9 @@ _XSetLastRequestRead(
+     register Display *dpy,
+     register xGenericReply *rep)
+ {
+-    register unsigned long	newseq, lastseq;
++    register uint64_t	newseq, lastseq;
+ 
+-    lastseq = dpy->last_request_read;
++    lastseq = X_DPY_GET_LAST_REQUEST_READ(dpy);
+     /*
+      * KeymapNotify has no sequence number, but is always guaranteed
+      * to immediately follow another event, except when generated via
+@@ -287,20 +291,21 @@ _XSetLastRequestRead(
+     if ((rep->type & 0x7f) == KeymapNotify)
+ 	return(lastseq);
+ 
+-    newseq = (lastseq & ~((unsigned long)0xffff)) | rep->sequenceNumber;
++    newseq = (lastseq & ~((uint64_t)0xffff)) | rep->sequenceNumber;
+ 
+     if (newseq < lastseq) {
+ 	newseq += 0x10000;
+-	if (newseq > dpy->request) {
++	if (newseq > X_DPY_GET_REQUEST(dpy)) {
+ 	    (void) fprintf (stderr,
+-	    "Xlib: sequence lost (0x%lx > 0x%lx) in reply type 0x%x!\n",
+-			    newseq, dpy->request,
++	    "Xlib: sequence lost (0x%llx > 0x%llx) in reply type 0x%x!\n",
++			    (unsigned long long)newseq,
++			    (unsigned long long)(X_DPY_GET_REQUEST(dpy)),
+ 			    (unsigned int) rep->type);
+ 	    newseq -= 0x10000;
+ 	}
+     }
+ 
+-    dpy->last_request_read = newseq;
++    X_DPY_SET_LAST_REQUEST_READ(dpy, newseq);
+     return(newseq);
+ }
+ 
+@@ -1363,10 +1368,10 @@ static int _XPrintDefaultError(
+ 			  mesg, BUFSIZ);
+     fputs("  ", fp);
+     (void) fprintf(fp, mesg, event->serial);
+-    XGetErrorDatabaseText(dpy, mtype, "CurrentSerial", "Current Serial #%d",
++    XGetErrorDatabaseText(dpy, mtype, "CurrentSerial", "Current Serial #%lld",
+ 			  mesg, BUFSIZ);
+     fputs("\n  ", fp);
+-    (void) fprintf(fp, mesg, dpy->request);
++    (void) fprintf(fp, mesg, (unsigned long long)(X_DPY_GET_REQUEST(dpy)));
+     fputs("\n", fp);
+     if (event->error_code == BadImplementation) return 0;
+     return 1;
+@@ -1720,7 +1725,7 @@ void *_XGetRequest(Display *dpy, CARD8 type, size_t len)
+     req->reqType = type;
+     req->length = len / 4;
+     dpy->bufptr += len;
+-    dpy->request++;
++    X_DPY_REQUEST_INCREMENT(dpy);
+     return req;
+ }
+ 
+diff --git a/src/Xxcbint.h b/src/Xxcbint.h
+index bf41c23..20a6386 100644
+--- a/src/Xxcbint.h
++++ b/src/Xxcbint.h
+@@ -13,12 +13,12 @@
+ #include <X11/Xlib-xcb.h>
+ #include "locking.h"
+ 
+-#define XLIB_SEQUENCE_COMPARE(a,op,b)	(((long) (a) - (long) (b)) op 0)
++#define XLIB_SEQUENCE_COMPARE(a,op,b)	(((int64_t) (a) - (int64_t) (b)) op 0)
+ 
+ typedef struct PendingRequest PendingRequest;
+ struct PendingRequest {
+ 	PendingRequest *next;
+-	unsigned long sequence;
++	uint64_t sequence;
+ 	unsigned reply_waiter;
+ };
+ 
+diff --git a/src/xcb_io.c b/src/xcb_io.c
+index 5987329..bd26a62 100644
+--- a/src/xcb_io.c
++++ b/src/xcb_io.c
+@@ -68,22 +68,8 @@ static void require_socket(Display *dpy)
+ 		if(!xcb_take_socket(dpy->xcb->connection, return_socket, dpy,
+ 		                    flags, &sent))
+ 			_XIOError(dpy);
+-		/* Xlib uses unsigned long for sequence numbers.  XCB
+-		 * uses 64-bit internally, but currently exposes an
+-		 * unsigned int API.  If these differ, Xlib cannot track
+-		 * the full 64-bit sequence number if 32-bit wrap
+-		 * happens while Xlib does not own the socket.  A
+-		 * complete fix would be to make XCB's public API use
+-		 * 64-bit sequence numbers. */
+-		if (sizeof(unsigned long) > sizeof(unsigned int) &&
+-		    dpy->xcb->event_owner == XlibOwnsEventQueue &&
+-		    (sent - dpy->last_request_read >= (UINT64_C(1) << 32))) {
+-			throw_thread_fail_assert("Sequence number wrapped "
+-			                         "beyond 32 bits while Xlib "
+-						 "did not own the socket",
+-			                         xcb_xlib_seq_number_wrapped);
+-		}
+-		dpy->xcb->last_flushed = dpy->request = sent;
++		dpy->xcb->last_flushed = sent;
++		X_DPY_SET_REQUEST(dpy, sent);
+ 		dpy->bufmax = dpy->xcb->real_bufmax;
+ 	}
+ }
+@@ -145,7 +131,7 @@ static void check_internal_connections(Display *dpy)
+ 		}
+ }
+ 
+-static PendingRequest *append_pending_request(Display *dpy, unsigned long sequence)
++static PendingRequest *append_pending_request(Display *dpy, uint64_t sequence)
+ {
+ 	PendingRequest *node = malloc(sizeof(PendingRequest));
+ 	assert(node);
+@@ -214,14 +200,13 @@ static int handle_error(Display *dpy, xError *err, Bool in_XReply)
+ 	return 0;
+ }
+ 
+-/* Widen a 32-bit sequence number into a native-word-size (unsigned long)
+- * sequence number.  Treating the comparison as a 1 and shifting it avoids a
+- * conditional branch, and shifting by 16 twice avoids a compiler warning when
+- * sizeof(unsigned long) == 4. */
+-static void widen(unsigned long *wide, unsigned int narrow)
++/* Widen a 32-bit sequence number into a 64bit (uint64_t) sequence number.
++ * Treating the comparison as a 1 and shifting it avoids a conditional branch.
++ */
++static void widen(uint64_t *wide, unsigned int narrow)
+ {
+-	unsigned long new = (*wide & ~0xFFFFFFFFUL) | narrow;
+-	*wide = new + ((unsigned long) (new < *wide) << 16 << 16);
++	uint64_t new = (*wide & ~((uint64_t)0xFFFFFFFFUL)) | narrow;
++	*wide = new + (((uint64_t)(new < *wide)) << 32);
+ }
+ 
+ /* Thread-safety rules:
+@@ -260,20 +245,20 @@ static xcb_generic_reply_t *poll_for_event(Display *dpy)
+ 	{
+ 		PendingRequest *req = dpy->xcb->pending_requests;
+ 		xcb_generic_event_t *event = dpy->xcb->next_event;
+-		unsigned long event_sequence = dpy->last_request_read;
++		uint64_t event_sequence = X_DPY_GET_LAST_REQUEST_READ(dpy);
+ 		widen(&event_sequence, event->full_sequence);
+ 		if(!req || XLIB_SEQUENCE_COMPARE(event_sequence, <, req->sequence)
+ 		        || (event->response_type != X_Error && event_sequence == req->sequence))
+ 		{
+-			if (XLIB_SEQUENCE_COMPARE(event_sequence, >,
+-			                          dpy->request))
++			uint64_t request = X_DPY_GET_REQUEST(dpy);
++			if (XLIB_SEQUENCE_COMPARE(event_sequence, >, request))
+ 			{
+ 				throw_thread_fail_assert("Unknown sequence "
+ 				                         "number while "
+ 							 "processing queue",
+ 				                xcb_xlib_threads_sequence_lost);
+ 			}
+-			dpy->last_request_read = event_sequence;
++			X_DPY_SET_LAST_REQUEST_READ(dpy, event_sequence);
+ 			dpy->xcb->next_event = NULL;
+ 			return (xcb_generic_reply_t *) event;
+ 		}
+@@ -289,15 +274,16 @@ static xcb_generic_reply_t *poll_for_response(Display *dpy)
+ 	while(!(response = poll_for_event(dpy)) &&
+ 	      (req = dpy->xcb->pending_requests) &&
+ 	      !req->reply_waiter &&
+-	      xcb_poll_for_reply(dpy->xcb->connection, req->sequence, &response, &error))
++	      xcb_poll_for_reply64(dpy->xcb->connection, req->sequence, &response, &error))
+ 	{
+-		if(XLIB_SEQUENCE_COMPARE(req->sequence, >, dpy->request))
++		uint64_t request = X_DPY_GET_REQUEST(dpy);
++		if(XLIB_SEQUENCE_COMPARE(req->sequence, >, request))
+ 		{
+ 			throw_thread_fail_assert("Unknown sequence number "
+ 			                         "while awaiting reply",
+ 			                        xcb_xlib_threads_sequence_lost);
+ 		}
+-		dpy->last_request_read = req->sequence;
++		X_DPY_SET_LAST_REQUEST_READ(dpy, req->sequence);
+ 		if(response)
+ 			break;
+ 		dequeue_pending_request(dpy, req);
+@@ -456,6 +442,7 @@ void _XSend(Display *dpy, const char *data, long size)
+ 	static char const pad[3];
+ 	struct iovec vec[3];
+ 	uint64_t requests;
++	uint64_t dpy_request;
+ 	_XExtension *ext;
+ 	xcb_connection_t *c = dpy->xcb->connection;
+ 	if(dpy->flags & XlibDisplayIOError)
+@@ -464,6 +451,10 @@ void _XSend(Display *dpy, const char *data, long size)
+ 	if(dpy->bufptr == dpy->buffer && !size)
+ 		return;
+ 
++	/* append_pending_request does not alter the dpy request number
++	 * therefore we can get it outside of the loop and the if
++	 */
++	dpy_request = X_DPY_GET_REQUEST(dpy);
+ 	/* iff we asked XCB to set aside errors, we must pick those up
+ 	 * eventually. iff there are async handlers, we may have just
+ 	 * issued requests that will generate replies. in either case,
+@@ -471,11 +462,11 @@ void _XSend(Display *dpy, const char *data, long size)
+ 	if(dpy->xcb->event_owner != XlibOwnsEventQueue || dpy->async_handlers)
+ 	{
+ 		uint64_t sequence;
+-		for(sequence = dpy->xcb->last_flushed + 1; sequence <= dpy->request; ++sequence)
++		for(sequence = dpy->xcb->last_flushed + 1; sequence <= dpy_request; ++sequence)
+ 			append_pending_request(dpy, sequence);
+ 	}
+-	requests = dpy->request - dpy->xcb->last_flushed;
+-	dpy->xcb->last_flushed = dpy->request;
++	requests = dpy_request - dpy->xcb->last_flushed;
++	dpy->xcb->last_flushed = dpy_request;
+ 
+ 	vec[0].iov_base = dpy->buffer;
+ 	vec[0].iov_len = dpy->bufptr - dpy->buffer;
+@@ -570,6 +561,7 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
+ 	xcb_connection_t *c = dpy->xcb->connection;
+ 	char *reply;
+ 	PendingRequest *current;
++	uint64_t dpy_request;
+ 
+ 	if (dpy->xcb->reply_data)
+ 		throw_extlib_fail_assert("Extra reply data still left in queue",
+@@ -579,10 +571,12 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
+ 		return 0;
+ 
+ 	_XSend(dpy, NULL, 0);
+-	if(dpy->xcb->pending_requests_tail && dpy->xcb->pending_requests_tail->sequence == dpy->request)
++	dpy_request = X_DPY_GET_REQUEST(dpy);
++	if(dpy->xcb->pending_requests_tail
++	   && dpy->xcb->pending_requests_tail->sequence == dpy_request)
+ 		current = dpy->xcb->pending_requests_tail;
+ 	else
+-		current = append_pending_request(dpy, dpy->request);
++		current = append_pending_request(dpy, dpy_request);
+ 	/* Don't let any other thread get this reply. */
+ 	current->reply_waiter = 1;
+ 
+@@ -599,9 +593,9 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
+ 		}
+ 		req->reply_waiter = 1;
+ 		UnlockDisplay(dpy);
+-		response = xcb_wait_for_reply(c, req->sequence, &error);
++		response = xcb_wait_for_reply64(c, req->sequence, &error);
+ 		/* Any user locks on another thread must have been taken
+-		 * while we slept in xcb_wait_for_reply. Classic Xlib
++		 * while we slept in xcb_wait_for_reply64. Classic Xlib
+ 		 * ignored those user locks in this case, so we do too. */
+ 		InternalLockDisplay(dpy, /* ignore user locks */ 1);
+ 
+@@ -629,12 +623,13 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
+ 
+ 		req->reply_waiter = 0;
+ 		ConditionBroadcast(dpy, dpy->xcb->reply_notify);
+-		if(XLIB_SEQUENCE_COMPARE(req->sequence, >, dpy->request)) {
++		dpy_request = X_DPY_GET_REQUEST(dpy);
++		if(XLIB_SEQUENCE_COMPARE(req->sequence, >, dpy_request)) {
+ 			throw_thread_fail_assert("Unknown sequence number "
+ 			                         "while processing reply",
+ 			                        xcb_xlib_threads_sequence_lost);
+ 		}
+-		dpy->last_request_read = req->sequence;
++		X_DPY_SET_LAST_REQUEST_READ(dpy, req->sequence);
+ 		if(!response)
+ 			dequeue_pending_request(dpy, req);
+ 
+@@ -654,9 +649,10 @@ Status _XReply(Display *dpy, xReply *rep, int extra, Bool discard)
+ 	if(dpy->xcb->next_event && dpy->xcb->next_event->response_type == X_Error)
+ 	{
+ 		xcb_generic_event_t *event = dpy->xcb->next_event;
+-		unsigned long event_sequence = dpy->last_request_read;
++		uint64_t last_request_read = X_DPY_GET_LAST_REQUEST_READ(dpy);
++		uint64_t event_sequence = last_request_read;
+ 		widen(&event_sequence, event->full_sequence);
+-		if(event_sequence == dpy->last_request_read)
++		if(event_sequence == last_request_read)
+ 		{
+ 			error = (xcb_generic_error_t *) event;
+ 			dpy->xcb->next_event = NULL;
+-- 
+cgit v0.10.2
+
+--- a/include/X11/Xlibint.h.orig2	2017-03-11 09:35:16.131106050 -0800
++++ b/include/X11/Xlibint.h	2017-03-11 09:34:10.010324406 -0800
+@@ -38,6 +38,7 @@
+  *	Warning, there be dragons here....
+  */
+ 
++#include <stdint.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xproto.h>		/* to declare xEvent */
+ #include <X11/XlibConf.h>	/* for configured options like XTHREADS */
+@@ -205,6 +206,10 @@
+ 		XGenericEventCookie *	/* in */,
+ 		XGenericEventCookie *   /* out*/);
+ 	void *cookiejar;  /* cookie events returned but not claimed */
++#ifndef LONG64
++	unsigned long last_request_read_upper32bit;
++	unsigned long request_upper32bit;
++#endif
+ };
+ 
+ #if defined(XTHREADS) && defined(SUNSOFT)
+@@ -212,7 +217,115 @@
+ #endif /* XTHREADS && SUNSOFT */
+ 
+ #define XAllocIDs(dpy,ids,n) (*(dpy)->idlist_alloc)(dpy,ids,n)
++/*
++ * access "last_request_read" and "request" with 64bit
++ * warning: the value argument of the SET-macros must not
++ * have any side-effects because it may get called twice.
++ */
++#ifndef LONG64
++/* accessors for 32-bit unsigned long */
+ 
++#define X_DPY_GET_REQUEST(dpy) \
++    ( \
++        ((uint64_t)(((struct _XDisplay*)dpy)->request)) \
++	+ (((uint64_t)(((struct _XDisplay*)dpy)->request_upper32bit)) << 32) \
++    )
++
++#define X_DPY_SET_REQUEST(dpy, value) \
++    ( \
++        (((struct _XDisplay*)dpy)->request = \
++            (value) & 0xFFFFFFFFUL), \
++        (((struct _XDisplay*)dpy)->request_upper32bit = \
++            ((uint64_t)(value)) >> 32), \
++	(void)0 /* don't use the result */ \
++    )
++
++#define X_DPY_GET_LAST_REQUEST_READ(dpy) \
++    ( \
++        ((uint64_t)(((struct _XDisplay*)dpy)->last_request_read)) \
++        + ( \
++            ((uint64_t)( \
++                ((struct _XDisplay*)dpy)->last_request_read_upper32bit \
++            )) << 32 \
++        ) \
++    )
++
++#define X_DPY_SET_LAST_REQUEST_READ(dpy, value) \
++    ( \
++        (((struct _XDisplay*)dpy)->last_request_read = \
++            (value) & 0xFFFFFFFFUL), \
++        (((struct _XDisplay*)dpy)->last_request_read_upper32bit = \
++            ((uint64_t)(value)) >> 32), \
++	(void)0 /* don't use the result */ \
++    )
++
++/*
++ * widen a 32-bit sequence number to a 64 sequence number.
++ * This macro makes the following assumptions:
++ * - ulseq refers to a sequence that has already been sent
++ * - ulseq means the most recent possible sequence number
++ *   with these lower 32 bits.
++ *
++ * The following optimization is used:
++ * The comparison result is taken a 0 or 1 to avoid a branch.
++ */
++#define X_DPY_WIDEN_UNSIGNED_LONG_SEQ(dpy, ulseq) \
++    ( \
++        ((uint64_t)ulseq) \
++        + \
++        (( \
++            ((uint64_t)(((struct _XDisplay*)dpy)->request_upper32bit)) \
++            - (uint64_t)( \
++                (ulseq) > (((struct _XDisplay*)dpy)->request) \
++	    ) \
++        ) << 32) \
++    )
++
++#define X_DPY_REQUEST_INCREMENT(dpy) \
++    ( \
++        ((struct _XDisplay*)dpy)->request++, \
++        ( \
++            (((struct _XDisplay*)dpy)->request == 0) ? ( \
++                ((struct _XDisplay*)dpy)->request_upper32bit++ \
++	    ) : 0 \
++        ), \
++	(void)0 /* don't use the result */ \
++    )
++
++
++#define X_DPY_REQUEST_DECREMENT(dpy) \
++    ( \
++	( \
++            (((struct _XDisplay*)dpy)->request == 0) ? (\
++                ((struct _XDisplay*)dpy)->request--, /* wrap */ \
++                ((struct _XDisplay*)dpy)->request_upper32bit-- \
++            ) : ( \
++                ((struct _XDisplay*)dpy)->request-- \
++            ) \
++	), \
++	(void)0 /* don't use the result */ \
++    )
++
++#else
++/* accessors for 64-bit unsigned long */
++#define X_DPY_GET_REQUEST(dpy) \
++    (((struct _XDisplay*)dpy)->request)
++#define X_DPY_SET_REQUEST(dpy, value) \
++    ((struct _XDisplay*)dpy)->request = (value)
++
++#define X_DPY_GET_LAST_REQUEST_READ(dpy) \
++    (((struct _XDisplay*)dpy)->last_request_read)
++#define X_DPY_SET_LAST_REQUEST_READ(dpy, value) \
++    ((struct _XDisplay*)dpy)->last_request_read = (value)
++
++#define X_DPY_WIDEN_UNSIGNED_LONG_SEQ(dpy, ulseq) ulseq
++
++#define X_DPY_REQUEST_INCREMENT(dpy) ((struct _XDisplay*)dpy)->request++
++#define X_DPY_REQUEST_DECREMENT(dpy) ((struct _XDisplay*)dpy)->request--
++#endif
++
++
++
+ #ifndef _XEVENT_
+ /*
+  * _QEvent datatype for use in input queueing.
+@@ -677,6 +790,11 @@
+     XPointer data;
+ } _XAsyncHandler;
+ 
++/*
++ * This struct is part of the ABI and is defined by value
++ * in user-code. This means that we cannot make
++ * the sequence-numbers 64bit.
++ */
+ typedef struct _XAsyncEState {
+     unsigned long min_sequence_number;
+     unsigned long max_sequence_number;

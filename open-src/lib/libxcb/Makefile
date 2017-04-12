@@ -2,7 +2,7 @@
 #
 # xcb - Lighter weight X11 client libraries
 #
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,6 +46,7 @@ UPSTREAM_PROJECT_SET = yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
 SOURCE_PATCHES += manpage.patch
+SOURCE_PATCHES += 19154747.patch,-p1
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

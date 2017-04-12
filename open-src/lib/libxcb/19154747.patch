@@ -1,0 +1,235 @@
+From 0ba6fe9b4eaa70383cd2ee066dfb3f1e67efeb83 Mon Sep 17 00:00:00 2001
+From: Christian Linhart <chris@demorecorder.com>
+Date: Wed, 29 Apr 2015 09:11:37 +0200
+Subject: expose 64-bit sequence numbers for XLib
+
+While XCB uses 64-bit sequence number internally, it only exposes
+"unsigned int" so that, on 32-bit architecture, Xlib based applications
+may see their sequence number wrap which causes the connection to the X
+server to be lost.
+
+Expose 64-bit sequence number from XCB API so that Xlib and others can
+use it even on 32-bit environment.
+
+This implies the following API addition:
+
+  xcb_send_request64()
+  xcb_discard_reply64()
+  xcb_wait_for_reply64()
+  xcb_poll_for_reply64()
+
+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=71338
+
+Reviewed-by: Uli Schlachter <psychon@znc.in>
+Signed-off-by: Christian Linhart <chris@demorecorder.com>
+Signed-off-by: Olivier Fourdan <ofourdan@redhat.com>
+
+diff --git a/src/xcb.h b/src/xcb.h
+index 23fe74e..86eb1bc 100644
+--- a/src/xcb.h
++++ b/src/xcb.h
+@@ -378,6 +378,26 @@ xcb_generic_error_t *xcb_request_check(xcb_connection_t *c, xcb_void_cookie_t co
+  */
+ void xcb_discard_reply(xcb_connection_t *c, unsigned int sequence);
+ 
++/**
++ * @brief Discards the reply for a request, given by a 64bit sequence number
++ * @param c: The connection to the X server.
++ * @param sequence: 64-bit sequence number as returned by xcb_send_request64().
++ *
++ * Discards the reply for a request. Additionally, any error generated
++ * by the request is also discarded (unless it was an _unchecked request
++ * and the error has already arrived).
++ *
++ * This function will not block even if the reply is not yet available.
++ *
++ * Note that the sequence really does have to come from xcb_send_request64();
++ * the cookie sequence number is defined as "unsigned" int and therefore
++ * not 64-bit on all platforms.
++ * This function is not designed to operate on socket-handoff replies.
++ *
++ * Unlike its xcb_discard_reply() counterpart, the given sequence number is not
++ * automatically "widened" to 64-bit.
++ */
++void xcb_discard_reply64(xcb_connection_t *c, uint64_t sequence);
+ 
+ /* xcb_ext.c */
+ 
+diff --git a/src/xcb_in.c b/src/xcb_in.c
+index ad870c1..623a0a8 100644
+--- a/src/xcb_in.c
++++ b/src/xcb_in.c
+@@ -523,6 +523,20 @@ void *xcb_wait_for_reply(xcb_connection_t *c, unsigned int request, xcb_generic_
+     return ret;
+ }
+ 
++void *xcb_wait_for_reply64(xcb_connection_t *c, uint64_t request, xcb_generic_error_t **e)
++{
++    void *ret;
++    if(e)
++        *e = 0;
++    if(c->has_error)
++        return 0;
++
++    pthread_mutex_lock(&c->iolock);
++    ret = wait_for_reply(c, request, e);
++    pthread_mutex_unlock(&c->iolock);
++    return ret;
++}
++
+ int *xcb_get_reply_fds(xcb_connection_t *c, void *reply, size_t reply_size)
+ {
+     return (int *) (&((char *) reply)[reply_size]);
+@@ -595,6 +609,20 @@ void xcb_discard_reply(xcb_connection_t *c, unsigned int sequence)
+     pthread_mutex_unlock(&c->iolock);
+ }
+ 
++void xcb_discard_reply64(xcb_connection_t *c, uint64_t sequence)
++{
++    if(c->has_error)
++        return;
++
++    /* If an error occurred when issuing the request, fail immediately. */
++    if(!sequence)
++        return;
++
++    pthread_mutex_lock(&c->iolock);
++    discard_reply(c, sequence);
++    pthread_mutex_unlock(&c->iolock);
++}
++
+ int xcb_poll_for_reply(xcb_connection_t *c, unsigned int request, void **reply, xcb_generic_error_t **error)
+ {
+     int ret;
+@@ -612,6 +640,23 @@ int xcb_poll_for_reply(xcb_connection_t *c, unsigned int request, void **reply,
+     return ret;
+ }
+ 
++int xcb_poll_for_reply64(xcb_connection_t *c, uint64_t request, void **reply, xcb_generic_error_t **error)
++{
++    int ret;
++    if(c->has_error)
++    {
++        *reply = 0;
++        if(error)
++            *error = 0;
++        return 1; /* would not block */
++    }
++    assert(reply != 0);
++    pthread_mutex_lock(&c->iolock);
++    ret = poll_for_reply(c, request, reply, error);
++    pthread_mutex_unlock(&c->iolock);
++    return ret;
++}
++
+ xcb_generic_event_t *xcb_wait_for_event(xcb_connection_t *c)
+ {
+     xcb_generic_event_t *ret;
+diff --git a/src/xcb_out.c b/src/xcb_out.c
+index dc42954..8cc5be8 100644
+--- a/src/xcb_out.c
++++ b/src/xcb_out.c
+@@ -177,7 +177,7 @@ uint32_t xcb_get_maximum_request_length(xcb_connection_t *c)
+     return c->out.maximum_request_length.value;
+ }
+ 
+-unsigned int xcb_send_request(xcb_connection_t *c, int flags, struct iovec *vector, const xcb_protocol_request_t *req)
++uint64_t xcb_send_request64(xcb_connection_t *c, int flags, struct iovec *vector, const xcb_protocol_request_t *req)
+ {
+     uint64_t request;
+     uint32_t prefix[2];
+@@ -286,6 +286,12 @@ unsigned int xcb_send_request(xcb_connection_t *c, int flags, struct iovec *vect
+     return request;
+ }
+ 
++/* request number are actually uint64_t internally but keep API compat with unsigned int */
++unsigned int xcb_send_request(xcb_connection_t *c, int flags, struct iovec *vector, const xcb_protocol_request_t *req)
++{
++    return xcb_send_request64(c, flags, vector, req);
++}
++
+ void
+ xcb_send_fd(xcb_connection_t *c, int fd)
+ {
+diff --git a/src/xcbext.h b/src/xcbext.h
+index 7587513..b2575f7 100644
+--- a/src/xcbext.h
++++ b/src/xcbext.h
+@@ -83,6 +83,30 @@ enum xcb_send_request_flags_t {
+ unsigned int xcb_send_request(xcb_connection_t *c, int flags, struct iovec *vector, const xcb_protocol_request_t *request);
+ 
+ /**
++ * @brief Send a request to the server, with 64-bit sequence number returned.
++ * @param c: The connection to the X server.
++ * @param flags: A combination of flags from the xcb_send_request_flags_t enumeration.
++ * @param vector: Data to send; must have two iovecs before start for internal use.
++ * @param request: Information about the request to be sent.
++ * @return The request's sequence number on success, 0 otherwise.
++ *
++ * This function sends a new request to the X server. The data of the request is
++ * given as an array of @c iovecs in the @p vector argument. The length of that
++ * array and the neccessary management information are given in the @p request
++ * argument.
++ *
++ * When this function returns, the request might or might not be sent already.
++ * Use xcb_flush() to make sure that it really was sent.
++ *
++ * Please note that this function is not the prefered way for sending requests.
++ * It's better to use the generated wrapper functions.
++ *
++ * Please note that xcb might use index -1 and -2 of the @p vector array internally,
++ * so they must be valid!
++ */
++uint64_t xcb_send_request64(xcb_connection_t *c, int flags, struct iovec *vector, const xcb_protocol_request_t *request);
++
++/**
+  * @brief Send a file descriptor to the server in the next call to xcb_send_request.
+  * @param c: The connection to the X server.
+  * @param fd: The file descriptor to send.
+@@ -162,6 +186,21 @@ int xcb_writev(xcb_connection_t *c, struct iovec *vector, int count, uint64_t re
+ void *xcb_wait_for_reply(xcb_connection_t *c, unsigned int request, xcb_generic_error_t **e);
+ 
+ /**
++ * @brief Wait for the reply of a given request, with 64-bit sequence number
++ * @param c: The connection to the X server.
++ * @param request: 64-bit sequence number of the request as returned by xcb_send_request64().
++ * @param e: Location to store errors in, or NULL. Ignored for unchecked requests.
++ *
++ * Returns the reply to the given request or returns null in the event of
++ * errors. Blocks until the reply or error for the request arrives, or an I/O
++ * error occurs.
++ *
++ * Unlike its xcb_wait_for_reply() counterpart, the given sequence number is not
++ * automatically "widened" to 64-bit.
++ */
++void *xcb_wait_for_reply64(xcb_connection_t *c, uint64_t request, xcb_generic_error_t **e);
++
++/**
+  * @brief Poll for the reply of a given request.
+  * @param c: The connection to the X server.
+  * @param request: Sequence number of the request as returned by xcb_send_request().
+@@ -174,6 +213,21 @@ void *xcb_wait_for_reply(xcb_connection_t *c, unsigned int request, xcb_generic_
+ int xcb_poll_for_reply(xcb_connection_t *c, unsigned int request, void **reply, xcb_generic_error_t **error);
+ 
+ /**
++ * @brief Poll for the reply of a given request, with 64-bit sequence number.
++ * @param c: The connection to the X server.
++ * @param request: 64-bit sequence number of the request as returned by xcb_send_request().
++ * @param reply: Location to store the reply in, must not be NULL.
++ * @param e: Location to store errors in, or NULL. Ignored for unchecked requests.
++ * @return 1 when the reply to the request was returned, else 0.
++ *
++ * Checks if the reply to the given request already received. Does not block.
++ *
++ * Unlike its xcb_poll_for_reply() counterpart, the given sequence number is not
++ * automatically "widened" to 64-bit.
++ */
++int xcb_poll_for_reply64(xcb_connection_t *c, uint64_t request, void **reply, xcb_generic_error_t **error);
++
++/**
+  * @brief Don't use this, only needed by the generated code.
+  * @param c: The connection to the X server.
+  * @param reply: A reply that was received from the server
+-- 
+cgit v0.10.2
+
