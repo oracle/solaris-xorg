@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,11 +56,23 @@ link path=system/volatile/opengl/include/glxext.h \
     target=../../../../usr/include/mesa/glxext.h
 dir  path=system/volatile/opengl/lib
 dir  path=system/volatile/opengl/lib/$(ARCH64)
+link path=system/volatile/opengl/lib/$(ARCH64)/libEGL.so.1 \
+    target=../../../../../usr/lib/mesa/$(ARCH64)/libEGL.so.1
 link path=system/volatile/opengl/lib/$(ARCH64)/libGL.so.1 \
     target=../../../../../usr/lib/mesa/$(ARCH64)/libGL.so.1
+link path=system/volatile/opengl/lib/$(ARCH64)/libGLESv1_CM.so.1 \
+    target=../../../../../usr/lib/mesa/$(ARCH64)/libGLESv1_CM.so.1
+link path=system/volatile/opengl/lib/$(ARCH64)/libGLESv2.so.2 \
+    target=../../../../../usr/lib/mesa/$(ARCH64)/libGLESv2.so.2
 link path=system/volatile/opengl/lib/64 target=$(ARCH64)
+link path=system/volatile/opengl/lib/libEGL.so.1 \
+    target=../../../../usr/lib/mesa/libEGL.so.1
 link path=system/volatile/opengl/lib/libGL.so.1 \
     target=../../../../usr/lib/mesa/libGL.so.1
+link path=system/volatile/opengl/lib/libGLESv1_CM.so.1 \
+    target=../../../../usr/lib/mesa/libGLESv1_CM.so.1
+link path=system/volatile/opengl/lib/libGLESv2.so.2 \
+    target=../../../../usr/lib/mesa/libGLESv2.so.2
 dir  path=system/volatile/opengl/server
 link path=system/volatile/opengl/server/libglx.so \
     target=../../../../usr/lib/mesa/modules/extensions/libglx.so

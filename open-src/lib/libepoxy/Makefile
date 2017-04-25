@@ -2,7 +2,7 @@
 #
 # libepoxy - library for handling OpenGL function pointers
 #
-# Copyright (c) 2015, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -57,7 +57,7 @@ SOURCE_TARBALL_NAME = $(MODULE_NAME)-$(MODULE_VERSION).tar.gz
 SOURCE_TARBALL_NAME_SET=yes
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = disable-egl.patch
+SOURCE_PATCHES = 
 
 # Need to build with gcc
 MODULE_COMPILER=gcc

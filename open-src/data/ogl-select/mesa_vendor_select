@@ -1,6 +1,6 @@
 #!/bin/ksh93
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -88,6 +88,15 @@ fi
 make_link ../../../../usr/lib/mesa/libGL.so.1 ${LINKDIR}/lib/libGL.so.1
 make_link ../../../../../usr/lib/mesa/${DIR64}/libGL.so.1 \
 	${LINKDIR}/lib/${DIR64}/libGL.so.1
+make_link ../../../../usr/lib/mesa/libEGL.so.1 ${LINKDIR}/lib/libEGL.so.1
+make_link ../../../../../usr/lib/mesa/${DIR64}/libEGL.so.1 \
+	${LINKDIR}/lib/${DIR64}/libEGL.so.1
+make_link ../../../../usr/lib/mesa/libGLESv1_CM.so.1 ${LINKDIR}/lib/libGLESv1_CM.so.1
+make_link ../../../../../usr/lib/mesa/${DIR64}/libGLESv1_CM.so.1 \
+	${LINKDIR}/lib/${DIR64}/libGLESv1_CM.so.1
+make_link ../../../../usr/lib/mesa/libGLESv2.so.2 ${LINKDIR}/lib/libGLESv2.so.2
+make_link ../../../../../usr/lib/mesa/${DIR64}/libGLESv2.so.2 \
+	${LINKDIR}/lib/${DIR64}/libGLESv2.so.2
 
 # Server modules
 make_link ../../../../usr/lib/mesa/modules/extensions/libglx.so \

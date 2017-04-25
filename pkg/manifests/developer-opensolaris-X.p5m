@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -106,6 +106,9 @@ depend type=require fmri=pkg:/developer/lexer/flex
 # we are adding llvm (pipe) to mesa for 3d support on gnome3
 depend type=require fmri=pkg:/developer/llvm/llvm \
     org.opensolaris.pkgdepend.resolve=true
+
+# Need llvm-build to build mesa
+depend type=require fmri=pkg:/developer/llvm/llvm-build
 
 # xcb, xcb-util, xcb-util-wm need GNU M4 to build
 # (also required by any module running autoconf/autoreconf)
