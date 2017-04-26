@@ -1,6 +1,6 @@
 # X build options for OpenSolaris sources
 #
-# Copyright (c) 2010, 2014, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,4 +38,4 @@ DISTRO_NAME = OpenSolaris
 
 # Xserver configuration options for vendor name & support URL
 VENDOR_NAME = OpenSolaris, based on X.Org Foundation sources
-VENDOR_SUPPORT_URL = http://solaris-x11.java.net/
+VENDOR_SUPPORT_URL = https://github.com/oracle/solaris-xorg

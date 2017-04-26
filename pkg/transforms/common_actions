@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -41,9 +41,9 @@
 #
 
 set name=org.opensolaris.consolidation value=X
-set name=info.maintainer-url value="http://solaris-x11.java.net/"
+set name=info.maintainer-url value="https://github.com/oracle/solaris-xorg"
 set name=com.oracle.info.consolidation.repository-url \
-    value="https://hg.java.net/hg/solaris-x11~x-s12-clone"
+    value="https://github.com/oracle/solaris-xorg"
 
 #
 # Indicate that the package was published in a zones aware

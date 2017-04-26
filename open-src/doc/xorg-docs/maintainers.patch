@@ -1,0 +1,21 @@
+commit	2ee2b7f0f0304879214f09d48c43c742894cf82e (patch)
+tree	eea23a1c0dfd259897cfe3ae4a20975a9a319f7b
+parent	ebc0ba09cb2fe7d4fb1e223e274feec4879d8536 (diff)
+Update Solaris URL in MAINTAINERS fileHEADmaster
+Signed-off-by: Alan Coopersmith <alan.coopersmith@oracle.com>
+Reviewed-by: Niveditha Rau <niveditha.rau@oracle.com>
+Diffstat
+-rw-r--r--	MAINTAINERS	2	
+		
+1 files changed, 1 insertions, 1 deletions
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e0b2d27..f7871da 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -502,7 +502,7 @@ Solaris (x86 & sparc)
+ P:	Alan Coopersmith
+ M:	alan.coopersmith@oracle.com
+ L:	xorg-devel@lists.x.org
+-W:	http://wiki.x.org & http://solaris-x11.java.net/
++W:	http://wiki.x.org & https://github.com/oracle/solaris-xorg
+ S:	Maintained
