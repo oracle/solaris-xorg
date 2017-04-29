@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,6 +32,3 @@ link path=usr/lib/fbconfig/libfbconf_xorg.so target=libfbconf_xorg.so.1
 file path=usr/lib/fbconfig/libfbconf_xorg.so.1
 file path=usr/sbin/fbconfig
 file path=usr/share/man/man8/fbconfig.8
-legacy pkg=SUNWfbc arch=sparc category=application,graphics \
-    desc="Generic frame buffer configuration utility" \
-    name="Frame Buffer Configuration Utility" version=11.0.0,REV=2010.08.02

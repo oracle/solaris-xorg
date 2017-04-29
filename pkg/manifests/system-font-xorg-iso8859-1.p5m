@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -447,6 +447,3 @@ file path=usr/share/fonts/X11/misc-ISO8859-1/clR6x12-ISO8859-1.pcf
 file path=usr/share/fonts/X11/misc-ISO8859-1/fonts.alias
 file path=usr/share/fonts/X11/misc-ISO8859-1/fonts.alias.all
 file path=usr/share/fonts/X11/misc-ISO8859-1/fonts.dir
-legacy pkg=SUNWfont-xorg-iso8859-1 \
-    desc="X Window System font files based on X.Org Foundation open source release" \
-    name="X.Org Foundation X11 iso8859-1 fonts"

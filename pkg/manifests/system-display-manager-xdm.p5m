@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,11 +59,6 @@ file path=usr/lib/X11/xdm/xdmshell mode=0555
 file path=usr/sbin/xdm
 file path=usr/share/X11/app-defaults/Chooser
 file path=usr/share/man/man1/xdm.1
-legacy pkg=SUNWxdm desc="X Window System xdm Display Manager" \
-    name="xdm Display Manager"
-legacy pkg=SUNWxdm-root \
-    desc="X Window System xdm Display Manager components located outside of /usr" \
-    name="xdm Display Manager - / filesystem"
 # Default xdm session uses twm for the window manager
 depend type=require fmri=pkg:/desktop/window-manager/twm
 # xdm Xresources specifies fonts including:

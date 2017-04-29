@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,3 @@ file path=usr/share/fonts/X11/isas/fonts.dir
 file path=usr/share/fonts/X11/isas/gb16fs.pcf
 file path=usr/share/fonts/X11/isas/gb16st.pcf
 file path=usr/share/fonts/X11/isas/gb24st.pcf
-legacy pkg=SUNWfont-isas-misc \
-    desc="X Window System font files for GB2312-80 encoded Chinese characters from The Institute of Software, Academia Sinica" \
-    name="Institute of Software, Academia Sinica GB2312-80 bitmap fonts"

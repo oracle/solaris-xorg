@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,6 +31,3 @@ dir  path=usr/share/fonts/X11/jiskan
 file path=usr/share/fonts/X11/jiskan/fonts.dir
 file path=usr/share/fonts/X11/jiskan/jiskan16.pcf
 file path=usr/share/fonts/X11/jiskan/jiskan24.pcf
-legacy pkg=SUNWfont-jis-misc \
-    desc="X Window System font files based on Japanese Industrial Standard, JIS X 9051-1984: 16-dots Matrix Character Patterns for Display Devices" \
-    name="Japanese Industrial Standard 9051-1984 bitmap fonts"

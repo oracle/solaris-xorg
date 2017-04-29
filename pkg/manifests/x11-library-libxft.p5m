@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -39,6 +39,4 @@ link path=usr/lib/libXft.so target=libXft.so.2
 file path=usr/lib/libXft.so.2
 file path=usr/lib/pkgconfig/xft.pc
 file path=usr/share/man/man3/Xft.3
-legacy pkg=SUNWxwxft desc="Xft (X Freetype) Library" \
-    name="Xft (X Freetype) Library"
 depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

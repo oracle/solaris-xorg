@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
@@ -141,5 +141,3 @@ driver name=i915 perms="* 0644 root sys" \
     alias=pci8086,3582 \
     alias=pci8086,a001 \
     alias=pci8086,a011
-legacy pkg=SUNWdrmr desc="Direct Rendering Manager kernel drivers and modules" \
-    name="DRM Kernel Drivers, (Root)"

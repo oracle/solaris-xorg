@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,11 +30,6 @@ set name=pkg.description \
     value="A group package that provides the same core set of X11 user manual pages as the SUNWxwman & SUNWxorg-client-docs package for prior Solaris releases"
 set name=facet.doc.man value=true
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-legacy pkg=SUNWxorg-client-docs \
-    desc="Documentation for X Window System client programs based on X.Org Foundation open source release" \
-    name="X.Org Foundation X client programs documentation"
-legacy pkg=SUNWxwman desc="X Window System online user man pages" \
-    name="X Window System online user man pages"
 
 ### Depends on packages split out of the old SVR4 versions
 

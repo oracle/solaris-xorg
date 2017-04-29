@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,6 +34,3 @@ set name=pkg.description \
     value="VNC client based on the TigerVNC open source release that displays a session over RFB protocol from a VNC server"
 file path=usr/bin/vncviewer
 file path=usr/share/man/man1/vncviewer.1
-legacy pkg=SUNWvncviewer \
-    desc="VNC client based on the TigerVNC open source release that displays a session over RFB protocol from a VNC server" \
-    name="VNC viewer client"

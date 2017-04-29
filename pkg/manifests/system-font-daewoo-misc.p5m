@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,6 +33,3 @@ file path=usr/share/fonts/X11/daewoo/fonts.dir
 file path=usr/share/fonts/X11/daewoo/hanglg16.pcf
 file path=usr/share/fonts/X11/daewoo/hanglm16.pcf
 file path=usr/share/fonts/X11/daewoo/hanglm24.pcf
-legacy pkg=SUNWfont-daewoo-misc \
-    desc="X Window System font files contributed to X.Org Foundation open source release by Daewoo Electronics" \
-    name="Korean bitmap fonts from Daewoo Electronics"

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -24,9 +24,6 @@ set name=pkg.summary value="Xorg server video drivers group"
 set name=pkg.description \
     value="A group package that provides all of the available Xorg video drivers for a given platform"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-legacy pkg=SUNWxorg-graphics-ddx \
-    desc="Graphics device DDX modules for X Window System server based on X.Org Foundation open source release" \
-    name="X.Org Foundation Xserver Graphics Device Modules"
 
 ### Depends on packages delivering the drivers
 

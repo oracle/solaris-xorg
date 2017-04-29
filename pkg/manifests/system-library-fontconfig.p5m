@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -555,9 +555,3 @@ file path=usr/share/man/man3lib/libfontconfig.3lib
 file path=usr/share/man/man5/fonts-conf.5
 link path=usr/share/man/man5/fonts.conf.5 target=fonts-conf.5
 dir  path=var/cache/fontconfig
-legacy pkg=SUNWfontconfig desc="Fontconfig library" name="Fontconfig library"
-legacy pkg=SUNWfontconfig-docs desc="Fontconfig library documentation" \
-    name="Fontconfig library documentation" facet.doc=true
-legacy pkg=SUNWfontconfig-root \
-    desc="Fontconfig library configuration files (/etc/fonts)" \
-    name="Fontconfig library configuration files"

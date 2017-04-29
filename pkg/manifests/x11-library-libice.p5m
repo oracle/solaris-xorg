@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -56,7 +56,4 @@ file path=usr/share/doc/libICE/ice.pdf.db
 file path=usr/share/doc/libICE/ice.txt
 file path=usr/share/doc/libICE/ice.xml
 file path=usr/share/man/man1/iceauth.1
-legacy pkg=SUNWxwice \
-    desc="Library and utilities to support the X Window System Inter-Client Exchange (ICE) protocol" \
-    name="X Window System Inter-Client Exchange (ICE) Components"
 depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

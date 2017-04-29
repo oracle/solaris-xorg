@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,6 +25,3 @@ set name=pkg.description \
     value="Symbolic links for X Window System software compatibility with other releases"
 link path=usr/X11R6 target=X11 facet.compat.x11-links=true
 link path=usr/openwin target=X11 facet.compat.x11-links=true
-legacy pkg=SUNWxorg-compatlinks \
-    desc="Symbolic links for X Window System software compatibility with other releases" \
-    name="X11 Compatibility Links"

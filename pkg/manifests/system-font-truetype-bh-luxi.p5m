@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -44,6 +44,3 @@ file path=usr/share/fonts/TrueType/bh-luxi/luxisb.ttf
 file path=usr/share/fonts/TrueType/bh-luxi/luxisbi.ttf
 file path=usr/share/fonts/TrueType/bh-luxi/luxisr.ttf
 file path=usr/share/fonts/TrueType/bh-luxi/luxisri.ttf
-legacy pkg=SUNWttf-bh-luxi \
-    desc="Luxi family of TrueType fonts designed by Bigelow & Holmes for the XFree86 Project" \
-    name="Luxi font family from Bigelow & Holmes"

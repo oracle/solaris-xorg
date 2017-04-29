@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,5 +33,3 @@ file path=usr/lib/X11/fs/config
 file path=usr/sbin/fsadmin
 file path=usr/share/man/man1/fsadmin.1
 file path=usr/share/man/man1/xfs.1
-legacy pkg=SUNWxwfs desc="X Window System font server" \
-    name="X Window System Font server"

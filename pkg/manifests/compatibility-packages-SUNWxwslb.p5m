@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,8 +29,6 @@ set name=pkg.summary value="X Window System lint libraries group"
 set name=pkg.description \
     value="A group package that provides the same set of lint libraries for X11 client libraries as the SUNWxwslb package for prior Solaris releases"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-legacy pkg=SUNWxwslb desc="X Window System lint libraries" \
-    name="X Window System lint libraries for programmers."
 
 ### Depends on packages delivering the libraries now
 

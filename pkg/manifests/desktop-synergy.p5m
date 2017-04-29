@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,6 +28,3 @@ file path=usr/bin/synergys
 file path=usr/lib/synergy/plugins/libns.so
 file path=usr/share/man/man1/synergyc.1
 file path=usr/share/man/man1/synergys.1
-legacy pkg=SUNWsynergy \
-    desc="Synergy permits sharing Xorg Mouse/Keyboard across several networked desktops including Windows and MacOS" \
-    name="Synergy Mouse/Keyboard sharing"

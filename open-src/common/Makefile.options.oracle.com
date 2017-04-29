@@ -1,6 +1,6 @@
 # X build options for Oracle Solaris -*- Makefile -*-
 #
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -49,9 +49,6 @@ LICENSE_CHOICE_SET = yes
 # from the X.Org source tree for bug workarounds/compatibility tweaks.
 VENDOR_NAME = Oracle Corporation, based on X.Org Foundation sources
 VENDOR_SUPPORT_URL = http://support.oracle.com/
-
-# Additional pkg transforms to set Oracle Solaris branding
-PKG_BRANDING_TRANSFORMS = branding_Oracle
 
 # Reference repository for pkglint to check against
 PKGLINT_REFERENCE_REPO = http://ipkg.us.oracle.com/solaris12/dev/

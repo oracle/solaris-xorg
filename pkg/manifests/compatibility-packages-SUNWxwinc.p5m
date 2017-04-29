@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,9 +30,6 @@ set name=pkg.description \
     value="A group package that provides the same core set of X11 headers and developer files as the SUNWxwinc package for prior Solaris releases"
 set name=facet.devel value=true
 set name=info.classification value=org.opensolaris.category.2008:Development/X11
-legacy pkg=SUNWxwinc \
-    desc="X Window System header & pkgconfig files needed to build software" \
-    name="X Window System include files"
 
 ### Depends on packages split out of the old SVR4 versions
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -79,6 +79,3 @@ file path=usr/share/fonts/TrueType/google-droid/RobotoCondensed-Italic.ttf
 file path=usr/share/fonts/TrueType/google-droid/RobotoCondensed-Regular.ttf
 file path=usr/share/fonts/TrueType/google-droid/fonts.dir
 file path=usr/share/fonts/TrueType/google-droid/fonts.scale
-legacy pkg=SUNWttf-google-droid \
-    desc="TrueType fonts designed by Ascender Corp for the Android mobile platform from Google" \
-    name="Droid font family from Google's Android project"

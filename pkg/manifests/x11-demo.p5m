@@ -43,8 +43,6 @@ file path=usr/share/man/man1/ico.1
 file path=usr/share/man/man1/xeyes.1
 file path=usr/share/man/man1/xgc.1
 file path=usr/share/man/man1/xlogo.1
-legacy pkg=SUNWxwdem desc="X Window System demo programs" \
-    name="X Window System demo programs"
 
 # Xlogo app-defaults references icons in xbitmaps
 depend type=require fmri=pkg:/x11/data/xbitmaps

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -136,6 +136,3 @@ file path=usr/share/doc/freetype/ft2-version.html
 file path=usr/share/doc/freetype/ft2-winfnt_fonts.html
 link path=usr/share/doc/freetype/index.html target=ft2-toc.html
 file path=usr/share/man/man1/freetype-config.1
-legacy pkg=SUNWfreetype2 \
-    desc="FreeType2 font handling library and rendering engine" \
-    name="FreeType2 Font library"

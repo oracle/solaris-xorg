@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,15 +25,6 @@ set name=pkg.summary \
 set name=pkg.description \
     value="A group package that provides the same core set of X11 client programs and libraries as the SUNWxwplt and SUNWxorg-client-programs packages for prior Solaris releases"
 set name=info.classification value=org.opensolaris.category.2008:System/X11
-legacy pkg=SUNWxorg-client-programs \
-    desc="X Window System client programs based on X.Org Foundation open source release" \
-    name="X.Org Foundation X Client Programs"
-legacy pkg=SUNWxorg-clientlibs \
-    desc="X Window System client libraries based on X.Org Foundation open source release" \
-    name="X.Org Foundation X Client Libraries"
-legacy pkg=SUNWxwplt \
-    desc="X Window System platform software (required & common client libraries and applications)" \
-    name="X Window System platform software"
 
 ### Depends on packages split out of the old SVR4 versions
 

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,7 +40,7 @@
 
 #
 # For kernel/drv, set .conf files to mode 0644.  Assume all other
-# files there are drivers, and give them mode 0755.
+# files there are drivers, and give them mode 0555.
 #
 <transform file path=.*kernel/drv/.+\.conf -> default mode 0644>
 <transform file path=.*kernel/drv/.+ -> default mode 0555>
@@ -54,17 +54,6 @@
 <transform file dir -> default group bin>
 <transform file -> default mode 0444>
 <transform dir -> default mode 0755>
-
-#
-# Defaults for legacy metadata for SVR4 package information
-#
-<transform legacy -> default vendor "OpenSolaris">
-<transform legacy -> default hotline \
-	"Please contact your local service provider">
-<transform legacy -> default arch $(ARCH)>
-<transform legacy -> default category "system">
-# This is set to the final version number delivered as SVR4 format
-<transform legacy -> default version "6.9.0.5.11.14300,REV=0.2010.06.21">
 
 #
 # All files in kernel/ subdirs are reboot-needed.

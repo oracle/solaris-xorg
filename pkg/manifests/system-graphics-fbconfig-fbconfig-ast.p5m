@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -28,10 +28,6 @@ set name=variant.arch value=sparc
 link path=usr/lib/fbconfig/libSUNWast_conf.so target=libSUNWast_conf.so.1
 file path=usr/lib/fbconfig/libSUNWast_conf.so.1
 file path=usr/lib/sparcv9/libvtsSUNWast.so.1
-legacy pkg=SUNWastfbcf arch=sparc category=application,graphics \
-    desc="Configuration and diagnostics software for AST graphics" \
-    name="AST Graphics Configuration and Diagnostics Software" \
-    version=11.0.0,REV=2010.10.22
 
 # Requires kernel driver for astfb
 depend type=require fmri=pkg:/driver/graphics/ast
