@@ -2,7 +2,7 @@
 #
 # xsetroot - X11 root window parameter (background, cursor) setting utility
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -53,6 +53,7 @@ MODULE_ARC_CASES = PSARC/2011/033
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
 MODULE_STABILITY=Committed
+MODULE_SUNTOUCH_MAN_FLAGS += -r '{__libmansuffix__, 3Xcursor}'
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xsetroot

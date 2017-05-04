@@ -2,7 +2,7 @@
 #
 # xrandr - utility to configure screen sizes and layout via XRANDR extension
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -58,6 +58,7 @@ MODULE_ARC_CASES += PSARC/2016/252
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/xrandr.man
 MODULE_STABILITY=Volatile
+MODULE_SUNTOUCH_MAN_FLAGS += -r '{__libmansuffix__, 3Xrandr}'
 
 # Compatibility links from /usr/X11/bin to /usr/bin
 MODULE_X11_BINCOMPAT_LINKS = xrandr

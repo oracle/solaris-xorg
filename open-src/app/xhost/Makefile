@@ -2,7 +2,7 @@
 #
 # xhost - utility for mananging X server access control lists
 #
-# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -50,6 +50,9 @@ SOURCE_PATCHES += manual.patch,-p1
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/xhost.man
 MODULE_STABILITY=Committed
+# The only instance in the current manpage is getaddrinfo(__libmansuffix__),
+# which is in section 3c on Solaris 11.4 & later.
+MODULE_SUNTOUCH_MAN_FLAGS += -r '{__libmansuffix__, 3c}'
 
 # ARC cases that covered this module
 # PSARC/2001/108 X11 Over IPv6

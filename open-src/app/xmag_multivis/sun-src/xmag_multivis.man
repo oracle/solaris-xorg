@@ -1,4 +1,4 @@
-.\" Copyright (c) 1994, 2008, Oracle and/or its affiliates. All rights reserved.
+.\" Copyright (c) 1994, 2017, Oracle and/or its affiliates. All rights reserved.
 .\"
 .\" Permission is hereby granted, free of charge, to any person obtaining a
 .\" copy of this software and associated documentation files (the "Software"),
@@ -19,9 +19,9 @@
 .\" FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 .\" DEALINGS IN THE SOFTWARE.
 .\"
-.TH xmag_multivis 6 "23 March 1992"
-.IX "xmag_multivis" "" "\f3xmag_multivis\f1(6) \(em screen maginifcation demo" ""
-.IX "demo" "screen" "demonstration programs" "screen magnification demo \(em \f3xmag_multivis\f1(6)"
+.TH xmag_multivis 1 "23 March 1992"
+.IX "xmag_multivis" "" "\f3xmag_multivis\f1(1) \(em screen maginifcation demo" ""
+.IX "demo" "screen" "demonstration programs" "screen magnification demo \(em \f3xmag_multivis\f1(1)"
 .SH NAME
 xmag_multivis \- magnify parts of the screen
 .SH SYNOPSIS
