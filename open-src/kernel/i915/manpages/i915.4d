@@ -1,6 +1,6 @@
 '\" te
 .\" Copyright (c) 2009, 2015, Oracle and/or its affiliates. All rights reserved.
-.TH i915 4D "15 Dec 2015" "SunOS 5.12" "Device Drivers & /dev files"
+.TH i915 4D "15 Dec 2015" "Solaris 11.4" "Device Drivers & /dev files"
 .SH NAME
 i915 \- DRI-compliant kernel driver providing graphic hardware acceleration support
 .SH DESCRIPTION
