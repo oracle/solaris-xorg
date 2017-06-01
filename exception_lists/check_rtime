@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2011, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -72,6 +72,11 @@ UNREF_OBJ       /libXext\.so\.0;\ unused\ dependency\ of .*/libX11\.so\.4
 #
 # Unreferenced objects of objects from other consolidations
 UNREF_OBJ	/lib.*\ of\ .*libstdcxx4\.so\.4
+UNREF_OBJ	libdl.*\ of\ .*libLLVM-.*\.so
+UNREF_OBJ	libpthread.*\ of\ .*libLLVM-.*\.so
+UNREF_OBJ	librt.*\ of\ .*libLLVM-.*\.so
+UNREF_OBJ	libstdc.*\ of\ .*libLLVM-.*\.so
+UNREF_OBJ	libssp.*\ of\ .*libLLVM-.*\.so
 
 #
 # Unused runpaths due to use of both relative & absolute paths

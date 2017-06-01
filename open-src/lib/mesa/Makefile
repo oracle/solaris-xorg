@@ -116,8 +116,10 @@ MODULE_COMPILER=gcc
 MODULE_COMPILER_SET=yes
 USE_PARFAIT=no
 
-MODULE_LD_OPTIONS += -M $(PWD)/mapfile.externs 
-MODULE_LD_SHARED_OPTIONS_64 = -z nodefs $(ZDISCARD_UNUSED_DEP) -lLLVM -lssp
+MODULE_LD_OPTIONS += -M $(PWD)/mapfile.externs
+# This has to be -z ignore, not -z discard-unused=dependencies, because it gets
+# processed after gcc has passed a -z record which we need to turn off here.
+MODULE_LD_SHARED_OPTIONS_64 = -z nodefs -z ignore -lLLVM -lssp
 MODULE_LD_SHARED_OPTIONS = $(MODULE_LD_SHARED_OPTIONS_$(BUILD_TYPE))
 
 MODULE_LDFLAGS += -Wl,-z,rescan-now 

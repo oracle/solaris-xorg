@@ -5,7 +5,7 @@
 #
 ###########################################################################
 #
-# Copyright (c) 1996, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 1996, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,10 +33,12 @@
 # Add /usr/bin to front of path in case user has /usr/gnu/bin default
 # Add /usr/gnu/bin to path for gnu sed/awk/etc. that configure scripts prefer
 # Add /usr/sbin to path for dtrace (to build probes in X servers)
+# Add /opt/onbld/bin to path for check_rtime
+# Add /opt/onbld/bin/${MACH} to path for ctf tools
 
 MACH="$(uname -p)"
 
-PATH=/usr/bin:${PATH}:/usr/gnu/bin:/usr/sbin:/opt/onbld/bin/${MACH}
+PATH=/usr/bin:${PATH}:/usr/gnu/bin:/usr/sbin:/opt/onbld/bin:/opt/onbld/bin/${MACH}
 export PATH
 
 # Ensure mkdir sets expected permissions for directories in proto area

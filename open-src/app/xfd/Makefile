@@ -2,7 +2,7 @@
 #
 # xfd - simple X11/Xft font display application
 #
-# Copyright (c) 2008, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -46,6 +46,9 @@ MODULE_ARC_CASES = PSARC/2008/137
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES = man/xfd.man
 MODULE_STABILITY=Committed
+
+# Allow linker to drop direct dependency on libfreetype
+MODULE_LDFLAGS = $(ZDISCARD_UNUSED_DEP)
 
 # Additional install rules beyond what upstream installs
 MODULE_ADD_INSTALL_TARGETS=install_po
