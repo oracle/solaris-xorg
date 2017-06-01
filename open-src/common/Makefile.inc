@@ -1,6 +1,6 @@
 # -*- Makefile -*- rules commonly shared among X consolidation open source dirs
 #
-# Copyright (c) 2002, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2002, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -463,9 +463,9 @@ $(WITH_PARFAIT) CONFIG_ENV += $(PARFAIT_ENV)
 CONFIG_ENV += $(MODTYPE_CONFIG_ENV) $(MODULE_CONFIG_ENV)
 
 # File created by running configure - defaults to the top-level Makefile
-# in a source directory unless AUTOCONF_TARGET_SET=yes is set
+# in a build directory unless AUTOCONF_TARGET_SET=yes is set
 AUTOCONF_TARGET_DEFAULT = $(AUTOCONF_TARGET_SET:yes=$(POUND_SIGN))
-$(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(SOURCE_DIR)/Makefile
+$(AUTOCONF_TARGET_DEFAULT)	AUTOCONF_TARGET=$(BUILD_DIR)/Makefile
 
 CONFIG_SCRIPT = ../$(SOURCE_DIR)/configure
 

@@ -123,7 +123,11 @@ MODULE_LD_SHARED_OPTIONS = $(MODULE_LD_SHARED_OPTIONS_$(BUILD_TYPE))
 MODULE_LDFLAGS += -Wl,-z,rescan-now 
 
 # pkg-config files that need to have -R added
-FIX_PC_FILES=src/*/*.pc.in src/mesa/drivers/dri/dri.pc.in
+FIX_PC_FILES += src/mesa/drivers/dri/dri.pc.in
+FIX_PC_FILES += src/egl/main/egl.pc.in
+FIX_PC_FILES += src/mesa/gl.pc.in
+FIX_PC_FILES += src/mapi/es1api/glesv1_cm.pc.in
+FIX_PC_FILES += src/mapi/es2api/glesv2.pc.in
 
 ### Include common rulesets
 include ../Makefile.inc
