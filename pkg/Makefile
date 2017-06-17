@@ -70,6 +70,11 @@ RM=             /usr/bin/rm -f
 SED=	        /usr/bin/sed
 TOUCH=          /usr/bin/touch
 
+# Script to generate manifests from history file
+NAWK=			/usr/bin/nawk
+GENERATE_HISTORY=	$(PWD)/generate-history.awk
+HISTORY=		$(PWD)/legacy/history
+
 #
 # To suppress package dependency generation on any system, regardless
 # of how it was installed, set SUPPRESSPKGDEP=true in the build
@@ -97,7 +102,11 @@ $(PDIR):
 # or install targets.
 #
 CURRENT_MANIFESTS :sh= (cd manifests; print *.p5m)
-LEGACY_MANIFESTS :sh= (cd legacy; print *.p5m)
+STATIC_LEGACY_MANIFESTS :sh= (cd legacy; print *.p5m)
+GENERATED_LEGACY_MANIFESTS_cmd = \
+    $(NAWK) -v FUNCTION=name -f $(GENERATE_HISTORY) < $(HISTORY)
+GENERATED_LEGACY_MANIFESTS = $(GENERATED_LEGACY_MANIFESTS_cmd:sh)
+LEGACY_MANIFESTS = $(STATIC_LEGACY_MANIFESTS) $(GENERATED_LEGACY_MANIFESTS)
 MANIFESTS = $(CURRENT_MANIFESTS) $(LEGACY_MANIFESTS)
 PKGS= $(MANIFESTS:%.p5m=%)
 
@@ -121,6 +130,10 @@ $(PDIR)/%.p5m: legacy/%.p5m
 
 $(PDIR)/%.p5m: %.p5m
 	$(PKGDEBUG)$(LN) -s ../$< $@
+
+$(GENERATED_LEGACY_MANIFESTS:%=$(PDIR)/%): $(HISTORY)
+	$(PKGDEBUG)$(NAWK) -v TARGET=$(@F) -v FUNCTION=manifest \
+	    -f $(GENERATE_HISTORY) < $(HISTORY) | $(PKGFMT) > $@
 
 ALL_MANIFEST_SRCS = $(MANIFESTS) $(SYNTH_MANIFESTS) $(EXCEPTION_MANIFESTS)
 ALL_MANIFESTS = $(ALL_MANIFEST_SRCS:%=$(PDIR)/%)
