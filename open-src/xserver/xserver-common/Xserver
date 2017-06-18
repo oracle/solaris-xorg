@@ -1,7 +1,7 @@
 #!/bin/ksh93
 #
 #
-# Copyright (c) 2004, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2004, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -121,6 +121,7 @@ getprop options/tcp_listen TCP_LISTEN
 getprop options/display_0_on_console CONSOLE
 getprop options/config_file CONFIG_FILE
 getprop options/vncplatform VNCPLATFORM
+getprop options/vncplatform_override VNCPLATFORM_OVERRIDE
 
 hwname=$(prtconf -b | nawk -F':[ \t]*' '/^banner-name:/ {print $2}')
 # Get the platform name that uses Xvnc instead of Xorg and clean it up. 
@@ -128,14 +129,15 @@ VNCPLATFORM=$(echo ${VNCPLATFORM}| tr -d '\\')
 
 # Determine if this is a supported platform for VNC.
 ISVNCPLATFORM=false
-if [[ ("${hwname}" != "") ]]; then
-    echo "${VNCPLATFORM}" | fgrep "${hwname}" >/dev/null
+if [[ ("${VNCPLATFORM_OVERRIDE}" != "true") && ("${hwname}" != "") ]]; then
+    echo "${VNCPLATFORM}" | /usr/bin/grep -w "${hwname}" >/dev/null
     if [[ $? -eq 0 ]] ; then
         ISVNCPLATFORM=true
     fi
 fi
 
-if [[ ("${ISVNCPLATFORM}" != "true") && (-e "${MDESC}") ]]; then
+if [[ ("${VNCPLATFORM_OVERRIDE}" != "true") &&
+    ("${ISVNCPLATFORM}" != "true") && (-e "${MDESC}") ]]; then
     strings "${MDESC}" | fgrep vnc-supported >/dev/null
     if [[ $? -eq 0 ]] ; then
         ISVNCPLATFORM=true
