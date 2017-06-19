@@ -71,7 +71,7 @@ MT-Level	See XtToolkitThreadInitialize(3XT)
 .sp
 
 .SH SEE ALSO
-.BR Xaw "(3xaw), " attributes "(5), "
+.BR Xaw "(3xaw), " attributes "(7), "
 .I Athena Widget Set - C Language Interface
 ( http://www.x.org/releases/current/doc/libXaw/ )
 
