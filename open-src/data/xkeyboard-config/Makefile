@@ -43,6 +43,12 @@ TARBALL_MD5   = bf6aa31195584cfce01b2194c3e5ea26
 TARBALL_SHA1  = 6b2f374ccef542eed8ac29f81996cf9ca81cd3b6
 TARBALL_SHA256= 1e8a1f212c96b7f71ca0b05da361cac1816d27baae1d8e03e7b53049b58d1d58
 
+# Download site for source
+SOURCE_URL=$(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME)/$(SOURCE_TARBALL_NAME)
+SOURCE_URL_SET=yes
+GIT_URL=$(FDO_GIT_URL)/$(MODULE_NAME)
+GIT_URL_SET=yes
+
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
 compat_ledcompose.patch \
