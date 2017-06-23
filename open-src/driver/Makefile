@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Xorg driver modules
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -38,7 +38,6 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-input-acecad		\
 	xf86-input-synaptics		\
 	xf86-input-vmmouse		\
-	xf86-input-hotkey		\
 	xf86-video-ati			\
 	xf86-video-cirrus		\
 	xf86-video-intel		\
@@ -57,6 +56,7 @@ OBSOLETE_SUBDIRS = \
 	xf86-input-dynapro		\
 	xf86-input-elographics		\
 	xf86-input-fpit			\
+	xf86-input-hotkey		\
 	xf86-input-hyperpen		\
 	xf86-input-jamstudio		\
 	xf86-input-magellan		\

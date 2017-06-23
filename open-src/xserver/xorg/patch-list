@@ -15,7 +15,6 @@ signal-handler.patch,-p1
 6721634.patch,-p1
 dixmods-deps.patch,-p1
 sparc-initvisuals.patch,-p1
-hotkey.patch,-p1
 vt.patch,-p1
 6906694.patch,-p1
 6912996.patch,-p1

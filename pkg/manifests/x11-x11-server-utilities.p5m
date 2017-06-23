@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,10 +23,6 @@ set name=pkg.fmri value=pkg:/x11/x11-server-utilities@$(X11PKGVERS)
 set name=pkg.summary value="X11 server state utilities"
 set name=pkg.description \
     value="A collection of common utilities for manipulating the state of an X server in a running X session."
-dir  path=etc/xdg
-dir  path=etc/xdg/autostart
-file path=etc/xdg/autostart/gnome-dispswitch.desktop
-link path=usr/X11/bin/dispswitch target=../../bin/dispswitch
 link path=usr/X11/bin/showrgb target=../../bin/showrgb
 link path=usr/X11/bin/xcmsdb target=../../bin/xcmsdb
 link path=usr/X11/bin/xgamma target=../../bin/xgamma
@@ -41,7 +37,6 @@ link path=usr/X11/bin/xrefresh target=../../bin/xrefresh
 link path=usr/X11/bin/xset target=../../bin/xset
 link path=usr/X11/bin/xsetroot target=../../bin/xsetroot
 link path=usr/X11/lib/X11/rgb.txt target=../../../share/X11/rgb.txt
-file path=usr/bin/dispswitch
 file path=usr/bin/showrgb
 file path=usr/bin/xcmsdb
 file path=usr/bin/xgamma
@@ -57,7 +52,6 @@ file path=usr/bin/xset
 file path=usr/bin/xsetroot
 file path=usr/share/X11/rgb.txt
 file path=usr/share/locale/C/LC_MESSAGES/xhost.po
-file path=usr/share/man/man1/dispswitch.1
 file path=usr/share/man/man1/showrgb.1
 file path=usr/share/man/man1/xcmsdb.1
 file path=usr/share/man/man1/xgamma.1

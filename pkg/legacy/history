@@ -144,6 +144,7 @@ x11/network/rstart@1.0.4,5.11-0.164
 x11/network/x11-network-proxies@7.7,5.12-5.12.0.0.0.93.0
 x11/optional-clients@0.5.11,5.11-0.144 compatibility/packages/SUNWxwopt@0.5.11,5.11-0.144
 x11/server/xorg/driver/xorg-efb@0.5.12,5.12-5.12.0.0.0.75.0 arch=sparc
+x11/server/xorg/driver/xorg-input-hotkey@5.12,5.12-5.12.0.0.0.128.0 arch=i386
 x11/server/xorg/driver/xorg-misc@5.12,5.12-5.12.0.0.0.26.0 x11/server/xorg/driver/xorg-video@0.5.11,5.11-0.167
 x11/server/xorg/driver/xorg-video-apm@1.2.3,5.11-0.153
 x11/server/xorg/driver/xorg-video-ark@0.7.3,5.11-0.153
