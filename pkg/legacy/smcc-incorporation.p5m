@@ -1,0 +1,75 @@
+#
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+
+#
+# Since all packages in this incorporation are obsolete, we don't regenerate
+# it every build to cause unnecessary churn, but manually update on the very
+# rare occasions that it's required.
+#
+
+set name=pkg.fmri \
+    value=pkg:/consolidation/smcc/smcc-incorporation@0.5.12,5.12-5.12.0.0.0.75.0
+set name=pkg.summary value="smcc consolidation incorporation"
+set name=pkg.description \
+    value="This incorporation constrains packages from the smcc consolidation."
+set name=pkg.depend.install-hold value=core-os.smcc
+set name=info.classification \
+    value="org.opensolaris.category.2008:Meta Packages/Incorporations"
+set name=org.opensolaris.consolidation value=smcc
+set name=variant.arch value=sparc
+depend type=incorporate fmri=SUNWafb@0.5.11-0.130
+depend type=incorporate fmri=SUNWafbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWafbw@0.5.11-0.130
+depend type=incorporate fmri=SUNWefb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWffb@0.5.11-0.130
+depend type=incorporate fmri=SUNWffbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWffbw@0.5.11-0.130
+depend type=incorporate fmri=SUNWgfb@0.5.11-0.130
+depend type=incorporate fmri=SUNWgfbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWgfbw@0.5.11-0.130
+depend type=incorporate fmri=SUNWifb@0.5.11-0.130
+depend type=incorporate fmri=SUNWifbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWifbw@0.5.11-0.130
+depend type=incorporate fmri=SUNWjfb@0.5.11-0.130
+depend type=incorporate fmri=SUNWjfbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWjfbw@0.5.11-0.130
+depend type=incorporate fmri=SUNWkfb@0.5.11-0.166
+depend type=incorporate fmri=SUNWkfbcf@0.5.11-0.166
+depend type=incorporate fmri=SUNWkfbw@0.5.11-0.166
+depend type=incorporate fmri=SUNWm64@0.5.11-0.130
+depend type=incorporate fmri=SUNWm64cf@0.5.11-0.130
+depend type=incorporate fmri=SUNWm64w@0.5.11-0.130
+depend type=incorporate fmri=SUNWnfb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWnfbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWnfbw@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWpfb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWpfbcf@0.5.11-0.130
+depend type=incorporate fmri=SUNWpfbw@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWzulu@0.5.11-0.130
+depend type=incorporate fmri=SUNWzuluc@0.5.11-0.130
+depend type=incorporate fmri=SUNWzuluw@0.5.11-0.130
+depend type=incorporate fmri=TSIpgx@0.5.11-0.130
+depend type=incorporate fmri=TSIpgxw@0.5.11-0.130
+depend type=incorporate fmri=driver/graphics/kfb@0.5.11-0.166
+depend type=incorporate fmri=system/graphics/fbconfig/fbconfig-kfb@0.5.11-0.166
+depend type=incorporate fmri=x11/server/xorg/driver/xorg-kfb@0.5.11-0.166

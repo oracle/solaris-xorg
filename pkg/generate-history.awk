@@ -55,7 +55,7 @@
     print "set name=pkg.obsolete value=true"
   }
   if (incorporate) {
-    printf "set name=org.opensolaris.consolidation %s value=$(CONSOLIDATION)\n",
+    printf "set name=org.opensolaris.consolidation %s value=default\n",
       incorporate
   }
   if (arch) {

@@ -31,6 +31,39 @@
 <transform pkg variant.arch=set-default -> \
 	emit set name=variant.arch value=$(ARCH)>
 
+
+#
+# Add a default consolidation if not set in the package
+#
+<transform set name=org.opensolaris.consolidation value=default \
+    incorporate=consolidation/(.*)/.*-incorporation-> set value %<1>>
+
+<transform pkg -> default org.opensolaris.consolidation set-default>
+<transform pkg org.opensolaris.consolidation=set-default -> \
+    emit set name=org.opensolaris.consolidation value=X>
+
+#
+# Add a default incorporate attribute if none exists.
+#
+<transform set name=org.opensolaris.consolidation -> \
+    default incorporate consolidation/%(value)/%(value)-incorporation>
+
+#
+# convert the org.opensolaris.consolidation 'incorporate' attribute
+# to a package attribute containing the incorporations that should
+# be used in incorporating this package.
+#
+<transform set name=org.opensolaris.consolidation -> emit \
+    set name=org.opensolaris.incorporation \
+        value=pkg:/%(incorporate;sep=' value=pkg:/')>
+
+#
+# Remove any incorporate decoration from the org.opensolaris.consolidation
+# package attribute.
+#
+<transform set name=org.opensolaris.consolidation -> \
+    delete incorporate .*>
+
 #
 # These aren't really transforms, but are settings which should appear in
 # every package
@@ -40,7 +73,6 @@
 # Metadata for the consolidation this package came from.
 #
 
-set name=org.opensolaris.consolidation value=X
 set name=info.maintainer-url value="https://github.com/oracle/solaris-xorg"
 set name=com.oracle.info.consolidation.repository-url \
     value="https://github.com/oracle/solaris-xorg"

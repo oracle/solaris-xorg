@@ -47,11 +47,18 @@ FSWxorg-fonts-iso8859-9@0.5.11,5.11-0.130 SUNWfont-xorg-iso8859-9@0.5.11-0.130
 FSWxorg-fonts-jiskan@0.5.11,5.11-0.130 SUNWfont-jis-misc@0.5.11-0.130
 FSWxorg-fonts-syriac@0.5.11,5.11-0.130 SUNWfont-misc-meltho@0.5.11-0.130
 FSWxorg-fonts-vera@0.5.11,5.11-0.130 SUNWttf-bitstream-vera@0.5.11-0.130
+SUNWafb@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWafbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWafbw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWastfbcf@0.5.11,5.11-0.133 system/graphics/fbconfig/fbconfig-ast@0.5.11-0.133 arch=sparc
 SUNWdrmr@0.5.11,5.11-0.133 driver/graphics/drm@0.5.11-0.133 arch=i386
+SUNWefb@0.5.12,5.11-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWefbcf@0.5.12,5.12-5.12.0.0.0.75.0 arch=sparc
 SUNWefbw@0.5.12,5.12-5.12.0.0.0.75.0 arch=sparc
 SUNWfbc@0.5.11,5.11-0.133 system/graphics/fbconfig@0.5.11-0.133 arch=sparc
+SUNWffb@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWffbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWffbw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWfont-daewoo-misc@0.5.11,5.11-0.133 system/font/daewoo-misc@0.5.11-0.133
 SUNWfont-isas-misc@0.5.11,5.11-0.133 system/font/isas-misc@0.5.11-0.133
 SUNWfont-jis-misc@0.5.11,5.11-0.133 system/font/jis-misc@0.5.11-0.133
@@ -76,7 +83,28 @@ SUNWfont-xorg-iso8859-9@0.5.11,5.11-0.133 system/font/xorg/iso8859-9@0.5.11-0.13
 SUNWfontconfig-docs@2.7.3,5.11-0.133 system/library/fontconfig/documentation@2.7.3-0.133
 SUNWfontconfig@2.7.3,5.11-0.133 system/library/fontconfig@2.7.3-0.133
 SUNWfreetype2@2.3.9,5.11-0.133 system/library/freetype-2@2.3.9-0.133
+SUNWgfb@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWgfbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWgfbw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWifb@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWifbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWifbw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWjfb@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWjfbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWjfbw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWkfb@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWkfbcf@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWkfbw@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWm64@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWm64cf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWm64w@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWnfb@0.5.12,5.11-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWnfbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWnfbw@0.5.12,5.11-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWpciaccess@0.10.9,5.11-0.133 diagnostic/scanpci@0.10.9-0.133
+SUNWpfb@0.5.12,5.11-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWpfbcf@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWpfbw@0.5.12,5.11-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWpixman@0.16.4,5.11-0.133 library/graphics/pixman@0.16.4-0.133
 SUNWsynergy@1.3.1,5.11-0.133 desktop/synergy@1.3.1-0.133
 SUNWttf-bh-luxi@0.5.11,5.11-0.133 system/font/truetype/bh-luxi@0.5.11-0.133
@@ -118,12 +146,19 @@ SUNWxwpmn@0.5.11,5.11-0.133 x11/developer/manual@0.5.11-0.133
 SUNWxwrtl@0.5.11,5.11-0.133 x11/compatibility/links-svid@0.5.11-0.133
 SUNWxwslb@0.5.11,5.11-0.133 x11/library/lint@0.5.11-0.133
 SUNWxwxft@2.1.14,5.11-0.133 x11/library/libxft@2.1.14-0.133
+SUNWzulu@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWzuluc@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWzuluw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+TSIpgx@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+TSIpgxw@0.5.11,5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 consolidation/X/X-all@5.12,5.12-5.12.0.0.0.73.0
 consolidation/X/X-redistributable@5.12,5.12-5.12.0.0.0.73.0
 driver/graphics/efb@5.12,5.12-5.12.0.0.0.79.0 arch=sparc
+driver/graphics/kfb@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 library/motif/libdpstkXm@0.5.12,5.12-5.12.0.0.0.73.0
 library/motif/libdpstkxm@5.12,5.12-5.12.0.0.0.73.0
 system/graphics/fbconfig/fbconfig-efb@5.12,5.12-5.12.0.0.0.79.0 arch=sparc
+system/graphics/fbconfig/fbconfig-kfb@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 system/graphics/sunvts/sunvts-mga@0.5.11,5.11-0.175.1.0.0.15.0 system/graphics/fbconfig/fbconfig-mga arch=sparc
 system/kernel/hardware-cursor@0.5.11,5.11-0.168
 web/browser/firefox/plugin/firefox-xrx@1.0.4,5.11-0.166
@@ -145,6 +180,7 @@ x11/network/x11-network-proxies@7.7,5.12-5.12.0.0.0.93.0
 x11/optional-clients@0.5.11,5.11-0.144 compatibility/packages/SUNWxwopt@0.5.11,5.11-0.144
 x11/server/xorg/driver/xorg-efb@0.5.12,5.12-5.12.0.0.0.75.0 arch=sparc
 x11/server/xorg/driver/xorg-input-hotkey@5.12,5.12-5.12.0.0.0.128.0 arch=i386
+x11/server/xorg/driver/xorg-kfb@0.5.11,5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 x11/server/xorg/driver/xorg-misc@5.12,5.12-5.12.0.0.0.26.0 x11/server/xorg/driver/xorg-video@0.5.11,5.11-0.167
 x11/server/xorg/driver/xorg-video-apm@1.2.3,5.11-0.153
 x11/server/xorg/driver/xorg-video-ark@0.7.3,5.11-0.153
