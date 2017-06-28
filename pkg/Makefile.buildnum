@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -69,13 +69,7 @@
 # The Solaris Update number. This will be set by the gatekeepers.
 # The value must match the update number of the release.
 #
-# Uncomment for development train:
-UPDATENUM= 0
-
-# For Solaris 11 updates, the update number is part of the tag (s11u1_01 for
-# instance):
-#UPDATENUM:sh = hg parent --template '{latesttag}\n' | \
-#        perl -l -n -e 'if ($_ =~ m/^s11u(\d+)_/) {print $1} else {exit 1}'
+UPDATENUM= 4
 
 #
 # Support Respository Update number. This is here to reserve space within the
@@ -83,6 +77,15 @@ UPDATENUM= 0
 # are being delivered within an SRU.
 #
 SRUNUM= 0
+
+# Branch Order number. This value is incremented after each release branch
+# is created off the main Solaris trunk. This ensures that test systems
+# running software from those release branches can always be updated to the
+# latest development bits. See PSARC 2017/082.
+#
+ORDERNUM= 0
+
+#
 
 #
 # Platform number. This is here to reserve space within the version
@@ -96,13 +99,11 @@ PLATNUM= 0
 # the development build) of the Solaris Update is being built. 
 # This is set by the gatekeepers.
 #
-# Uncomment for development train:
-# BUILDID= 0
 
 # As for Solaris 11 updates, the build number is part of the tag (s11u1_01 for
 # instance):
 BUILDID:sh = hg parent --template '{latesttag}\n' | \
-        perl -l -n -e 'if ($_ =~ m/^s12_0*(\d+)/) {print $1} else {exit 1}'
+        perl -l -n -e 'if ($_ =~ m/^st_0*(\d+)/) {print $1} else {exit 1}'
 
 #
 # Each (nightly) build of the code that produces packages needs to

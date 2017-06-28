@@ -174,13 +174,13 @@ $(PDIR)/%.font: $(PDIR)/%.p5m
 PKGMOGRIFY = pkgmogrify
 
 # RELEASE = uname -r for the target release
-RELEASE = 5.12
+RELEASE = 5.11
 PKGVERS_BUILTON = $(RELEASE)
 
 # The PKGVERS_BRANCH is determined by the values in the Makefile.buildnum
-# PSARC 2012/240 for package version scheme
+# PSARC 2017/082 for package version scheme
 include Makefile.buildnum
-PKGVERS_BRANCH_MAIN = 5.12.$(UPDATENUM).$(SRUNUM).$(PLATNUM)
+PKGVERS_BRANCH_MAIN = 11.$(UPDATENUM).$(SRUNUM).$(ORDERNUM).$(PLATNUM)
 PKGVERS_BRANCH = $(PKGVERS_BRANCH_MAIN).$(BUILDID).$(NIGHTLYID)
 
 PKGVERS_BUILD = $(PKGVERS_BUILTON)-$(PKGVERS_BRANCH)
@@ -203,7 +203,7 @@ PKGMOG_DEFINES =
 # bundle together components from multiple upstream packages with individual
 # version numbers
 PKGMOG_DEFINES += X11PKGVERS=7.7
-PKGMOG_DEFINES += OSPKGVERS=$(RELEASE)
+PKGMOG_DEFINES += OSPKGVERS=11.$(UPDATENUM)
 
 # Base URL for ARC cases used in opensolaris.arc_url metadata
 PKGMOG_DEFINES += ARC_URL='http://arc.opensolaris.org/caselog/'
