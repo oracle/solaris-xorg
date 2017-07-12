@@ -28,7 +28,7 @@
 #
 
 set name=pkg.fmri \
-    value=pkg:/consolidation/smcc/smcc-incorporation@0.5.12-5.12.0.0.0.75.0
+    value=pkg:/consolidation/smcc/smcc-incorporation@11.4-11.4.0.0.0.1.0
 set name=pkg.summary value="smcc consolidation incorporation"
 set name=pkg.description \
     value="This incorporation constrains packages from the smcc consolidation."
@@ -40,7 +40,7 @@ set name=variant.arch value=sparc
 depend type=incorporate fmri=SUNWafb@0.5.11-0.130
 depend type=incorporate fmri=SUNWafbcf@0.5.11-0.130
 depend type=incorporate fmri=SUNWafbw@0.5.11-0.130
-depend type=incorporate fmri=SUNWefb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWefb@11.4-11.4.0.0.0.1.0
 depend type=incorporate fmri=SUNWffb@0.5.11-0.130
 depend type=incorporate fmri=SUNWffbcf@0.5.11-0.130
 depend type=incorporate fmri=SUNWffbw@0.5.11-0.130
@@ -59,12 +59,12 @@ depend type=incorporate fmri=SUNWkfbw@0.5.11-0.166
 depend type=incorporate fmri=SUNWm64@0.5.11-0.130
 depend type=incorporate fmri=SUNWm64cf@0.5.11-0.130
 depend type=incorporate fmri=SUNWm64w@0.5.11-0.130
-depend type=incorporate fmri=SUNWnfb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWnfb@11.4-11.4.0.0.0.1.0
 depend type=incorporate fmri=SUNWnfbcf@0.5.11-0.130
-depend type=incorporate fmri=SUNWnfbw@0.5.12-5.12.0.0.0.75.0
-depend type=incorporate fmri=SUNWpfb@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWnfbw@11.4-11.4.0.0.0.1.0
+depend type=incorporate fmri=SUNWpfb@11.4-11.4.0.0.0.1.0
 depend type=incorporate fmri=SUNWpfbcf@0.5.11-0.130
-depend type=incorporate fmri=SUNWpfbw@0.5.12-5.12.0.0.0.75.0
+depend type=incorporate fmri=SUNWpfbw@11.4-11.4.0.0.0.1.0
 depend type=incorporate fmri=SUNWzulu@0.5.11-0.130
 depend type=incorporate fmri=SUNWzuluc@0.5.11-0.130
 depend type=incorporate fmri=SUNWzuluw@0.5.11-0.130

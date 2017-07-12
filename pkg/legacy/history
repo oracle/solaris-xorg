@@ -52,9 +52,9 @@ SUNWafbcf@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sp
 SUNWafbw@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWastfbcf@0.5.11-0.133 system/graphics/fbconfig/fbconfig-ast@0.5.11-0.133 arch=sparc
 SUNWdrmr@0.5.11-0.133 driver/graphics/drm@0.5.11-0.133 arch=i386
-SUNWefb@0.5.12-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-SUNWefbcf@0.5.12-5.12.0.0.0.75.0 arch=sparc
-SUNWefbw@0.5.12-5.12.0.0.0.75.0 arch=sparc
+SUNWefb@11.4-11.4.0.0.0.1.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWefbcf@11.4-11.4.0.0.0.1.0 arch=sparc
+SUNWefbw@11.4-11.4.0.0.0.1.0 arch=sparc
 SUNWfbc@0.5.11-0.133 system/graphics/fbconfig@0.5.11-0.133 arch=sparc
 SUNWffb@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWffbcf@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
@@ -98,13 +98,13 @@ SUNWkfbw@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=spa
 SUNWm64@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWm64cf@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWm64w@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-SUNWnfb@0.5.12-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWnfb@11.4-11.4.0.0.0.1.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWnfbcf@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-SUNWnfbw@0.5.12-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWnfbw@11.4-11.4.0.0.0.1.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWpciaccess@0.10.9-0.133 diagnostic/scanpci@0.10.9-0.133
-SUNWpfb@0.5.12-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWpfb@11.4-11.4.0.0.0.1.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWpfbcf@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-SUNWpfbw@0.5.12-5.12.0.0.0.75.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
+SUNWpfbw@11.4-11.4.0.0.0.1.0 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 SUNWpixman@0.16.4-0.133 library/graphics/pixman@0.16.4-0.133
 SUNWsynergy@1.3.1-0.133 desktop/synergy@1.3.1-0.133
 SUNWttf-bh-luxi@0.5.11-0.133 system/font/truetype/bh-luxi@0.5.11-0.133
@@ -126,12 +126,12 @@ SUNWxorg-graphics-ddx@0.5.11-0.133 x11/server/xorg/driver/xorg-misc@0.5.11-0.133
 SUNWxorg-headers@0.5.11-0.133 x11/header/header-xorg@0.5.11-0.133
 SUNWxorg-mesa@7.4.4-0.133 x11/library/mesa@7.4.4-0.133
 SUNWxorg-server@1.7.4-0.133 x11/server/xorg@1.7.4-0.133
-SUNWxorg-tsol-module@0.5.12-5.12.0.0.0.88.0
+SUNWxorg-tsol-module@11.4-11.4.0.0.0.1.0
 SUNWxprint-server@0.5.11-0.130
 SUNWxvnc@4.1.3-0.133 x11/server/xvnc@1.0-0.133
 SUNWxwacx@0.5.11-0.133 x11/keyboard/accessx@0.5.11-0.133
 SUNWxwdem@0.5.11-0.133 x11/demo@0.5.11-0.133
-SUNWxwdxm@0.5.12-5.12.0.0.0.73.0
+SUNWxwdxm@11.4-11.4.0.0.0.1.0
 SUNWxwfs@1.1.0-0.133 x11/xfs@1.1.0-0.133
 SUNWxwfsw@0.5.11-0.133 x11/font-utilities@0.5.11-0.133
 SUNWxwice@0.5.11-0.133 x11/library/libice@0.5.11-0.133
@@ -151,13 +151,13 @@ SUNWzuluc@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sp
 SUNWzuluw@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 TSIpgx@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 TSIpgxw@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-consolidation/X/X-all@5.12-5.12.0.0.0.73.0
-consolidation/X/X-redistributable@5.12-5.12.0.0.0.73.0
-driver/graphics/efb@5.12-5.12.0.0.0.79.0 arch=sparc
+consolidation/X/X-all@11.4-11.4.0.0.0.1.0
+consolidation/X/X-redistributable@11.4-11.4.0.0.0.1.0
+driver/graphics/efb@11.4-11.4.0.0.0.1.0 arch=sparc
 driver/graphics/kfb@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-library/motif/libdpstkXm@0.5.12-5.12.0.0.0.73.0
-library/motif/libdpstkxm@5.12-5.12.0.0.0.73.0
-system/graphics/fbconfig/fbconfig-efb@5.12-5.12.0.0.0.79.0 arch=sparc
+library/motif/libdpstkXm@11.4-11.4.0.0.0.1.0
+library/motif/libdpstkxm@11.4-11.4.0.0.0.1.0
+system/graphics/fbconfig/fbconfig-efb@11.4-11.4.0.0.0.1.0 arch=sparc
 system/graphics/fbconfig/fbconfig-kfb@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 system/graphics/sunvts/sunvts-mga@0.5.11-0.175.1.0.0.15.0 system/graphics/fbconfig/fbconfig-mga arch=sparc
 system/kernel/hardware-cursor@0.5.11-0.168
@@ -168,29 +168,29 @@ x11/extension-clients/manual@0.5.11-0.144 compatibility/packages/SUNWxwman@0.5.1
 x11/extension-clients@0.5.11-0.144 compatibility/packages/SUNWxwplt@0.5.11-0.144
 x11/header@0.5.11-0.144 compatibility/packages/SUNWxwinc@0.5.11-0.144
 x11/kernel@0.5.11-0.168
-x11/library/dps@7.7-5.12.0.0.0.73.0
+x11/library/dps@7.7-11.4.0.0.0.1.0
 x11/library/extension-clients@0.5.11-0.144 compatibility/packages/SUNWxwplt@0.5.11-0.144
-x11/library/libowconfig@5.12-5.12.0.0.0.79.0
+x11/library/libowconfig@11.4-11.4.0.0.0.1.0
 x11/library/lint@0.5.11-0.144 compatibility/packages/SUNWxwslb@0.5.11-0.144
-x11/library/toolkit/libxaw4@5.12-5.12.0.0.0.79.0
-x11/library/toolkit/libxaw5@5.12-5.12.0.0.0.79.0
+x11/library/toolkit/libxaw4@11.4-11.4.0.0.0.1.0
+x11/library/toolkit/libxaw5@11.4-11.4.0.0.0.1.0
 x11/manual@0.5.11-0.144 compatibility/packages/SUNWxwman@0.5.11-0.144
 x11/network/rstart@1.0.4-0.164
-x11/network/x11-network-proxies@7.7-5.12.0.0.0.93.0
+x11/network/x11-network-proxies@7.7-11.4.0.0.0.1.0
 x11/optional-clients@0.5.11-0.144 compatibility/packages/SUNWxwopt@0.5.11-0.144
-x11/server/xorg/driver/xorg-efb@0.5.12-5.12.0.0.0.75.0 arch=sparc
-x11/server/xorg/driver/xorg-input-hotkey@5.12-5.12.0.0.0.128.0 arch=i386
+x11/server/xorg/driver/xorg-efb@11.4-11.4.0.0.0.1.0 arch=sparc
+x11/server/xorg/driver/xorg-input-hotkey@11.4-11.4.0.0.0.1.0 arch=i386
 x11/server/xorg/driver/xorg-kfb@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
-x11/server/xorg/driver/xorg-misc@5.12-5.12.0.0.0.26.0 x11/server/xorg/driver/xorg-video@0.5.11-0.167
+x11/server/xorg/driver/xorg-misc@11.4-11.4.0.0.0.1.0 x11/server/xorg/driver/xorg-video@0.5.11-0.167
 x11/server/xorg/driver/xorg-video-apm@1.2.3-0.153
 x11/server/xorg/driver/xorg-video-ark@0.7.3-0.153
 x11/server/xorg/driver/xorg-video-chips@1.2.3-0.153
-x11/server/xorg/driver/xorg-video-efb@5.12-5.12.0.0.0.79.0 arch=sparc
+x11/server/xorg/driver/xorg-video-efb@11.4-11.4.0.0.0.1.0 arch=sparc
 x11/server/xorg/driver/xorg-video-glint@1.2.4-0.153
 x11/server/xorg/driver/xorg-video-i128@1.3.4-0.153
 x11/server/xorg/driver/xorg-video-i740@1.3.2-0.153
 x11/server/xorg/driver/xorg-video-neomagic@1.2.5-0.153
-x11/server/xorg/driver/xorg-video-nv@2.1.20-5.12.0.0.0.26.0
+x11/server/xorg/driver/xorg-video-nv@2.1.20-11.4.0.0.0.1.0
 x11/server/xorg/driver/xorg-video-radeonhd@1.3.0-0.162 arch=i386
 x11/server/xorg/driver/xorg-video-rendition@4.2.4-0.153
 x11/server/xorg/driver/xorg-video-s3@0.6.3-0.153
@@ -200,11 +200,11 @@ x11/server/xorg/driver/xorg-video-siliconmotion@1.7.4-0.153
 x11/server/xorg/driver/xorg-video-sis@0.10.3-0.153
 x11/server/xorg/driver/xorg-video-tdfx@1.4.3-0.153
 x11/server/xorg/driver/xorg-video-tga@1.2.1-0.153
-x11/server/xorg/driver/xorg-video-trident@1.3.6-5.12.0.0.0.26.0
+x11/server/xorg/driver/xorg-video-trident@1.3.6-11.4.0.0.0.1.0
 x11/server/xorg/driver/xorg-video-tseng@1.2.4-0.153
 x11/server/xorg/driver/xorg-video-wsfb@0.3.0-0.162 arch=sparc
 x11/session/xdm@1.1.9-0.144 system/display-manager/xdm@1.1.9-0.144
-x11/trusted/libxtsol@5.12-5.12.0.0.0.88.0
-x11/trusted/trusted-xorg@1.17.2-5.12.0.0.0.88.0
+x11/trusted/libxtsol@11.4-11.4.0.0.0.1.0
+x11/trusted/trusted-xorg@1.17.2-11.4.0.0.0.1.0
 x11/x11-config@0.5.11-0.144 compatibility/packages/SUNWxwplr@0.5.11-0.144
 x11/xcompmgr@1.1.5-0.144 desktop/window-manager/xcompmgr@1.1.5-0.144
