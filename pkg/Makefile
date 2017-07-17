@@ -173,24 +173,18 @@ $(PDIR)/%.font: $(PDIR)/%.p5m
 
 PKGMOGRIFY = pkgmogrify
 
-# RELEASE = uname -r for the target release
-RELEASE = 5.11
-PKGVERS_BUILTON = $(RELEASE)
-
 # The PKGVERS_BRANCH is determined by the values in the Makefile.buildnum
 # PSARC 2017/082 for package version scheme
 include Makefile.buildnum
 PKGVERS_BRANCH_MAIN = 11.$(UPDATENUM).$(SRUNUM).$(ORDERNUM).$(PLATNUM)
 PKGVERS_BRANCH = $(PKGVERS_BRANCH_MAIN).$(BUILDID).$(NIGHTLYID)
 
-PKGVERS_BUILD = $(PKGVERS_BUILTON)-$(PKGVERS_BRANCH)
-
 # Generate pkgmogrify transform file with correct build version info in
 # Build number is derived from last nv_XXX tag in hg log
 $(PDIR)/versions: transforms/versions.tmpl $(PDIR)
 	@print "## Substituting build info in versions transformation template"
 	$(PKGDEBUG) HG_ID="$$(hg id)" ; \
-	$(PERL) -p -e "s{_PKGVERS_BUILD_}{$(PKGVERS_BUILD)};" \
+	$(PERL) -p -e "s{_PKGVERS_BRANCH_}{$(PKGVERS_BRANCH)};" \
 		-e "s{_HG_ID_}{$${HG_ID}}" transforms/versions.tmpl > $@
 
 # Set variables used by pkgmogrify 

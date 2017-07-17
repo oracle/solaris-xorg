@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -25,9 +25,9 @@
 ### variables before being passed to pkgmogrify.
 
 #
-# Append ,$(PKGVERS_BUILD) to version info if no commas occur in fmri
+# Append -$(PKGVERS_BRANCH) to version info if no - occur in fmri after @
 #
-<transform set name=pkg.fmri value=^[^,]+$ -> edit value $ ,_PKGVERS_BUILD_>
+<transform set name=pkg.fmri value=^.+@[^-]+$ -> edit value $ -_PKGVERS_BRANCH_>
 
 #
 # Show hg id of the repo version this package was built from
