@@ -2,7 +2,7 @@
 #
 # libXv - Xlib-based client library for XVideo extension protocol
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=libXv
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.10
+MODULE_VERSION=1.0.11
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e0af49d7d758b990e6fef629722d4aca
-TARBALL_SHA1  = 1e93df036bb2bb01e85b7c8886760affb33b8e88
-TARBALL_SHA256= 55fe92f8686ce8612e2c1bfaf58c057715534419da700bda8d517b1d97914525
+TARBALL_MD5   = 210b6ef30dda2256d54763136faa37b9
+TARBALL_SHA1  = d79f9c56faedd682f420fa68bb9d7ff755b84579
+TARBALL_SHA256= d26c13eac99ac4504c532e8e76a1c8e4bd526471eb8a0a4ff2a88db60cb0b088
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = lintlib.patch,-p1
-SOURCE_PATCHES += CVE-2016-5407.patch,-p1
+SOURCE_PATCHES += 
 
 # Regenerate Makefile.in's from Makefile.am's after applying lintlib.patch
 AUTORECONF=yes

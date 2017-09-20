@@ -44,6 +44,7 @@
 # for implementation reasons, and the mangled names used to encode argument
 # and return value types are difficult to handle well in mapfiles.
 NOSYMSORT	usr/lib/synergy/plugins/libns.so
+NOSYMSORT	usr/MACH(bin)/fluid
 NOSYMSORT	usr/bin/synergyc
 NOSYMSORT	usr/bin/synergys
 NOSYMSORT	usr/bin/Xvnc
@@ -51,6 +52,10 @@ NOSYMSORT	usr/bin/vncconfig
 NOSYMSORT	usr/bin/vncpasswd
 NOSYMSORT	usr/bin/vncviewer
 NOSYMSORT	usr/bin/x0vncserver
+NOSYMSORT	usr/MACH(lib)/libfltk.so.1.3
+NOSYMSORT	usr/MACH(lib)/libfltk_forms.so.1.3
+NOSYMSORT	usr/MACH(lib)/libfltk_gl.so.1.3
+NOSYMSORT	usr/MACH(lib)/libfltk_images.so.1.3
 NOSYMSORT	usr/lib/MACH(mesa)/libdricore.*\.so\.1.*
 NOSYMSORT	usr/lib/MACH(mesa)/libGL\.so\.1.*
 NOSYMSORT	usr/lib/MACH(mesa)/libGLU\.so\.1.*

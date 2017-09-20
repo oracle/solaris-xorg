@@ -2,7 +2,7 @@
 #
 # xf86-video-r128 Makefile
 #
-# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-r128
 
 # Version number (used in path names)
-MODULE_VERSION=6.10.1
+MODULE_VERSION=6.10.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 770c2342141874f8a81a95ecd1839746
-TARBALL_SHA1  = 25559ee795b7f417770086a53d9acdfaad8423da
-TARBALL_SHA256= 5ebfef49831c9b12f7b7011c8314010596ac2ab0d5b9b7cfd17908e93d7de4ea
+TARBALL_MD5   = 905758eb0711bf7151c4f6c435757426
+TARBALL_SHA1  = ea3c739efda6ce785b057ac9c39f9247ae9ede8e
+TARBALL_SHA256= 84da21517f3af7617fdf341e84ccb22444d6cdab1647e4808fa631528b9a77de
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-port.patch

@@ -29,16 +29,15 @@
 MODULE_NAME=libXpm
 
 # Version number (used in path names)
-MODULE_VERSION=3.5.11
+MODULE_VERSION=3.5.12
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 769ee12a43611cdebd38094eaf83f3f0
-TARBALL_SHA1  = 77b95dd1c8cd9bc00b3b834b53d824409202acbb
-TARBALL_SHA256= c5bdafa51d1ae30086fac01ab83be8d47fe117b238d3437f8e965434090e041c
+TARBALL_MD5   = 20f4627672edb2bd06a749f11aa97302
+TARBALL_SHA1  = 4e22fefe61714209539b08051b5287bcd9ecfd04
+TARBALL_SHA256= fd6a6de3da48de8d1bb738ab6be4ad67f7cb0986c39bd3f7d51dd24f7854bdec
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = setuid.patch \
-		 25433554.patch,-p1
+SOURCE_PATCHES = setuid.patch
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2001/060

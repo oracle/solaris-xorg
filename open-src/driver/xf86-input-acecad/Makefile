@@ -2,7 +2,7 @@
 #
 # xf86-input-acecad 1.x Makefile
 #
-# Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,7 +36,7 @@ TARBALL_MD5  = a03721cae66c475e5f6513fa51142869
 TARBALL_SHA1 = 410cee68e4435dc95774fb389fcefae1b2ffe3d1
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES = 
+SOURCE_PATCHES = compile.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

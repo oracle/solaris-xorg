@@ -28,12 +28,12 @@
 MODULE_NAME=libxcb
 
 # Version number (used in path names)
-MODULE_VERSION=1.11
+MODULE_VERSION=1.12
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5a873ebd383d1a60612dd6ec6b42c781
-TARBALL_SHA1  = 8343b417d7eeb2a2c6b6c4a87a03a4fd0fc65c46
-TARBALL_SHA256= 03635d70045b9ede90778e67516135828a57de87ac508f987024f43c03620ff7
+TARBALL_MD5   = 28e552bd78bc1050b6b26ca1db0e5bb6
+TARBALL_SHA1  = 2f03490d1c75c8a3f902f74b717af6501773926a
+TARBALL_SHA256= 4adfb1b7c67e99bc9c2ccb110b2f175686576d2f792c8a71b9c8b19014057b5b
 
 # ARC cases that covered this module
 MODULE_ARC_CASES = PSARC/2010/109
@@ -46,7 +46,7 @@ UPSTREAM_PROJECT_SET = yes
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = Makefile.am.0.patch,-p1
 SOURCE_PATCHES += manpage.patch
-SOURCE_PATCHES += 19154747.patch,-p1
+SOURCE_PATCHES += python-tabs.patch
 
 # Regenerate Makefile.in's from Makefile.am's after patching them
 AUTORECONF=yes

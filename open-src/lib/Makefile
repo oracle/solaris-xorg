@@ -1,6 +1,6 @@
 # Makefile for X Consolidation Open Source Library modules
 #
-# Copyright (c) 2007, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -66,6 +66,7 @@ libXevie: libX11 libXext
 libXext: libX11 libXau
 libXfixes: libX11 libXext
 libXfont: libxtrans freetype libfontenc
+libXfont2: libxtrans freetype libfontenc
 libXft: freetype fontconfig libXrender libX11
 libXi: libX11 libXext
 libXinerama: libX11 libXext
@@ -89,6 +90,7 @@ freeglut: mesa libglu
 libepoxy: mesa
 libxkbcommon: libxcb
 libvdpau: libX11 libXext
+fltk: libX11 mesa
 
 # pixman doesn't need these itself, but its test framework uses gtk,
 # which does depend on these
@@ -132,6 +134,7 @@ OS_SUBDIRS_common = \
 	libXcursor \
 	libXevie \
 	libXfont \
+	libXfont2 \
 	libXft \
 	libXi \
 	libXinerama \
@@ -152,7 +155,8 @@ OS_SUBDIRS_common = \
 	libxshmfence \
 	libXpresent \
 	libxkbcommon \
-	libvdpau
+	libvdpau \
+	fltk
 
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 

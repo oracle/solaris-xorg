@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -26,12 +26,12 @@
 MODULE_NAME=presentproto
 
 # Version number (used in path names)
-MODULE_VERSION=1.0
+MODULE_VERSION=1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 2d569c75884455c7148d133d341e8fd6
-TARBALL_SHA1 = 432371cdc464881029c3f39f9bf81cc80a484e54
-TARBALL_SHA256 = 812c7d48721f909a0f7a2cb1e91f6eead76159a36c4712f4579ca587552839ce
+TARBALL_MD5  = 92f9dda9c870d78a1d93f366bcb0e6cd
+TARBALL_SHA1 = b1294dbb3a8337f79252142b45aa123ee1aa7602
+TARBALL_SHA256 = f69b23a8869f78a5898aaf53938b829c8165e597cda34f06024d43ee1e6d26b9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

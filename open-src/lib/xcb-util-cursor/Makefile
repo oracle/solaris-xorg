@@ -2,7 +2,7 @@
 #
 # xcb-util-cursor - XCB cursor utility library
 #
-# Copyright (c) 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2015, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -32,12 +32,12 @@ MODULE_PKGNAME=x11/library/xcb-util
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.1.2
+MODULE_VERSION=0.1.3
 
 # Checksums for upstream tarball
-TARBALL_MD5 = 88e70d92ff5616d406ce5b1b62e0c58b
-TARBALL_SHA1 = b55a92cd96c3ec1be9a26963df6d5f16e68fffea
-TARBALL_SHA256 = ed65367b810d47ab637011585135f4a84dd12e235dddcd3b26e0cfb3be21fb3a
+TARBALL_MD5 = 6ac3b17cba51aaaa36ba035a53527214
+TARBALL_SHA1 = 26562eb6d4151307f7b6a53453d360ecfc0563ac 
+TARBALL_SHA256 = 05a10a0706a1a789a078be297b5fb663f66a71fb7f7f1b99658264c35926394f
 
 # ARC cases that covered this module
 # PSARC/2015/251 Xorg server 1.17
@@ -47,7 +47,7 @@ MODULE_ARC_CASES = PSARC/2015/251
 MODULE_DESC = the xcb-util-cursor is a port of libXcursor
 UPSTREAM_PROJECT = xcb
 UPSTREAM_PROJECT_SET = yes
-ORACLE_TPNO = 22961
+ORACLE_TPNO = 34676
 ORACLE_TPNO_SET = yes
 
 MODULE_LD_OPTIONS = $(ZDISCARD_UNUSED_DEP)  

@@ -2,7 +2,7 @@
 #
 # xconsole - X window to display /dev/console messages
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xconsole
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.6
+MODULE_VERSION=1.0.7
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5f2f9d97bd078715dffea2fd05b53544
-TARBALL_SHA1  = 1b3b3a2342bb94fecc70d7401da10ef7bbcc98a0
-TARBALL_SHA256= e561959b6ee8b735a32c1050015cfd8c551ed162cabb6cb72e36ce72966855d1
+TARBALL_MD5   = 5c42e161fcd4289a463366e17683598a
+TARBALL_SHA1  = 06624727d5cd291fa5be52467e5c42c057c0ec42
+TARBALL_SHA256= d1144882df207378381bc83927906559defbf7b83a01d52c50ad44234c5851e0
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

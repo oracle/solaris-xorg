@@ -159,3 +159,66 @@
  #if !HAS_DIXREGISTERPRIVATEKEY
  #define dixPrivateKeyRegistered(key__) (*(key__) != 0)
  #endif
+--- src/compat-api.h	2017-02-02 13:12:49.747710448 -0800
++++ src/compat-api.h	2017-02-02 14:18:09.302732902 -0800
+@@ -30,6 +30,7 @@
+ 
+ #include <xorg-server.h>
+ #include <xorgVersion.h>
++#include <xf86Module.h>
+ 
+ #include <picturestr.h>
+ #ifndef GLYPH_HAS_GLYPH_PICTURE_ACCESSOR
+@@ -42,6 +43,10 @@
+ #define xf86ScrnToScreen(s) screenInfo.screens[(s)->scrnIndex]
+ #endif
+ 
++#if GET_ABI_MAJOR(ABI_VIDEODRV_VERSION) >= 22
++#define HAVE_NOTIFY_FD 1
++#endif
++
+ #ifndef XF86_SCRN_INTERFACE
+ 
+ #define SCRN_ARG_TYPE int
+@@ -83,8 +88,13 @@
+ 
+ #define SCREEN_INIT_ARGS_DECL ScreenPtr screen, int argc, char **argv
+ 
++#if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(23, 0)
++#define BLOCKHANDLER_ARGS_DECL ScreenPtr arg, pointer pTimeout
++#define BLOCKHANDLER_ARGS arg, pTimeout
++#else
+ #define BLOCKHANDLER_ARGS_DECL ScreenPtr arg, pointer timeout, pointer read_mask
+ #define BLOCKHANDLER_ARGS arg, timeout, read_mask
++#endif
+ 
+ #define WAKEUPHANDLER_ARGS_DECL ScreenPtr arg, unsigned long result, pointer read_mask
+ #define WAKEUPHANDLER_ARGS arg, result, read_mask
+@@ -227,4 +237,9 @@
+ 			  dstx, dsty)
+ #endif
+ 
++#if !HAVE_NOTIFY_FD
++#define SetNotifyFd(fd, cb, mode, data) AddGeneralSocket(fd);
++#define RemoveNotifyFd(fd) RemoveGeneralSocket(fd)
++#endif
++
+ #endif
+--- src/sna/sna_display.c	2017-02-02 14:25:05.652963704 -0800
++++ src/sna/sna_display.c	2017-02-02 14:27:10.776051393 -0800
+@@ -115,8 +115,14 @@
+ #define __DBG(x)
+ #endif
+ 
+-extern XF86ConfigPtr xf86configptr;
++extern _X_EXPORT int
++OsBlockSIGIO(void);
+ 
++extern _X_EXPORT void
++OsReleaseSIGIO(void);
++
++extern XF86ConfigPtr xf86configptr;
++
+ struct sna_crtc {
+ 	xf86CrtcPtr base;
+ 	struct drm_mode_modeinfo kmode;

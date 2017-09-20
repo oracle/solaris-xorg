@@ -2,7 +2,7 @@
 #
 # xf86-video-dummy 1.x Makefile
 #
-# Copyright (c) 2006, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-dummy
 
 # Version number (used in path names)
-MODULE_VERSION=0.3.7
+MODULE_VERSION=0.3.8
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 071e408461f2fec1764723474fbafdf4
-TARBALL_SHA1  = b4a189b12406c6cbd5a68628a740ca59acef790a
-TARBALL_SHA256= 56f84fcbc515685529ad8e10bca1072731d9c096b97c5d35ddc95cd589b98680
+TARBALL_MD5   = dfd8b9d02a5f12decd474b4c52775977
+TARBALL_SHA1  = 6d24be1c693214935b298bf6f9457ee464d5c4fd
+TARBALL_SHA256= 3712bb869307233491e4c570732d6073c0dc3d99adfdb9977396a3fdf84e95b9
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

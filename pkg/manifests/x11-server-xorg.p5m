@@ -196,6 +196,7 @@ file path=usr/include/xorg/xkbstr.h
 file path=usr/include/xorg/xorg-server.h
 file path=usr/include/xorg/xorgVersion.h
 file path=usr/include/xorg/xserver-properties.h
+file path=usr/include/xorg/xserver_poll.h
 file path=usr/include/xorg/xvdix.h
 file path=usr/include/xorg/xvmcext.h
 file path=usr/lib/$(ARCH64)/pkgconfig/xorg-server.pc

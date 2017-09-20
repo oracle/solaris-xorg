@@ -1,0 +1,36 @@
+# Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice (including the next
+# paragraph) shall be included in all copies or substantial portions of the
+# Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+# DEALINGS IN THE SOFTWARE.
+#
+set name=pkg.fmri value=pkg:/x11/library/libxfont2@__version:libXfont2__
+set name=pkg.summary \
+    value="libXfont2 - version 2 of the library for X servers and utilities to access font files"
+set name=pkg.description \
+    value="libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them.   It is used by the X servers, the X Font Server (xfs), and some font utilities (bdftopcf for instance), but should not be used by normal X11 clients.  X11 clients access fonts via either the new API's in libXft, or the legacy API's in libX11."
+dir  path=etc/X11
+dir  path=etc/X11/fontpath.d
+file path=usr/include/X11/fonts/libxfont2.h
+file path=usr/lib/$(ARCH64)/pkgconfig/xfont2.pc
+file path=usr/lib/pkgconfig/xfont2.pc
+link path=usr/lib/xorg/$(ARCH64)/libXfont2.so target=libXfont2.so.2
+file path=usr/lib/xorg/$(ARCH64)/libXfont2.so.2
+link path=usr/lib/xorg/libXfont2.so target=libXfont2.so.2
+file path=usr/lib/xorg/libXfont2.so.2
+depend type=require fmri=pkg:/x11/header/x11-protocols facet.devel=true

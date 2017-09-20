@@ -2,7 +2,7 @@
 #
 # xf86-video-ati Makefile
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-ati
 
 # Version number (used in path names)
-MODULE_VERSION=7.7.0
+MODULE_VERSION=7.8.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 59bfe0feba875c5cd28b03766aaa3b98
-TARBALL_SHA1  = 75621e6d41d0958d95dcd9b742bff3b81e853f8f
-TARBALL_SHA256= 844d1c577b145c90dc8ef027678f0c27f554363f782cd696a3aea26415b2c1c3
+TARBALL_MD5   = f34d04a755e761e03b459155fa3ddcbb
+TARBALL_SHA1  = 30c4470d1252eade1d5c5998e42b66b0ac80a638
+TARBALL_SHA256= 401f5de772928f3dc4ce43a885adb0a47a2f61aa4a9e45d2ab3d184136a9d6fa
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-port.patch disable-kms.patch

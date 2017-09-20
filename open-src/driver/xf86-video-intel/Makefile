@@ -2,7 +2,7 @@
 #
 # xf86-video-intel Makefile
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +37,8 @@ TARBALL_SHA1 = 9af9ded7a29026c211e5eb50a547e3e33976301d
 TARBALL_SHA256 = 00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf9667c9
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES=solaris-port.patch sna.patch
+SOURCE_PATCHES=	solaris-port.patch \
+		upstream.patch,-p1
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man
@@ -76,7 +77,7 @@ MODULE_CFLAGS = -DHAVE_DRI1
 # --libdir is needed to set path for XvMC libraries
 MODULE_CONFIG_OPTS=--enable-dri2 --enable-dri3 \
 	  	   --libdir='$(MODULE_FULLARCH_LIB_DIR)' \
-		   --enable-sna --enable-uxa --with-default-accel='uxa' \
+		   --disable-sna --enable-uxa --with-default-accel='uxa' \
 		   --disable-udev
 
 # echo is set to workaround configure/libtool strangeness in 2.15.0 that

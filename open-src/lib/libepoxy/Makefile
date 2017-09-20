@@ -29,12 +29,12 @@
 MODULE_NAME=libepoxy
 
 # Version number (used in path names)
-MODULE_VERSION=1.2
+MODULE_VERSION=1.4.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 12d6b7621f086c0c928887c27d90bc30
-TARBALL_SHA1  = e700520711b9e4fa07c286aa36e431d8ad4133f5
-TARBALL_SHA256= 42c328440f60a5795835c5ec4bdfc1329e75bba16b6e22b3a87ed17e9679e8f6
+TARBALL_MD5   = 678299d756c64ca9bda4fc7579b93b32
+TARBALL_SHA1  = 9c08295880642e49f7f6a1f6f1dcaf3f1c9f04d5
+TARBALL_SHA256= 935c74d4f8bdb1d2435f58ea95ac2a470368123e8e6f0618f6bc147c0956701b
 
 # ARC cases that covered this module
 # PSARC/2015/382 libepoxy 1.2
@@ -45,11 +45,11 @@ MODULE_DESC = library for handling OpenGL function pointers
 UPSTREAM = libepoxy
 UPSTREAM_URL = https://github.com/anholt/libepoxy/
 UPSTREAM_SET = yes
-ORACLE_TPNO = 23546
+ORACLE_TPNO = 34679
 ORACLE_TPNO_SET = yes
 
 # Download site for source
-SOURCE_URL = https://github.com/anholt/$(MODULE_NAME)/archive/v$(MODULE_VERSION).tar.gz
+SOURCE_URL = https://github.com/anholt/$(MODULE_NAME)/archive/$(MODULE_VERSION).tar.gz
 SOURCE_URL_SET = yes
 
 # Source tarball

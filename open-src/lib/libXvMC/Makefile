@@ -2,7 +2,7 @@
 #
 # libXvMC - Xlib-based client library for X-Video Motion Compensation extension
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,15 +29,15 @@
 MODULE_NAME=libXvMC
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.9
+MODULE_VERSION=1.0.10
 
 # Checksums for upstream tarball
-TARBALL_MD5   = eba6b738ed5fdcd8f4203d7c8a470c79
-TARBALL_SHA1  = 6fc54831734e781b2848b6f7e3bcc4f752665f21
-TARBALL_SHA256= 0703d7dff6ffc184f1735ca5d4eb9dbb402b522e08e008f2f96aee16c40a5756
+TARBALL_MD5   = 4cbe1c1def7a5e1b0ed5fce8e512f4c6
+TARBALL_SHA1  = 8c50ee4a43aff84d807da2122ec6b0d8e3ce4635
+TARBALL_SHA256= e501a079b5dfaef0897c56152770c77e05e362065cec58910289aa567277ee2e
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += CVE-2016-7953.patch,-p1
+SOURCE_PATCHES += 
 
 # Library name
 LIBNAME=XvMC

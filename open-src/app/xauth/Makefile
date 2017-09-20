@@ -2,7 +2,7 @@
 #
 # xauth - utility for managing cookies in .Xauthority files
 #
-# Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -36,12 +36,12 @@ MODULE_PKGNAME_SET=yes
 MODULE_DESC = the xauth utility for managing cookies in .Xauthority files
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.0.10
 
 # Checksums for upstream tarball
-TARBALL_MD5   = cbcbd8f2156a53b609800bec4c6b6c0e
-TARBALL_SHA1  = 54f93f0539a98900c36c4f7c8ae933f77699dc7b
-TARBALL_SHA256= 84f78c08ebc6687e2e36c9ff1f5610988c6a03fc5bf51ef89aec4d155de3028d
+TARBALL_MD5   = f3f76cb10f69b571c43893ea6a634aa4
+TARBALL_SHA1  = 87946b2af3ff13705d8eb60adae5c0bcdf839967
+TARBALL_SHA256= 5afe42ce3cdf4f60520d1658d2b17face45c74050f39af45dccdc95e73fafc4d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

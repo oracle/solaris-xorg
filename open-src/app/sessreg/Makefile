@@ -2,7 +2,7 @@
 #
 # sessreg - tool for X display manager session registration in utmpx
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -33,12 +33,12 @@ MODULE_PKGNAME=x11/session/$(MODULE_NAME)
 MODULE_PKGNAME_SET=yes
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.0
+MODULE_VERSION=1.1.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e238c89dabc566e1835e1ecb61b605b9
-TARBALL_SHA1  = a27a476f7f39ae30a16dfa25ca07c12378cff7f0
-TARBALL_SHA256= 551177657835e0902b5eee7b19713035beaa1581bbd3c6506baa553e751e017c
+TARBALL_MD5   = e475167a892b589da23edf8edf8c942d
+TARBALL_SHA1  = 09437d9da0b88acde6ca67e231870899023cc3d2
+TARBALL_SHA256= 78a76ae3f3f6a26547a34630d1b740f42344848b5fb6d7c9c7f7da255e35a6e1
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

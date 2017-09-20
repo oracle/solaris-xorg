@@ -27,17 +27,15 @@
 MODULE_NAME=libX11
 
 # Version number (used in path names)
-MODULE_VERSION = 1.6.3
+MODULE_VERSION = 1.6.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 2e36b73f8a42143142dda8129f02e4e0
-TARBALL_SHA1  = 6f2aadf8346ee00b7419bd338461c6986e274733
-TARBALL_SHA256= cf31a7c39f2f52e8ebd0db95640384e63451f9b014eed2bb7f5de03e8adc8111
+TARBALL_MD5   = 0f618db70c4054ca67cee0cc156a4255
+TARBALL_SHA1  = c32155467508dfe783f9296ef22ee6ed53cae7df
+TARBALL_SHA256= 4d3890db2ba225ba8c55ca63c6409c1ebb078a2806de59fb16342768ae63435d
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
-	CVE-2016-7942.patch,-p1 \
-	CVE-2016-7943.patch,-p1 \
 	1234757.patch,-p1 \
 	4010755.patch,-p1 \
 	4614834.patch,-p1 \
@@ -68,7 +66,7 @@ SOURCE_PATCHES = \
 	locale-zh_HK.UTF-8.patch,-p1 \
 	locale-zh_TW.UTF-8.patch,-p1 \
 	locale-zh_TW.patch,-p1 \
-	19154747.patch,-p1
+	lint-return.patch
 
 # Library name (used for specfiles/mapfiles)
 LIBNAME=X11

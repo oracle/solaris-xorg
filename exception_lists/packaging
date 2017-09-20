@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -59,10 +59,11 @@ usr/include/xcb/xselinux.h
 usr/share/xcb/xselinux.xml
 
 # Don't install until we move off HAL .fdi file for synaptics
-usr/share/X11/xorg.conf.d/50-synaptics.conf	i386
+usr/share/X11/xorg.conf.d/70-synaptics.conf	i386
 
 # Only need the normal *.pyc compiled byte-code, not the "optimized" *.pyo
 usr/lib/python3.4/vendor-packages/xcbgen/__init__.pyo
+usr/lib/python3.4/vendor-packages/xcbgen/align.pyo
 usr/lib/python3.4/vendor-packages/xcbgen/error.pyo
 usr/lib/python3.4/vendor-packages/xcbgen/expr.pyo
 usr/lib/python3.4/vendor-packages/xcbgen/matcher.pyo
@@ -94,3 +95,26 @@ usr/lib/udev                                  i386
 # without driver support for it
 usr/include/libdrm/amdgpu_drm.h
 usr/include/libdrm/vc4_drm.h
+
+# No need to deliver *.a files
+usr/lib/amd64/libfltk.a 			i386
+usr/lib/amd64/libfltk_forms.a 			i386
+usr/lib/amd64/libfltk_gl.a 			i386
+usr/lib/amd64/libfltk_images.a 			i386
+usr/lib/sparcv9/libfltk.a                       sparc
+usr/lib/sparcv9/libfltk_forms.a                 sparc
+usr/lib/sparcv9/libfltk_gl.a                    sparc
+usr/lib/sparcv9/libfltk_images.a                sparc
+usr/lib/libfltk.a 	
+usr/lib/libfltk_forms.a 	
+usr/lib/libfltk_gl.a 			
+usr/lib/libfltk_images.a 			
+
+# Not delivering the 32-bit version of fltk-config/fluid since the only
+# consumer (Xvnc) runs 64-bit 
+usr/bin/fltk-config
+usr/bin/fluid
+usr/share/man/cat1/fltk-config.1
+usr/share/man/cat1/fluid.1 
+usr/share/man/cat3/fltk.3 
+

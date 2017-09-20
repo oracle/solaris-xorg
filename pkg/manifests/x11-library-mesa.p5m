@@ -49,8 +49,8 @@ link path=usr/include/GL/glu.h target=../mesa/glu.h
 dir  path=usr/include/GL/internal
 link path=usr/include/GL/internal/dri_interface.h \
     target=../../mesa/internal/dri_interface.h
-file path=usr/include/GL/mesa_glinterop.h
 link path=usr/include/GL/osmesa.h target=../mesa/osmesa.h
+link path=usr/include/GL/wglext.h target=../mesa/wglext.h
 dir  path=usr/include/GLES
 file path=usr/include/GLES/egl.h
 file path=usr/include/GLES/gl.h
@@ -63,10 +63,12 @@ file path=usr/include/GLES2/gl2platform.h
 dir  path=usr/include/GLES3
 file path=usr/include/GLES3/gl3.h
 file path=usr/include/GLES3/gl31.h
+file path=usr/include/GLES3/gl32.h
 file path=usr/include/GLES3/gl3ext.h
 file path=usr/include/GLES3/gl3platform.h
 dir  path=usr/include/KHR
 file path=usr/include/KHR/khrplatform.h
+file path=usr/include/gbm.h
 dir  path=usr/include/mesa
 file path=usr/include/mesa/gl.h
 file path=usr/include/mesa/gl_mangle.h
@@ -78,6 +80,7 @@ file path=usr/include/mesa/glx_mangle.h
 file path=usr/include/mesa/glxext.h
 dir  path=usr/include/mesa/internal
 file path=usr/include/mesa/internal/dri_interface.h
+file path=usr/include/mesa/mesa_glinterop.h
 file path=usr/include/mesa/osmesa.h
 file path=usr/include/mesa/wglext.h
 link path=usr/lib/$(ARCH64)/libEGL.so target=libEGL.so.1
@@ -96,12 +99,17 @@ link path=usr/lib/$(ARCH64)/libGLESv2.so.2.0.0 \
     target=../GL/$(ARCH64)/libGLESv2.so.2.0.0
 link path=usr/lib/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/lib/$(ARCH64)/libGLU.so.1 target=../GL/$(ARCH64)/libGLU.so.1
+link path=usr/lib/$(ARCH64)/libgbm.so target=libgbm.so.1
+link path=usr/lib/$(ARCH64)/libgbm.so.1 target=libgbm.so.1.0.0
+link path=usr/lib/$(ARCH64)/libgbm.so.1.0.0 \
+    target=../GL/$(ARCH64)/libgbm.so.1.0.0
 link path=usr/lib/$(ARCH64)/libglapi.so target=libglapi.so.0
 link path=usr/lib/$(ARCH64)/libglapi.so.0 target=libglapi.so.0.0.0
 link path=usr/lib/$(ARCH64)/libglapi.so.0.0.0 \
     target=../GL/$(ARCH64)/libglapi.so.0.0.0
 file path=usr/lib/$(ARCH64)/pkgconfig/dri.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/egl.pc
+file path=usr/lib/$(ARCH64)/pkgconfig/gbm.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/gl.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/glesv1_cm.pc
 file path=usr/lib/$(ARCH64)/pkgconfig/glesv2.pc
@@ -123,6 +131,10 @@ link path=usr/lib/GL/$(ARCH64)/libGLESv2.so.2.0.0 \
 link path=usr/lib/GL/$(ARCH64)/libGLU.so target=libGLU.so.1
 link path=usr/lib/GL/$(ARCH64)/libGLU.so.1 \
     target=../../mesa/$(ARCH64)/libGLU.so.1
+link path=usr/lib/GL/$(ARCH64)/libgbm.so target=libgbm.so.1
+link path=usr/lib/GL/$(ARCH64)/libgbm.so.1 target=libgbm.so.1.0.0
+link path=usr/lib/GL/$(ARCH64)/libgbm.so.1.0.0 \
+    target=../../mesa/$(ARCH64)/libgbm.so.1.0.0
 link path=usr/lib/GL/$(ARCH64)/libglapi.so target=libglapi.so.0
 link path=usr/lib/GL/$(ARCH64)/libglapi.so.0 target=libglapi.so.0.0.0
 link path=usr/lib/GL/$(ARCH64)/libglapi.so.0.0.0 \
@@ -138,6 +150,9 @@ link path=usr/lib/GL/libGLESv2.so.2 target=libGLESv2.so.2.0.0
 link path=usr/lib/GL/libGLESv2.so.2.0.0 target=../mesa/libGLESv2.so.2.0.0
 link path=usr/lib/GL/libGLU.so target=libGLU.so.1
 link path=usr/lib/GL/libGLU.so.1 target=../mesa/libGLU.so.1
+link path=usr/lib/GL/libgbm.so target=libgbm.so.1
+link path=usr/lib/GL/libgbm.so.1 target=libgbm.so.1.0.0
+link path=usr/lib/GL/libgbm.so.1.0.0 target=../mesa/libgbm.so.1.0.0
 link path=usr/lib/GL/libglapi.so target=libglapi.so.0
 link path=usr/lib/GL/libglapi.so.0 target=libglapi.so.0.0.0
 link path=usr/lib/GL/libglapi.so.0.0.0 target=../mesa/libglapi.so.0.0.0
@@ -154,6 +169,9 @@ link path=usr/lib/libGLESv2.so.2 target=libGLESv2.so.2.0.0
 link path=usr/lib/libGLESv2.so.2.0.0 target=GL/libGLESv2.so.2.0.0
 link path=usr/lib/libGLU.so target=libGLU.so.1
 link path=usr/lib/libGLU.so.1 target=GL/libGLU.so.1
+link path=usr/lib/libgbm.so target=libgbm.so.1
+link path=usr/lib/libgbm.so.1 target=libgbm.so.1.0.0
+link path=usr/lib/libgbm.so.1.0.0 target=GL/libgbm.so.1.0.0
 link path=usr/lib/libglapi.so target=libglapi.so.0
 link path=usr/lib/libglapi.so.0 target=libglapi.so.0.0.0
 link path=usr/lib/libglapi.so.0.0.0 target=GL/libglapi.so.0.0.0
@@ -173,6 +191,9 @@ link path=usr/lib/mesa/$(ARCH64)/libGLESv2.so.2 target=libGLESv2.so.2.0.0
 file path=usr/lib/mesa/$(ARCH64)/libGLESv2.so.2.0.0
 link path=usr/lib/mesa/$(ARCH64)/libGLU.so target=libGLU.so.1
 file path=usr/lib/mesa/$(ARCH64)/libGLU.so.1
+link path=usr/lib/mesa/$(ARCH64)/libgbm.so target=libgbm.so.1
+link path=usr/lib/mesa/$(ARCH64)/libgbm.so.1 target=libgbm.so.1.0.0
+file path=usr/lib/mesa/$(ARCH64)/libgbm.so.1.0.0
 link path=usr/lib/mesa/$(ARCH64)/libglapi.so target=libglapi.so.0
 link path=usr/lib/mesa/$(ARCH64)/libglapi.so.0 target=libglapi.so.0.0.0
 file path=usr/lib/mesa/$(ARCH64)/libglapi.so.0.0.0
@@ -191,6 +212,9 @@ link path=usr/lib/mesa/libGLESv2.so.2 target=libGLESv2.so.2.0.0
 file path=usr/lib/mesa/libGLESv2.so.2.0.0
 link path=usr/lib/mesa/libGLU.so target=libGLU.so.1
 file path=usr/lib/mesa/libGLU.so.1
+link path=usr/lib/mesa/libgbm.so target=libgbm.so.1
+link path=usr/lib/mesa/libgbm.so.1 target=libgbm.so.1.0.0
+file path=usr/lib/mesa/libgbm.so.1.0.0
 link path=usr/lib/mesa/libglapi.so target=libglapi.so.0
 link path=usr/lib/mesa/libglapi.so.0 target=libglapi.so.0.0.0
 file path=usr/lib/mesa/libglapi.so.0.0.0
@@ -199,6 +223,7 @@ dir  path=usr/lib/mesa/modules/extensions
 file path=usr/lib/mesa/modules/extensions/libglx.so
 file path=usr/lib/pkgconfig/dri.pc
 file path=usr/lib/pkgconfig/egl.pc
+file path=usr/lib/pkgconfig/gbm.pc
 file path=usr/lib/pkgconfig/gl.pc
 file path=usr/lib/pkgconfig/glesv1_cm.pc
 file path=usr/lib/pkgconfig/glesv2.pc

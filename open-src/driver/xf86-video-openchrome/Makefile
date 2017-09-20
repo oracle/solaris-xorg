@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2009, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2009, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -40,12 +40,12 @@ GIT_URL		= $(FDO_GIT_URL)/openchrome/xf86-video-openchrome
 GIT_URL_SET	= yes
 
 # Version number (used in path names)
-MODULE_VERSION=0.4.0
+MODULE_VERSION=0.6.0
 
 # Checksums for upstream tarball
-TARBALL_MD5  = eff2ca08a530c67144531466500af8cb
-TARBALL_SHA1 = 8889aa051acfd2007c4bbd8d5efbaf6f3d39db51
-TARBALL_SHA256 = 73e7966d01d0d644d3b9204e8bfc106cb99069c58e981626e7352f2693e3e927
+TARBALL_MD5  = c87f164739729b00f7e1a9934420c22d
+TARBALL_SHA1 = 2077181ded4d86e9cbe6d3e9b1245339692e848d
+TARBALL_SHA256 = da2975c6379358de52c1257710c67eb59139a7f0a1cd28d00cc64cc3e1c02f75
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES += ldflags.patch,-p1

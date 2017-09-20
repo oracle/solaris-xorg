@@ -2,7 +2,7 @@
 #
 # libXrender - Xlib-based client library for Render extension protocol
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,16 +29,15 @@
 MODULE_NAME=libXrender
 
 # Version number (used in path names)
-MODULE_VERSION=0.9.9
+MODULE_VERSION=0.9.10
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 5db92962b124ca3a8147daae4adbd622
-TARBALL_SHA1  = 31bf63dfb4fcb82a6db73abe98df87cb50c17176
-TARBALL_SHA256= fc2fe57980a14092426dffcd1f2d9de0987b9d40adea663bd70d6342c0e9be1a
+TARBALL_MD5   = 802179a76bded0b658f4e9ec5e1830a4
+TARBALL_SHA1  = d55106de9260c2377c19d271d9b677744a6c7e81
+TARBALL_SHA256= c06d5979f86e64cabbde57c223938db0b939dff49fdb5a793a1d3d0396650949
 
 # Patches to apply to source after unpacking, in order
-SOURCE_PATCHES += CVE-2016-7949.patch,-p1
-SOURCE_PATCHES += CVE-2016-7950.patch,-p1
+SOURCE_PATCHES += 
 
 # Library name
 LIBNAME=Xrender

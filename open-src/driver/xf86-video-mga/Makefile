@@ -2,7 +2,7 @@
 #
 # xf86-video-mga Makefile
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-mga
 
 # Version number (used in path names)
-MODULE_VERSION=1.6.4
+MODULE_VERSION=1.6.5
 
 # Checksums for upstream tarball
-TARBALL_MD5   = cd3db8370caa3e607614ea4e74d4c350
-TARBALL_SHA1  = 2f8cecdb6fe3f0addb47a3a50928ff0705a31352
-TARBALL_SHA256= 48c6690b6751c76f53de64f8dbeaa9d6c62dbcfe890c768fd87167951247d44f
+TARBALL_MD5   = 3ee2549247e01de3e7bce52c27483118
+TARBALL_SHA1  = a21605f79694ac2b57fe1abaf049732ac60ac90b
+TARBALL_SHA256= b663cd8e6364f7c4e2637b9fcab9861d0e3971518c73b00d213f6545a1289422
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = \
@@ -42,7 +42,6 @@ SOURCE_PATCHES = \
 		g200se_pilot3_offscreen.patch,-p1 \
 		sparc.patch,-p1 \
 		rom_map.patch,-p1 \
-		22993389.patch,-p1 \
 		22993744.patch,-p1
 
 # Regenerate Makefile after libraries.patch patches src/Makefile.am

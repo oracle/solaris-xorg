@@ -2,7 +2,7 @@
 #
 # Xorg server Makefile
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,9 +37,9 @@ GIT_URL_SET = yes
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 043d720bf2472a65bb8f0daa97f83dfa
-TARBALL_SHA1  = b3d8818bb3e1deeeb8f02d741c1223a72182e63c
-TARBALL_SHA256= ea739c22517cdbe2b5f7c0a5fd05fe8a10ac0629003e71c0c7862f4bb60142cd
+TARBALL_MD5   = 015d2fc4b9f2bfe7a626edb63a62c65e
+TARBALL_SHA1  = 77f580ffa22a8bbcc3536e74e19114e446417a9c
+TARBALL_SHA256= 677a8166e03474719238dfe396ce673c4234735464d6dadf2959b600d20e5a98
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds
@@ -91,8 +91,10 @@ MODULE_ARC_CASES += PSARC/2012/320
 MODULE_ARC_CASES += PSARC/2013/091
 # PSARC/2015/251 Xorg server 1.17
 MODULE_ARC_CASES += PSARC/2015/251
-# PSARC/2015/251 Xorg server 1.18
+# PSARC/2016/293 Xorg server 1.18
 MODULE_ARC_CASES += PSARC/2016/293
+# PSARC/2017/212 Xorg server 1.19
+MODULE_ARC_CASES += PSARC/2017/212
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES= \
@@ -144,6 +146,7 @@ MODULE_CONFIG_OPTS = $(XSERVER_CONFIG_OPTS) \
         --enable-builddocs \
 	--enable-kdrive --enable-xephyr --disable-xsdl \
 	--disable-systemd-logind \
+	--disable-glamor \
 	MKFONTDIR="$(MKFONTDIR)" \
 	MKFONTSCALE="$(MKFONTSCALE)"
 

@@ -29,17 +29,15 @@
 MODULE_NAME=libXi
 
 # Version number (used in path names)
-MODULE_VERSION=1.7.6
+MODULE_VERSION=1.7.9
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 510e555ecfffa8d2298a0f42b725e563
-TARBALL_SHA1  = 0bf1c2b8279915d8c94e45cd0b9ec064f7a177a9
-TARBALL_SHA256= 1f32a552cec0f056c0260bdb32e853cec0673d2f40646ce932ad5a9f0205b7ac
+TARBALL_MD5   = 1f0f2719c020655a60aee334ddd26d67
+TARBALL_SHA1  = 70d1148c39c0eaa7d7c18370f20709383271f669
+TARBALL_SHA256= c2e6b8ff84f9448386c1b5510a5cf5a16d788f76db018194dacdc200180faf45
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-abi.patch,-p1
-SOURCE_PATCHES += CVE-2016-7945+CVE-2016-7946.patch,-p1
-SOURCE_PATCHES += 25384108.patch,-p1
 
 # Need to regen Makefile.in after solaris-abi.patch changes Makefile.am
 AUTORECONF=yes

@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -27,12 +27,12 @@
 MODULE_NAME=videoproto
 
 # Version number (used in path names)
-MODULE_VERSION=2.3.2
+MODULE_VERSION=2.3.3
 
 # Checksums for upstream tarball
-TARBALL_MD5   = e658641595327d3990eab70fdb55ca8b
-TARBALL_SHA1  = aa60e3b93c6a78ad03f1c502b910e7c45faaedbc
-TARBALL_SHA256= 8dae168cb820fcd32f564879afb3f24d27c176300d9af66819a18265539bd4b6
+TARBALL_MD5   = fe86de8ea3eb53b5a8f52956c5cd3174 
+TARBALL_SHA1  = 4556b5c2243a2ca290ea2140dc1a427c4bac8ba2
+TARBALL_SHA256= c7803889fd08e6fcaf7b68cc394fb038b2325d1f315e571a6954577e07cca702
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES=	

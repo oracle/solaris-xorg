@@ -35,7 +35,7 @@ MODULE_LICENSE          = Mesa License (Mixed: MIT, LGPLv2, others)
 MODULE_LICENSE_SET      = yes
 MODULE_LICENSE_PREPEND	= $(GPL_CHOICE_FILE)
 MODULE_DESC		= the Mesa 3-D Graphics Libraries
-ORACLE_TPNO		= 31745
+ORACLE_TPNO		= 35915
 
 # ARC cases that covered this module
 # LSARC/2005/109 MESA, Open Source OpenGL clone
@@ -50,12 +50,12 @@ MODULE_ARC_CASES += PSARC/2016/560
 MODULE_ARC_CASES += PSARC/2017/085
 
 # Version number (used in path names)
-MODULE_VERSION=12.0.3
+MODULE_VERSION=13.0.6
 
 # Checksums for upstream tarball
-TARBALL_MD5  = 60c5f9897ddc38b46f8144c7366e84ad
-TARBALL_SHA1 = 3661e2f6b3ff71b7498fa787848959059517e92a
-TARBALL_SHA256 = 79abcfab3de30dbd416d1582a3cf6b1be308466231488775f1b7bb43be353602 
+TARBALL_MD5  = f37ba7b7c43dc6448a6c35ee8ce699e7
+TARBALL_SHA1 = 7bbb264673897cf119b16b15597ec07209e62b4a
+TARBALL_SHA256 = 1076590f29103f022a2cd87e6dff6ae77072013745603d06b0410c373ab2bb1a
 
 # Source tarball
 SOURCE_TARBALL_NAME=mesa-$(MODULE_VERSION).tar.gz
@@ -93,7 +93,7 @@ MODULE_CONFIG_OPTS_32 = --disable-gallium-llvm
 MODULE_CONFIG_OPTS_64 =  --enable-gallium-llvm --disable-llvm-shared-libs
 
 MODULE_CONFIG_OPTS = --enable-shared --with-dri-drivers='$(DRI_DRIVER_LIST)'
-MODULE_CONFIG_OPTS += --with-gallium-drivers=swrast 
+MODULE_CONFIG_OPTS += --with-gallium-drivers=swrast  --enable-gbm --disable-shader-cache
 MODULE_CONFIG_OPTS +=  --with-dri-driverdir='$(X11_SERVERMODS_DIR)/dri$(ARCHLIBSUBDIR)' 
 MODULE_CONFIG_OPTS += $(MODULE_CONFIG_OPTS_$(BUILD_TYPE))
 
@@ -139,14 +139,14 @@ LIBRARIES_TO_LINK = libGL.so.1.2.0 libglapi.so.0.0.0
 
 # Creating these separately here so that we avoid creating /usr/X11/*
 # links for these since they are newly delivered.
-LIBRARIES_TO_LINK_NEW += libEGL.so.1.0.0 libGLESv1_CM.so.1.1.0 libGLESv2.so.2.0.0
+LIBRARIES_TO_LINK_NEW += libEGL.so.1.0.0 libGLESv1_CM.so.1.1.0 libGLESv2.so.2.0.0 libgbm.so.1.0.0
 MESA_LIBDIR = $(PROTODIR)/usr/lib/mesa$(ARCHLIBSUBDIR)
 
 HEADERS_TO_MOVE = gl.h gl_mangle.h glext.h \
-	glx.h glx_mangle.h glxext.h \
-	osmesa.h wglext.h 
+	glx.h glx_mangle.h glxext.h
+HEADERS_TO_CP = osmesa.h wglext.h mesa_glinterop.h
 
-HEADERS_TO_DIRECT_LINK = osmesa.h
+HEADERS_TO_DIRECT_LINK = osmesa.h wglext.h
 HEADERS_TO_RUNTIME_LINK = gl.h glext.h glx.h glxext.h
 
 # Run just once after all other install steps are done for both 32/64-bit
@@ -157,7 +157,7 @@ install_ogl_layout:
 	mkdir -p $(PROTODIR)/usr/include/mesa/internal
 	mkdir -p $(PROTODIR)/system/volatile/opengl/include
 	mkdir -p $(PROTODIR)/system/volatile/opengl/lib/$(SUBDIR64)
-	mv $(HEADERS_TO_MOVE:%=$(PROTODIR)/usr/include/GL/%) \
+	mv -f $(HEADERS_TO_MOVE:%=$(PROTODIR)/usr/include/GL/%) \
 		$(PROTODIR)/usr/include/mesa
 	mv $(PROTODIR)/usr/include/GL/internal/dri_interface.h \
 		$(PROTODIR)/usr/include/mesa/internal
@@ -168,6 +168,8 @@ install_ogl_layout:
 	ln -sf $(HEADERS_TO_DIRECT_LINK:%=../mesa/%) \
 		$(HEADERS_TO_RUNTIME_LINK:%=../../../system/volatile/opengl/include/%) \
 		$(PROTODIR)/usr/include/GL
+	cp $(HEADERS_TO_CP:%=$(SOURCE_DIR)/include/GL/%) \
+		$(PROTODIR)/usr/include/mesa/
 	mkdir -p $(PROTODIR)/usr/lib/GL/$(SUBDIR64) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)
 	-rm -f $(PROTODIR)/usr/lib/GL/64 $(PROTODIR)/usr/lib/mesa/64
@@ -181,9 +183,9 @@ install_ogl_layout:
 		$(PROTODIR)/usr/lib/mesa/
 	mv $(LIBRARIES_TO_LINK:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/
-	mv $(LIBRARIES_TO_LINK_NEW:%=$(PROTODIR)/usr/lib/%) \
+	mv -f $(LIBRARIES_TO_LINK_NEW:%=$(PROTODIR)/usr/lib/%) \
 		$(PROTODIR)/usr/lib/mesa/
-	mv $(LIBRARIES_TO_LINK_NEW:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
+	mv -f $(LIBRARIES_TO_LINK_NEW:%=$(PROTODIR)/usr/lib/$(SUBDIR64)/%) \
 		$(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/
 	-rm -f $(PROTODIR)/usr/lib/mesa/libGL.so.1 
 	-rm -f $(PROTODIR)/usr/lib/mesa/libGL.so 
@@ -197,6 +199,8 @@ install_ogl_layout:
 	ln -sf libGL.so.1 $(PROTODIR)/usr/lib/mesa/libGL.so
 	ln -sf libglapi.so.0 $(PROTODIR)/usr/lib/mesa/libglapi.so
 	ln -sf libglapi.so.0.0.0 $(PROTODIR)/usr/lib/mesa/libglapi.so.0
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/mesa/libgbm.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/mesa/libgbm.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/mesa/libEGL.so
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/mesa/libEGL.so.1
 	ln -sf libGLESv1_CM.so.1 $(PROTODIR)/usr/lib/mesa/libGLESv1_CM.so
@@ -209,6 +213,8 @@ install_ogl_layout:
 	ln -sf libglapi.so.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libglapi.so
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libEGL.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libEGL.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libgbm.so.1
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libgbm.so
 	ln -sf libGLESv1_CM.so.1.1.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLESv1_CM.so.1
 	ln -sf libGLESv1_CM.so.1 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLESv1_CM.so
 	ln -sf libGLESv2.so.2.0.0 $(PROTODIR)/usr/lib/mesa/$(SUBDIR64)/libGLESv2.so.2
@@ -225,6 +231,8 @@ install_ogl_layout:
 	(cd $(PROTODIR)/usr/lib/GL; ln -sf $(LIBRARIES_TO_LINK_NEW:%=../mesa/%) .)
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/GL/libEGL.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/GL/libEGL.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/GL/libgbm.so.1
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/GL/libgbm.so
 	ln -sf libGLESv1_CM.so.1.1.0 $(PROTODIR)/usr/lib/GL/libGLESv1_CM.so.1
 	ln -sf libGLESv1_CM.so.1 $(PROTODIR)/usr/lib/GL/libGLESv1_CM.so
 	ln -sf libGLESv2.so.2.0.0 $(PROTODIR)/usr/lib/GL/libGLESv2.so.2
@@ -237,6 +245,8 @@ install_ogl_layout:
 	(cd $(PROTODIR)/usr/lib/GL/$(SUBDIR64); ln -sf $(LIBRARIES_TO_LINK_NEW:%=../../mesa/$(SUBDIR64)/%) .)
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libEGL.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libEGL.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libgbm.so.1
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libgbm.so
 	ln -sf libGLESv2.so.2.0.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLESv2.so.2
 	ln -sf libGLESv2.so.2 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLESv2.so
 	ln -sf libGLESv1_CM.so.1.1.0 $(PROTODIR)/usr/lib/GL/$(SUBDIR64)/libGLESv1_CM.so.1
@@ -250,6 +260,8 @@ install_ogl_layout:
 	(cd $(PROTODIR)/usr/lib; ln -sf $(LIBRARIES_TO_LINK_NEW:%=GL/%) .)
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/libEGL.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/libEGL.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/libgbm.so.1
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/libgbm.so
 	ln -sf libGLESv2.so.2.0.0 $(PROTODIR)/usr/lib/libGLESv2.so.2
 	ln -sf libGLESv2.so.2 $(PROTODIR)/usr/lib/libGLESv2.so
 	ln -sf libGLESv1_CM.so.1.1.0 $(PROTODIR)/usr/lib/libGLESv1_CM.so.1
@@ -263,6 +275,8 @@ install_ogl_layout:
 	(cd $(PROTODIR)/usr/lib/$(SUBDIR64); ln -sf $(LIBRARIES_TO_LINK_NEW:%=../GL/$(SUBDIR64)/%) .)
 	ln -sf libEGL.so.1.0.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libEGL.so.1
 	ln -sf libEGL.so.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libEGL.so
+	ln -sf libgbm.so.1.0.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libgbm.so.1
+	ln -sf libgbm.so.1 $(PROTODIR)/usr/lib/$(SUBDIR64)/libgbm.so
 	ln -sf libGLESv2.so.2.0.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLESv2.so.2
 	ln -sf libGLESv2.so.2 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLESv2.so
 	ln -sf libGLESv1_CM.so.1.1.0 $(PROTODIR)/usr/lib/$(SUBDIR64)/libGLESv1_CM.so.1

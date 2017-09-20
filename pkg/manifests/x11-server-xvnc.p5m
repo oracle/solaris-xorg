@@ -42,10 +42,7 @@ dir  path=usr/share/vnc
 dir  path=usr/share/vnc/classes
 file path=usr/share/vnc/classes/LICENCE.TXT
 file path=usr/share/vnc/classes/README
-file path=usr/share/vnc/classes/VncViewer.jar mode=0555
-file path=usr/share/vnc/classes/index.html
-file path=usr/share/vnc/classes/index.vnc
-file path=usr/share/vnc/classes/tigervnc_16.gif
+file path=usr/share/vnc/classes/VncViewer.jar
 
 # Fallback vncserver session runs xterm & twm, but GNOME will be used instead
 # if installed, and customers can configure an alternate session that does

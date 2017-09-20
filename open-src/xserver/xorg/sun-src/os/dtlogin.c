@@ -110,9 +110,8 @@ static struct dmdata *dmHandlerData;
 static struct dmuser originalUser; /* user to switch back to in CloseDown */
 
 static Bool DtloginCloseScreen(ScreenPtr pScreen);
-static void DtloginBlockHandler(void *, struct timeval **, void *);
-static void DtloginWakeupHandler(void *, int, void *);
 static int  dtlogin_create_pipe(int, struct dmdata *);
+static void dtlogin_pipe_notify(int, int, void *);
 static void dtlogin_receive_packet(struct dmdata *);
 static int  dtlogin_parse_packet(struct dmdata *, char *);
 static void dtlogin_process(struct dmuser *user, int user_logged_in);
@@ -168,9 +167,7 @@ DtloginInit(void)
 
     dmHandlerData = dmd;
 
-    RegisterBlockAndWakeupHandlers (DtloginBlockHandler,
-				    DtloginWakeupHandler,
-				    (void *) dmd);
+    SetNotifyFd(dmd->pipeFD, dtlogin_pipe_notify, X_NOTIFY_READ, dmd);
 }
 
 /*
@@ -206,39 +203,6 @@ DtloginCloseScreen (ScreenPtr pScreen)
     free (pScreenPriv);
 
     return (*pScreen->CloseScreen) (pScreen);
-}
-
-static void
-DtloginBlockHandler(
-    void         *data,
-    struct timeval  **wt, /* unused */
-    void         *pReadmask)
-{
-    struct dmdata *dmd = (struct dmdata *) data;
-    fd_set *LastSelectMask = (fd_set*)pReadmask;
-
-    FD_SET(dmd->pipeFD, LastSelectMask);
-}
-
-static void
-DtloginWakeupHandler(
-    void   *data,   /* unused */
-    int     i,
-    void   *pReadmask)
-{
-    struct dmdata *dmd = (struct dmdata *) data;
-    fd_set* LastSelectMask = (fd_set*)pReadmask;
-
-    if (i > 0)
-    {
-	if (FD_ISSET(dmd->pipeFD, LastSelectMask))
-	{
-	    FD_CLR(dmd->pipeFD, LastSelectMask);
-	    dtlogin_receive_packet(dmd);
-	    /* dmd may have been freed in dtlogin_receive_packet, do
-	       not use after this point */
-	}
-    }
 }
 
 static int
@@ -284,10 +248,8 @@ dtlogin_create_pipe(int port, struct dmdata *dmd)
 
 static void dtlogin_close_pipe(struct dmdata *dmd)
 {
-    RemoveBlockAndWakeupHandlers (DtloginBlockHandler,
-				  DtloginWakeupHandler, dmd);
-
     DtloginInfo("Closing display manager pipe: %s\n", dmd->pipename);
+    RemoveNotifyFd(dmd->pipeFD);
     close(dmd->pipeFD);
     remove(dmd->pipename);
     free(dmd->pipename);
@@ -297,6 +259,29 @@ static void dtlogin_close_pipe(struct dmdata *dmd)
 
     if (dmHandlerData == dmd) {
 	dmHandlerData = NULL;
+    }
+}
+
+static void dtlogin_pipe_notify(int fd, int events, void *data)
+{
+    struct dmdata *dmd = (struct dmdata *) data;
+
+    assert(fd == dmd->pipeFD);
+
+    if (events & X_NOTIFY_READ) {
+	dtlogin_receive_packet(dmd);
+        /* dmd may have been freed in dtlogin_receive_packet,
+	   do not use after this point */
+    } else {
+	if (events & X_NOTIFY_ERROR) {
+	    DtloginError("Lost connection on %s (fd %d)",
+			 dmd->pipename, dmd->pipeFD);
+	} else {
+	    DtloginError("Unexpected notification event 0x%x", events);
+	}
+	dtlogin_close_pipe(dmd);
+	/* dmd has been freed in dtlogin_close_pipe,
+	   do not use after this point */
     }
 }
 

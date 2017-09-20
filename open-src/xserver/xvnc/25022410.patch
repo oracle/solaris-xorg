@@ -1,9 +1,9 @@
---- a/unix/vncserver	2016-10-30 11:21:37.755357736 -0700
-+++ b/unix/vncserver	2016-10-30 11:23:25.555971382 -0700
-@@ -41,6 +41,8 @@
- $xauth = "xauth";
+--- a/unix/vncserver	2017-03-11 07:11:39.811640603 +0000
++++ b/unix/vncserver	2017-03-11 07:12:05.914376639 +0000
+@@ -38,6 +38,8 @@
  
- $ENV{PATH} = "/usr/X11/bin:" . $ENV{PATH};
+ $vncClasses = "";
+ 
 +# With Gnome 3, gnome-terminal-server won't exec unless the locale is en_US.UTF-8
 +$ENV{LANG} = "en_US.UTF-8";
  &SanityCheck();

@@ -1,4 +1,4 @@
-# Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2010, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -287,6 +287,10 @@ dir  path=usr/share/X11/locale/pt_BR.UTF-8
 file path=usr/share/X11/locale/pt_BR.UTF-8/Compose
 file path=usr/share/X11/locale/pt_BR.UTF-8/XI18N_OBJS
 file path=usr/share/X11/locale/pt_BR.UTF-8/XLC_LOCALE
+dir  path=usr/share/X11/locale/pt_PT.UTF-8
+file path=usr/share/X11/locale/pt_PT.UTF-8/Compose
+file path=usr/share/X11/locale/pt_PT.UTF-8/XI18N_OBJS
+file path=usr/share/X11/locale/pt_PT.UTF-8/XLC_LOCALE
 dir  path=usr/share/X11/locale/ru_RU.UTF-8
 file path=usr/share/X11/locale/ru_RU.UTF-8/Compose
 file path=usr/share/X11/locale/ru_RU.UTF-8/XI18N_OBJS
@@ -517,6 +521,8 @@ file path=usr/share/doc/libX11/i18n/compose/nokhchi-1.html
 file path=usr/share/doc/libX11/i18n/compose/nokhchi-1.xml
 file path=usr/share/doc/libX11/i18n/compose/pt_BR.UTF-8.html
 file path=usr/share/doc/libX11/i18n/compose/pt_BR.UTF-8.xml
+file path=usr/share/doc/libX11/i18n/compose/pt_PT.UTF-8.html
+file path=usr/share/doc/libX11/i18n/compose/pt_PT.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/ru_RU.UTF-8.html
 file path=usr/share/doc/libX11/i18n/compose/ru_RU.UTF-8.xml
 file path=usr/share/doc/libX11/i18n/compose/sr_CS.UTF-8.html

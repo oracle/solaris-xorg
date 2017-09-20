@@ -2,7 +2,7 @@
 #
 # xf86-video-vmware driver for guests inside VMWare hypervisors
 #
-# Copyright (c) 2006, 2016, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2006, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=xf86-video-vmware
 
 # Version number (used in path names)
-MODULE_VERSION=13.0.2
+MODULE_VERSION=13.2.1
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 91d1d7d33181766714405ab013d31244
-TARBALL_SHA1  = ec38323a260e50c00f033aeff486a3ae53f46997
-TARBALL_SHA256= c8ba3d2cead3620dba2cbf5defb7f1759b2b96f4fe209f4bf6976832b6763c54
+TARBALL_MD5   = 4c3912e4d8947f6c2fc1ee9e2f211d74
+TARBALL_SHA1  = eb4909a61bb45e1c88ea66f968bc79e55b1239c4
+TARBALL_SHA256= e2f7f7101fba7f53b268e7a25908babbf155b3984fb5268b3d244eb6c11bf62b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = solaris-port.patch

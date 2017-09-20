@@ -26,6 +26,7 @@ set name=pkg.description \
     value="Epoxy is a library for handling OpenGL function pointer management"
 #
 dir  path=usr/include/epoxy
+file path=usr/include/epoxy/common.h
 file path=usr/include/epoxy/egl.h
 file path=usr/include/epoxy/egl_generated.h
 file path=usr/include/epoxy/gl.h
