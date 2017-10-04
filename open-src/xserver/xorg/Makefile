@@ -37,9 +37,9 @@ GIT_URL_SET = yes
 MODULE_VERSION=$(XORGSERVER_VERS)
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 015d2fc4b9f2bfe7a626edb63a62c65e
-TARBALL_SHA1  = 77f580ffa22a8bbcc3536e74e19114e446417a9c
-TARBALL_SHA256= 677a8166e03474719238dfe396ce673c4234735464d6dadf2959b600d20e5a98
+TARBALL_MD5   = 28cb6d773bfcdfd43500dd64527d2ab0
+TARBALL_SHA1  = 7a47d5f927ea69681e279c6e5f5e8ff3a21c7152
+TARBALL_SHA256= aa758acea91deaf1f95069ddc5ea3818e13675fb14fef40ad1b3d0b2bf03c9a8
 
 # Patches to apply to source after unpacking, in order
 # *** Moved to patch-list file so they can be shared between Xorg & Xvnc builds

@@ -721,7 +721,7 @@ UPSTREAM_URL_xorg	= http://www.x.org/
 SOURCE_URL_xorg		= $(XORG_RELEASES_URL)/$(SOURCE_TARBALL_DIR)/$(SOURCE_TARBALL_NAME)
 GIT_URL_xorg		= $(XORG_GIT_URL)/$(SOURCE_TARBALL_DIR)/$(MODULE_NAME:font-%=%)
 # TPNO's for X.Org software & font batches
-ORACLE_TPNO_xorg	= 34675
+ORACLE_TPNO_xorg	= 38768
 ORACLE_TPNO_xorg_fonts	= 11716
 
 UPSTREAM_xcb		= The XCB Project
