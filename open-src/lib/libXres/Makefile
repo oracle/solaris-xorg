@@ -2,7 +2,7 @@
 #
 # libXres - Xlib-based client library for Xinerama extension protocol
 #
-# Copyright (c) 2008, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXres
 
 # Version number (used in path names)
-MODULE_VERSION=1.0.7
+MODULE_VERSION=1.2.0
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 45ef29206a6b58254c81bea28ec6c95f
-TARBALL_SHA1  = 45e09c6b771af5d8c448ce31de65d15bf83b7579
-TARBALL_SHA256= 26899054aa87f81b17becc68e8645b240f140464cf90c42616ebb263ec5fa0e5
+TARBALL_MD5   = 5d6d443d1abc8e1f6fc1c57fb27729bb
+TARBALL_SHA1  = b6996ab05460a3b7311f02da23ddf117a5442fd9
+TARBALL_SHA256= ff75c1643488e64a7cfbced27486f0f944801319c84c18d3bd3da6bf28c812d4
 
 # Link with version mapfile
 MODULE_LD_OPTIONS = -M $(PWD)/mapfile-vers
@@ -48,6 +48,8 @@ LIBNAME=XRes
 # ARC cases that covered this module
 # LSARC/2003/686 X-Resource Extension
 MODULE_ARC_CASES = LSARC/2003/686
+# libXres 1.2.0
+MODULE_ARC_CASES += PSARC/2017/229
 
 # Man pages to apply Sun footer to & attributes to list
 SUNTOUCHED_MANPAGES=man/*.man

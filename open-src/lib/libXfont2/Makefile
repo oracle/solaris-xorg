@@ -29,12 +29,12 @@
 MODULE_NAME=libXfont2
 
 # Version number (used in path names)
-MODULE_VERSION=2.0.1
+MODULE_VERSION=2.0.2
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 0d9f6dd9c23bf4bcbfb00504b566baf5
-TARBALL_SHA1  = 4cf056ab00bf631649e040051cf8e2b096cc245b
-TARBALL_SHA256= e9fbbb475ddd171b3a6a54b989cbade1f6f874fc35d505ebc5be426bc6e4db7e
+TARBALL_MD5   = d39e6446e46f939486d1a8b856e8b67b
+TARBALL_SHA1  = d5117914a026b3fd47123cb1c2a22daaae3b63e4
+TARBALL_SHA256= 94088d3b87f7d42c7116d9adaad155859e93330c6e47f5989f2de600b9a6c111
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = 
