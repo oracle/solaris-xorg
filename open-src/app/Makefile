@@ -41,7 +41,6 @@ OS_SUBDIRS_common = \
 	fslsfonts \
 	fstobdf \
 	iceauth \
-	ico \
 	installalias \
 	listres \
 	luit \
@@ -59,8 +58,6 @@ OS_SUBDIRS_common = \
 	viewres \
 	x11perf \
 	xauth \
-	xbiff \
-	xcalc \
 	xclipboard \
 	xclock \
 	xcmsdb \
@@ -69,11 +66,9 @@ OS_SUBDIRS_common = \
         transset \
 	xconsole \
 	xcursorgen \
-	xditview \
 	xdm \
 	xdpyinfo \
 	xdriinfo \
-	xedit \
 	xev \
 	xeyes \
 	xfd \
@@ -81,7 +76,6 @@ OS_SUBDIRS_common = \
 	xfs \
 	xfsinfo \
 	xgamma \
-	xgc \
 	xhost \
 	xinit \
 	xinput \
@@ -98,7 +92,6 @@ OS_SUBDIRS_common = \
 	xmag_multivis \
 	xmag \
 	xmakemap \
-	xman \
 	xmodmap \
 	xpr \
 	xprop \
@@ -110,7 +103,6 @@ OS_SUBDIRS_common = \
 	xsetroot \
 	xstdcmap \
         xterm \
-	xvidtune \
 	xvinfo \
 	xwd \
 	xwininfo \
@@ -125,17 +117,25 @@ OS_SUBDIRS_i386 = $(OS_SUBDIRS_common) \
 
 OBSOLETE_SUBDIRS = \
 	dispswitch \
+	ico \
 	lbxproxy \
 	rstart \
 	proxymngr \
+	xbiff \
+	xcalc \
+	xditview \
+	xedit \
+	xgc \
 	xlswins \
 	xfindproxy \
 	xfwp \
+	xman \
 	xplsprinters \
 	xpm \
 	xprehashprinterlist \
 	xrx \
 	xscreensaver \
+	xvidtune \
 	rss-glx
 
 PWD:sh=pwd

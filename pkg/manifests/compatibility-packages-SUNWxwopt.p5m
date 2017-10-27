@@ -40,12 +40,6 @@ depend type=require fmri=pkg:/developer/build/makedepend
 # xload
 depend type=require fmri=pkg:/diagnostic/xload
 
-# xditview
-depend type=require fmri=pkg:/document/viewer/xditview
-
-# xedit
-depend type=require fmri=pkg:/editor/xedit
-
 # bitmap
 depend type=require fmri=pkg:/image/editor/bitmap
 
@@ -61,9 +55,6 @@ depend type=require fmri=pkg:/x11/oclock
 # rgb, xcmsdb
 depend type=require fmri=pkg:/x11/x11-server-utilities
 
-# xbiff
-depend type=require fmri=pkg:/x11/xbiff
-
 # xclipboard
 depend type=require fmri=pkg:/x11/xclipboard
 
@@ -75,9 +66,6 @@ depend type=require fmri=pkg:/x11/xconsole
 
 # xfontsel
 depend type=require fmri=pkg:/x11/xfontsel
-
-# xman
-depend type=require fmri=pkg:/x11/xman
 
 # appres, editres, listres, viewres
 depend type=require fmri=pkg:/x11/xt-resource-utilities

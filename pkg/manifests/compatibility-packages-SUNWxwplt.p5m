@@ -180,9 +180,6 @@ depend type=require fmri=pkg:/x11/x11-server-utilities
 # app/xpr, xwd, xwud
 depend type=require fmri=pkg:/x11/x11-window-dump
 
-# app/xcalc
-depend type=require fmri=pkg:/x11/xcalc
-
 # app/xfd
 depend type=require fmri=pkg:/x11/xfd
 
@@ -198,5 +195,3 @@ depend type=require fmri=pkg:/x11/xlock
 # app/xmag
 depend type=require fmri=pkg:/x11/xmag
 
-# app/xvidtune
-depend type=require fmri=pkg:/x11/xvidtune

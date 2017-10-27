@@ -51,12 +51,6 @@ depend type=require fmri=pkg:/diagnostic/constype
 # app/xload
 depend type=require fmri=pkg:/diagnostic/xload
 
-# app/xditview
-depend type=require fmri=pkg:/document/viewer/xditview
-
-# app/xedit
-depend type=require fmri=pkg:/editor/xedit
-
 # app/bitmap
 depend type=require fmri=pkg:/image/editor/bitmap
 
@@ -72,7 +66,7 @@ depend type=require fmri=pkg:/terminal/xterm
 # app/cmap_alloc, cmap_compact, xcolor, xstdcmap
 depend type=require fmri=pkg:/x11/colormap-utilities
 
-# app/ico, xeyes, xgc, xlogo
+# xeyes, xlogo
 depend type=require fmri=pkg:/x11/demo
 
 # app/xdpyinfo, xdriinfo, xlsatoms, xlsclients, xlsfonts, xlswins, xwininfo
@@ -120,12 +114,6 @@ depend type=require fmri=pkg:/x11/x11-server-utilities
 # app/xpr, xwd, xwud
 depend type=require fmri=pkg:/x11/x11-window-dump
 
-# app/xbiff
-depend type=require fmri=pkg:/x11/xbiff
-
-# app/xcalc
-depend type=require fmri=pkg:/x11/xcalc
-
 # app/xclipboard
 depend type=require fmri=pkg:/x11/xclipboard
 
@@ -152,9 +140,6 @@ depend type=require fmri=pkg:/x11/xlock
 
 # app/xmag, xmag_multivis
 depend type=require fmri=pkg:/x11/xmag
-
-# app/xman
-depend type=require fmri=pkg:/x11/xman
 
 # app/appres, editres, listres, viewres
 depend type=require fmri=pkg:/x11/xt-resource-utilities

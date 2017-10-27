@@ -153,6 +153,8 @@ TSIpgx@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 TSIpgxw@0.5.11-0.130 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 consolidation/X/X-all@11.4-11.4.0.0.0.1.0
 consolidation/X/X-redistributable@11.4-11.4.0.0.0.1.0
+document/viewer/xditview@1.0.3-11.4.0.0.0.9.0
+editor/xedit@1.2.2-11.4.0.0.0.9.0
 driver/graphics/efb@11.4-11.4.0.0.0.1.0 arch=sparc
 driver/graphics/kfb@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 library/motif/libdpstkXm@11.4-11.4.0.0.0.1.0
@@ -207,4 +209,8 @@ x11/session/xdm@1.1.9-0.144 system/display-manager/xdm@1.1.9-0.144
 x11/trusted/libxtsol@11.4-11.4.0.0.0.1.0
 x11/trusted/trusted-xorg@1.17.2-11.4.0.0.0.1.0
 x11/x11-config@0.5.11-0.144 compatibility/packages/SUNWxwplr@0.5.11-0.144
+x11/xbiff@1.0.3-11.4.0.0.0.9.0
+x11/xcalc@1.0.6-11.4.0.0.0.9.0
 x11/xcompmgr@1.1.5-0.144 desktop/window-manager/xcompmgr@1.1.5-0.144
+x11/xman@1.1.4-11.4.0.0.0.9.0
+x11/xvidtune@1.0.3-11.4.0.0.0.9.0
