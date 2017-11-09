@@ -192,6 +192,7 @@ x11/network/rstart@1.0.4-0.164
 x11/network/x11-network-proxies@7.7-11.4.0.0.0.1.0
 x11/optional-clients@11.4-11.4.0.0.0.9.0
 x11/server/xorg/driver/xorg-efb@11.4-11.4.0.0.0.1.0 arch=sparc
+x11/server/xorg/driver/xorg-input-acecad@1.5.0-11.4.0.0.0.10.0 arch=i386
 x11/server/xorg/driver/xorg-input-hotkey@11.4-11.4.0.0.0.1.0 arch=i386
 x11/server/xorg/driver/xorg-kfb@0.5.11-0.166 incorporate=consolidation/smcc/smcc-incorporation arch=sparc
 x11/server/xorg/driver/xorg-misc@11.4-11.4.0.0.0.1.0 x11/server/xorg/driver/xorg-video@0.5.11-0.167

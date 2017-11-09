@@ -35,7 +35,6 @@ OS_SUBDIRS_common = \
 OS_SUBDIRS_sparc = $(OS_SUBDIRS_common)
 
 OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
-	xf86-input-acecad		\
 	xf86-input-synaptics		\
 	xf86-input-vmmouse		\
 	xf86-video-ati			\
@@ -49,6 +48,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 
 # Subdirs we used to build, but now just need to clean up
 OBSOLETE_SUBDIRS = \
+	xf86-input-acecad		\
 	xf86-input-calcomp		\
 	xf86-input-citron		\
 	xf86-input-digitaledge		\
