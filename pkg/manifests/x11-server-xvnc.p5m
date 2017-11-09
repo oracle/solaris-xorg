@@ -38,11 +38,6 @@ file path=usr/share/man/man1/vncconfig.1
 file path=usr/share/man/man1/vncpasswd.1
 file path=usr/share/man/man1/vncserver.1
 file path=usr/share/man/man1/x0vncserver.1
-dir  path=usr/share/vnc
-dir  path=usr/share/vnc/classes
-file path=usr/share/vnc/classes/LICENCE.TXT
-file path=usr/share/vnc/classes/README
-file path=usr/share/vnc/classes/VncViewer.jar
 
 # Fallback vncserver session runs xterm & twm, but GNOME will be used instead
 # if installed, and customers can configure an alternate session that does

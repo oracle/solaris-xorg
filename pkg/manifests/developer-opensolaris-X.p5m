@@ -97,9 +97,6 @@ depend type=require fmri=pkg:/developer/gnu-indent
 # xcb-util needs gperf to generate hash functions
 depend type=require fmri=pkg:/developer/gperf
 
-# tigervnc builds a java applet with javac
-depend type=require fmri=pkg:/developer/java/jdk-8
-
 # Various modules need flex to generate lexers
 depend type=require fmri=pkg:/developer/lexer/flex
 

@@ -58,10 +58,6 @@ XORG_TARBALL=$(TARBALLDIR)/xorg-server-$(XORGSERVER_VERS).tar.bz2
 XORG_SOURCE_DIR = $(SOURCE_DIR)/unix/xserver
 XORG_BUILD_DIR  = $(BUILD_DIR)/unix/xserver
 
-# Java VNCviewer applet for connecting from a web browser
-JAVA_SOURCE_DIR = $(SOURCE_DIR)/java/com/tigervnc
-JAVA_BUILD_DIR  = $(BUILD_DIR)/java
-
 # Download site for source
 SOURCE_URL=https://github.com/TigerVNC/tigervnc/archive/$(SOURCE_TARBALL_NAME)
 SOURCE_URL_SET=yes
@@ -241,7 +237,7 @@ cmake: $(BUILD_DIR)
 	(cd $(BUILD_DIR) && \
 	PKG_CONFIG_PATH=/usr/lib/$(SUBDIR64)/pkgconfig/gnutls-3 \
 	cmake -Wno-dev \
-  	-DFLTK_INCLUDE_DIR:PATH="$(PROTODIR)/usr/include" \
+	-DFLTK_INCLUDE_DIR:PATH="$(PROTODIR)/usr/include" \
 	-DFLTK_LIBRARIES:FILEPATH="$(PROTODIR)/usr/lib/64/libfltk.so.1.3" \
 	-DFLTK_IMAGES_LIBRARY:FILEPATH="$(PROTODIR)/usr/lib/64/libfltk_images.so.1.3" \
 	-DFLTK_BASE_LIBRARY:FILEPATH="$(PROTODIR)/usr/lib/64/libfltk.so.1.3" \
@@ -254,7 +250,7 @@ cmake: $(BUILD_DIR)
 	-DCMAKE_CXX_ARCHIVE_CREATE:STRING="crS" \
 	-DCMAKE_C_FLAGS:STRING="$(CFLAGS) $(ARCH_FLAGS)" \
 	-DCMAKE_CXX_FLAGS:STRING="$(CXXFLAGS) $(ARCH_FLAGS)" \
-	-DBUILD_JAVA:BOOL=TRUE \
+	-DBUILD_JAVA:BOOL=FALSE \
 	-DCMAKE_SKIP_RPATH:BOOL=TRUE \
 	-G "Unix Makefiles" . )
 	(cd $(BUILD_DIR) && cmake -G "Unix Makefiles")
@@ -272,9 +268,6 @@ Xvnc_install_programs: $(BUILD_TARGETS)
 		$(BUILD_DIR)/vncviewer/vncviewer \
 		$(BUILD_DIR)/unix/x0vncserver/x0vncserver \
 		$(PROTODIR)/usr/bin/$(ARCHBINSUBDIR)
-	$(INSTALL_SCRIPT) -m 0444 $(JAVA_SOURCE_DIR)/vncviewer/README \
-		$(JAVA_SOURCE_DIR)/vncviewer/LICENCE.TXT \
-		$(JAVA_BUILD_DIR)/VncViewer.jar $(PROTODIR)/usr/share/vnc/classes
 
 Xvnc_install_data: $(SOURCE_TARGETS)
 	mkdir -p $(PROTODIR)/usr/share/man/man1 \
