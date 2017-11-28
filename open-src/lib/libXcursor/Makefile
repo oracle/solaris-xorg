@@ -2,7 +2,7 @@
 #
 # Xcursor library for alpha-blended & animated cursors via Xrender extension
 #
-# Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2007, 2017, Oracle and/or its affiliates. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -29,12 +29,12 @@
 MODULE_NAME=libXcursor
 
 # Version number (used in path names)
-MODULE_VERSION=1.1.14
+MODULE_VERSION=1.1.15
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 1e7c17afbbce83e2215917047c57d1b3
-TARBALL_SHA1  = 89870756758439f9216ddf5f2d3dca56570fc6b7
-TARBALL_SHA256= 9bc6acb21ca14da51bda5bc912c8955bc6e5e433f0ab00c5e8bef842596c33df
+TARBALL_MD5   = 58fe3514e1e7135cf364101e714d1a14
+TARBALL_SHA1  = 3e19f991f244b7fa31566adce7ead078424296cf
+TARBALL_SHA256= 294e670dd37cd23995e69aae626629d4a2dfe5708851bbc13d032401b7a3df6b
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES = 

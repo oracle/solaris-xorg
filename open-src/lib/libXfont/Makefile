@@ -29,12 +29,12 @@
 MODULE_NAME=libXfont
 
 # Version number (used in path names)
-MODULE_VERSION=1.5.2
+MODULE_VERSION=1.5.4
 
 # Checksums for upstream tarball
-TARBALL_MD5   = 254ee42bd178d18ebc7a73aacfde7f79
-TARBALL_SHA1  = a9470774f271622c1b425826d1c8836ed96e4a96
-TARBALL_SHA256= 02945ea68da447102f3e6c2b896c1d2061fd115de99404facc2aca3ad7010d71
+TARBALL_MD5   = 16eaf156edd79b68038b6a7c44aa9e9b
+TARBALL_SHA1  = 9db050f63b9c4cb19e0dbb40575558ccb95719ca
+TARBALL_SHA256= 1a7f7490774c87f2052d146d1e0e64518d32e6848184a18654e8d0bb57883242
 
 # Patches to apply to source after unpacking, in order
 SOURCE_PATCHES  = ps-fonts.patch,-p1
