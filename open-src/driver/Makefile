@@ -43,6 +43,7 @@ OS_SUBDIRS_i386  = $(OS_SUBDIRS_common)	\
 	xf86-video-mach64		\
 	xf86-video-openchrome		\
 	xf86-video-r128			\
+	xf86-video-vboxvideo		\
 	xf86-video-vesa			\
 	xf86-video-vmware
 

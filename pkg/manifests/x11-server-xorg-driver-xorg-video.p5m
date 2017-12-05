@@ -55,6 +55,10 @@ $(i386_ONLY)depend type=group \
 # driver/xf86-video-r128
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-r128
 
+# driver/xf86-video-vboxvideo
+$(i386_ONLY)depend type=group \
+    fmri=pkg:/x11/server/xorg/driver/xorg-video-vboxvideo
+
 # driver/xf86-video-vesa
 $(i386_ONLY)depend type=group fmri=pkg:/x11/server/xorg/driver/xorg-video-vesa
 
