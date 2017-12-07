@@ -271,9 +271,12 @@ $(PDIR)/%.mog: $(PDIR)/%.p5m $(PDIR)/%.attr
 # List of all packages we build, used in open source code release zip files
 $(TOP)/pkglist.txt:
 	@print "## Generating pkglist.txt"
-	$(PKGDEBUG)$(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
+	$(PKGDEBUG)($(PKGMOGRIFY) $(PKGMOG_VERBOSE) $(PM_INC:%= -I %) \
 		$(PKGMOG_DEFINES:%=-D %) -O /dev/null \
-		-I manifests -I legacy $(ALL_MANIFEST_SRCS) extract_names \
+		-I manifests -I legacy $(CURRENT_MANIFESTS) \
+		$(STATIC_LEGACY_MANIFESTS) $(SYNTH_MANIFESTS) extract_names; \
+		$(NAWK) -v FUNCTION=fmri -f $(GENERATE_HISTORY) < $(HISTORY) \
+		 | $(SED) -e 's/@[0-9TZ.:,-]*//g' ) \
 		| LC_ALL=C sort -u > $(@)
 
 ### Dependency detection

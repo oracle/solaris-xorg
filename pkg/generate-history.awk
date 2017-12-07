@@ -21,6 +21,7 @@
 # DEALINGS IN THE SOFTWARE.
 #
 
+# If invoked with -v FUNCTION=fmri, then just print $1.
 # If invoked with -v FUNCTION=name, then just print $1 (s|/|-|).
 # Otherwise we expect to be invoked with TARGET=<whatever>, then if
 # s|/|-| on $1 matches TARGET, we generate a manifest.
@@ -29,6 +30,10 @@
     continue
   }
   fmri=$1
+  if (FUNCTION == "fmri") {
+    printf "%s\n", fmri
+    continue
+  }
   split(fmri, a, "@")
   gsub("/", "-", a[1])
   target = sprintf("%s.p5m", a[1])
