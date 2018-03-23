@@ -1,3 +1,9 @@
+# This repo is no longer maintained
+
+The software from the X consolidation in Solaris has been moved to the Userland consolidation, under `components/x11`, so you can now find it at <https://github.com/oracle/solaris-userland>.
+
+----
+
 # Getting started with the X Consolidation
 
 ## Getting Started
